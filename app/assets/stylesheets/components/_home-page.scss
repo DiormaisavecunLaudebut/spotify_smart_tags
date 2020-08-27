@@ -1,0 +1,24 @@
+.btn-log-in {
+  background: $mydarklight;
+}
+
+.btn-sign-up {
+  background: green;
+}
+.btn-sign-out {
+  background: red;
+}
+
+.btn-full-page {
+  height: 80px;
+  width: 100%;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-registration {
+  color: white;
+  background: green;
+}

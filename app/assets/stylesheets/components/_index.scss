@@ -2,3 +2,28 @@
 @import "alert";
 @import "avatar";
 @import "navbar";
+@import "my-navbar";
+@import "row";
+@import "home-page";
+
+
+html, body {
+  background: $mydark;
+}
+
+label {
+  color: white;
+}
+
+p {
+  color: white;
+  margin-bottom: 0;
+}
+
+.active-color {
+  color: white;
+}
+
+.inactive-color {
+  color: rgb(179, 179, 179)
+}

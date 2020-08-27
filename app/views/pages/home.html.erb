@@ -1,2 +1,22 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="container mt-2">
+
+  <h1 class="active-color mb-3">Spotify Smart Tags</h1>
+
+  <%= link_to new_user_session_path do %>
+    <div class="btn-full-page btn-log-in mt-5">
+      <h1 class="active-color mb-0">Log in</h1>
+    </div>
+  <% end %>
+
+  <%= link_to new_user_registration_path do %>
+    <div class="btn-full-page btn-sign-up mt-5">
+      <h1 class="active-color mb-0">Sign up</h1>
+    </div>
+  <% end %>
+
+  <%= link_to destroy_user_session_path, method: :delete do %>
+    <div class="btn-full-page btn-sign-out mt-5">
+      <h1 class="active-color mb-0">Sign out</h1>
+    </div>
+  <% end %>
+</div>

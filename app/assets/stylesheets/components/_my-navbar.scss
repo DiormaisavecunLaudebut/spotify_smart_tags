@@ -1,0 +1,16 @@
+.my-navbar {
+  height: 48px;
+  background: $mydarklight;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.my-navbar-item {
+  height: 100%;
+  flex: 1 1 0%;
+}
+
+.my-navbar-content {
+  height: 100%;
+}
