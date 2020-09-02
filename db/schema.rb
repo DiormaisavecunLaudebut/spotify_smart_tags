@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_27_174118) do
+ActiveRecord::Schema.define(version: 2020_09_02_110352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,22 +27,39 @@ ActiveRecord::Schema.define(version: 2020_08_27_174118) do
   create_table "playlists", force: :cascade do |t|
     t.string "name"
     t.string "cover_url"
-    t.string "url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id", null: false
+    t.string "description"
+    t.string "href"
+    t.string "external_url"
+    t.string "spotify_id"
+    t.integer "track_count"
     t.index ["user_id"], name: "index_playlists_on_user_id"
+  end
+
+  create_table "spotify_tokens", force: :cascade do |t|
+    t.string "code"
+    t.string "refresh_token"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "expires_at", null: false
+    t.index ["user_id"], name: "index_spotify_tokens_on_user_id"
   end
 
   create_table "tracks", force: :cascade do |t|
     t.string "name"
     t.string "artist"
-    t.string "url"
     t.string "cover_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "is_tag", default: false
     t.bigint "user_id", null: false
+    t.string "href"
+    t.integer "duration"
+    t.string "external_url"
+    t.string "spotify_id"
     t.index ["user_id"], name: "index_tracks_on_user_id"
   end
 
@@ -55,8 +72,14 @@ ActiveRecord::Schema.define(version: 2020_08_27_174118) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "provider"
     t.string "uid"
-    t.string "spotify_client", null: false
+    t.string "spotify_client"
     t.string "email"
+    t.string "country"
+    t.string "external_url"
+    t.string "display_name"
+    t.string "product"
+    t.integer "followers"
+    t.string "username", null: false
     t.index ["provider"], name: "index_users_on_provider"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid"], name: "index_users_on_uid"
@@ -65,5 +88,6 @@ ActiveRecord::Schema.define(version: 2020_08_27_174118) do
   add_foreign_key "playlist_tracks", "playlists"
   add_foreign_key "playlist_tracks", "tracks"
   add_foreign_key "playlists", "users"
+  add_foreign_key "spotify_tokens", "users"
   add_foreign_key "tracks", "users"
 end

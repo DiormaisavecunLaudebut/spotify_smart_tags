@@ -5,10 +5,10 @@
     <%= f.error_notification %>
 
     <div class="form-inputs">
-      <%= f.input :spotify_client,
-                  label: "Spotify Username",
+      <%= f.input :username,
+                  label: "Username",
                   require: true,
-                  hint: "You can find your userame in your account's settings" %>
+                  hint: "The name that'll appear on the app" %>
       <%= f.input :password,
                   required: true,
                   hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),

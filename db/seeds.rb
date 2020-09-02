@@ -5,3 +5,12 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+# PlaylistTrack.where(created_at: Date.today.all_day).each(&:destroy)
+# Playlist.where(created_at: Date.today.all_day).each(&:destroy)
+# Track.where(created_at: Date.today.all_day).each(&:destroy)
+
+PlaylistTrack.destroy_all
+Playlist.destroy_all
+Track.destroy_all
+User.destroy_all

@@ -3,12 +3,11 @@
 
   <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <div class="form-inputs">
-      <%= f.input :spotify_client,
-                  label: "Spotify username",
-                  hint: "You can find your userame in your account's settings",
+      <%= f.input :username,
+                  label: "Username",
                   require: true %>
       <%= f.input :password,
-                  required: false,
+                  required: true,
                   input_html: { autocomplete: "current-password" } %>
       <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
     </div>

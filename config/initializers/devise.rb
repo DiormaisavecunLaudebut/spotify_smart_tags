@@ -46,7 +46,7 @@ Devise.setup do |config|
   # session. If you need permissions, you should implement that in a before filter.
   # You can also supply a hash where the value is a boolean determining whether
   # or not authentication should be aborted when the value is not present.
-  config.authentication_keys = [:spotify_client]
+  # config.authentication_keys = [:spotify_client]
 
   # Configure parameters from the request object used for authentication. Each entry
   # given should be a request method and it will automatically be passed to the
@@ -268,16 +268,29 @@ Devise.setup do |config|
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :delete
 
-  config.omniauth :spotify, ENV["SPOTIFY_CLIENT"], ENV["SPOTIFY_SECRET"], scope: %w(
-  streaming
-  playlist-read-private
-  user-read-private
-  user-read-email
-  ).join(' ')
+  # config.omniauth :spotify, ENV["SPOTIFY_CLIENT"], ENV["SPOTIFY_SECRET"], scope: %w(
+  # streaming
+  # playlist-read-private
+  # playlist-read-collaborative
+  # playlist-modify-public
+  # playlist-modify-private
+  # user-library-modify
+  # user-library-read
+  # user-read-private
+  # user-read-email
+  # ).join(' ')
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
+
+  Warden::Manager.after_set_user except: :fetch do |user, auth, opts|
+    fetch_spotify_data(user) if user.token
+  end
+
+  def fetch_spotify_data(user)
+    new_user = user.created_at >= 3.minute.ago
+  end
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
@@ -287,6 +300,18 @@ Devise.setup do |config|
   #   manager.intercept_401 = false
   #   manager.default_strategies(scope: :user).unshift :some_external_strategy
   # end
+  # config.omniauth :spotify, ENV["SPOTIFY_CLIENT"], ENV["SPOTIFY_SECRET"], scope: %w(
+  #   playlist-read-private
+  #   playlist-read-collaborative
+  #   playlist-modify-public
+  #   playlist-modify-private
+  #   user-library-modify
+  #   user-library-read
+  #   ugc-image-upload
+  #   user-read-private
+  #   user-read-email
+  # ).join(' ')
+
 
   # ==> Mountable engine configurations
   # When using Devise inside an engine, let's call it `MyEngine`, and this engine
