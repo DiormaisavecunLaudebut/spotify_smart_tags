@@ -5,6 +5,8 @@
 @import "my-navbar";
 @import "row";
 @import "home-page";
+@import "dropdown";
+@import "my-modal";
 
 
 html, body {
@@ -27,3 +29,13 @@ p {
 .inactive-color {
   color: rgb(179, 179, 179)
 }
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 240px;
+}
+
+

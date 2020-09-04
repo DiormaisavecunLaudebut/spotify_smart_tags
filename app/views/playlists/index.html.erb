@@ -1,14 +1,10 @@
 <% @playlists.each do |playlist| %>
 
-  <% track_count = playlist.tracks.count %>
-  <% playlist_name = playlist.name %>
-  <% cover_url = playlist.images&.first ? playlist.images.first['url'] : @cover_placeholder %>
-
   <%= render 'shared/row',
-    title: playlist_name,
-    subtitle: "#{track_count} tracks",
-    cover: cover_url,
-    path: playlist_path(playlist)
+    title: playlist.name,
+    subtitle: "#{playlist.track_count} tracks",
+    cover: playlist.cover_url,
+    path: playlist_path(playlist),
+    tag_list: nil
   %>
 <% end %>
-

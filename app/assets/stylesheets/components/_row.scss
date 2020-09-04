@@ -1,14 +1,13 @@
 .row-container {
-  margin: 2px 0px;
-  height: 72px;
+  margin: 4px 0px;
   display: flex;
-  align-items: center;
-  padding: 8px 16px;
+  padding: 0px 16px;
 }
 
 .row-details {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 }
 
 .row-cover {
@@ -17,4 +16,5 @@
   width: 40px;
   background: white;
   background-size: cover;
+  margin-top: 15px;
 }

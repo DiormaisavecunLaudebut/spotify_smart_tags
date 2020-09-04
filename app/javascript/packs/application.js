@@ -25,8 +25,10 @@
 // // External imports
 import "bootstrap";
 
-// import { spotifyPlayer } from "../components/spotify-player"
-// spotifyPlayer();
+import { trackDropdown } from "../components/track-dropdown"
+import { autocomplete } from "../components/autocomplete-tags"
+autocomplete();
+trackDropdown();
 
 // Internal imports, e.g:
 // import { initSelect2 } from '../components/init_select2';

@@ -1,9 +1,42 @@
-<%= link_to path do %>
-  <div class="row-container">
-    <div class="row-cover" style="background-image: url(<%= cover %>)"></div>
-    <div class="row-details">
-      <span class="row-title active-color"><%= title %></span>
-      <span class="row-subtitle inactive-color"><%= subtitle %></span>
-    </div>
+<div class="row-container">
+  <div class="row-cover" style="background-image: url(<%= cover %>)"></div>
+  <div class="row-details">
+    <%= link_to path do  %>
+      <span class="row-title active-color line-clamp"><%= title %></span>
+    <% end %>
+    <span class="row-subtitle inactive-color"><%= subtitle %></span>
+    <% if  tag_list %>
+      <span
+        class="row-subtitle inactive-color"
+        data-toggle="collapse"
+        data-target="#<%= track_id %>"
+        aria-expanded="false"
+        aria-controls="<%= track_id %>">
+        <%= pluralise("tag", tag_list.count) %>
+      </span>
+      <div class="collapse" id="<%= track_id %>">
+        <% tag_list.each do |tag| %>
+          <span class="badge badge-pill badge-light"><%= tag %></span>
+        <% end %>
+      </div>
+    <% end %>
   </div>
-<% end %>
+  <% if tag_list %>
+    <div class="d-flex align-items-center mr-2">
+      <i class="fas fa-ellipsis-h inactive-color" style="position: relative;">
+        <div class="my-dropdown-menu d-none">
+          <p
+            class="my-dropdown-item py-1 pl-2"
+            data-toggle="modal"
+            data-target="#exampleModal">
+            Edit Tags
+          </p>
+          <p class="my-dropdown-item py-1 pl-2">Action 2</p>
+          <p class="my-dropdown-item py-1 pl-2">Action 3</p>
+        </div>
+      </i>
+    </div>
+  <% end %>
+</div>
+
+

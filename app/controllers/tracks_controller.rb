@@ -1,4 +1,7 @@
 class TracksController < ApplicationController
-  def show
-  end
+  def add_tag; end
+
+  def remove_tag; end
+
+  def create_tag; end
 end

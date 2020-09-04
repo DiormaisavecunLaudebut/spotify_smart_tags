@@ -7,7 +7,7 @@ class Playlist < ApplicationRecord
   end
 
   def update_track_count(total)
-    update(track_count: total) if track_count != total
+    update!(track_count: total) if track_count != total
   end
 
   def self.create_playlist(sp, user)
@@ -18,7 +18,12 @@ class Playlist < ApplicationRecord
       description: sp['description'],
       href: sp['href'],
       external_url: sp['external_urls']['spotify'],
-      spotify_id: sp['id']
+      spotify_id: sp['id'],
+      track_count: sp['total']
     )
+  end
+
+  def self.find_or_create(sp, user)
+    Playlist.find_playlist(sp['id'], user) || Playlist.create_playlist(sp, user)
   end
 end

@@ -15,24 +15,16 @@ class ApplicationController < ActionController::Base
   end
 
   def refresh_user_token!
-    return unless current_user.valid_token?
+    # return unless current_user.valid_token?
 
-    api_endpoint = 'https://accounts.spotify.com/api/token'
-
-    test = refresh_token_header
-    resp = HTTParty.post(
-      api_endpoint,
-      body: refresh_token_body,
-      header: test
-    )
+    resp = refresh_token.parsed_response
     update_spotify_token(resp)
   end
 
   def update_spotify_token(resp)
     token = SpotifyToken.where(user: current_user).take
-    token.update(
-      expires_at: Date.today + resp['expires_in'].seconds,
-      refresh_token: resp['refresh_token'],
+    token.update!(
+      expires_at: Time.now + resp['expires_in'],
       code: resp['access_token']
     )
   end
@@ -60,16 +52,14 @@ class ApplicationController < ActionController::Base
     arr.nil? || arr.empty? ? cover_placeholder : arr.first['url']
   end
 
-  def refresh_token_header
-    encoded_id = Base64.encode64(ENV['SPOTIFY_CLIENT'])
-    encoded_secret = Base64.encode64(ENV['SPOTIFY_SECRET'])
-    auth_encoded = (encoded_id + encoded_secret).delete("\n")
-    "Authorization: Basic " + auth_encoded
-  end
-
-  def refresh_token_body
-    {
-      grant_type: "refresh_token",
-      refresh_token: current_user.spotify_token.refresh_token
-    }
+  def refresh_token
+    client_id = ENV['SPOTIFY_CLIENT']
+    client_secret = ENV['SPOTIFY_SECRET']
+    client_id_and_secret = Base64.strict_encode64("#{client_id}:#{client_secret}")
+    result = HTTParty.post(
+      "https://accounts.spotify.com/api/token",
+      :body => {:grant_type => "refresh_token",
+              :refresh_token => "#{current_user.spotify_token.refresh_token}"},
+    :headers => {"Authorization" => "Basic #{client_id_and_secret}"}
+    )
   end

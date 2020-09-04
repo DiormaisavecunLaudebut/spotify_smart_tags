@@ -5,5 +5,9 @@ Rails.application.routes.draw do
   get 'auth/spotify/callback', to: 'spotify#spotify_token'
 
   resources :tracks, only: [:show]
-  resources :playlists, only: [:show, :index]
+  resources :playlists, only: [:show, :index] do
+    post 'tag', to: 'tracks#add_tag', as: :add_tag
+    delete 'untag', to: 'tracks#remove_tag', as: :untag
+    post 'create_tag', to: 'tracks#create_tag', as: :create_tag
+  end
 end

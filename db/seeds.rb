@@ -10,7 +10,26 @@
 # Playlist.where(created_at: Date.today.all_day).each(&:destroy)
 # Track.where(created_at: Date.today.all_day).each(&:destroy)
 
-PlaylistTrack.destroy_all
-Playlist.destroy_all
-Track.destroy_all
-User.destroy_all
+# SpotifyToken.destroy_all
+# PlaylistTrack.destroy_all
+# Playlist.destroy_all
+# Track.destroy_all
+# User.destroy_all
+
+def assign_random_tags(track, tags)
+  n = (0..5).to_a.sample
+
+  puts "adding #{n} tags\ntrack: #{track.name}\n\n"
+
+  n.times do
+    tag = tags.sample
+    track.tag_list.add(tag) unless track.tag_list.include?(tag)
+    track.save
+  end
+end
+
+user = User.last
+tags = %w[chill dark bright techno deep_house house minimalist joyful club afrika jazzy vocal instrumental remix sad]
+user.tracks.each do |track|
+  assign_random_tags(track, tags)
+end

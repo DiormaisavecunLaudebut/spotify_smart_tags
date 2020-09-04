@@ -1,5 +1,6 @@
 
 <div class="my-navbar d-flex justify-content-around">
+
   <div class="my-navbar-item" >
     <div class="d-flex align-items-center my-navbar-content justify-content-center">
       <div class="d-flex align-items-center justify-content-center flex-column">
@@ -8,14 +9,18 @@
       </div>
     </div>
   </div>
+
   <div class="my-navbar-item" >
-    <div class="d-flex align-items-center my-navbar-content justify-content-center">
-      <div class="d-flex align-items-center justify-content-center flex-column">
-        <i class="fas fa-home text-white"></i>
-        <p>Home</p>
+    <%= link_to root_path do %>
+      <div class="d-flex align-items-center my-navbar-content justify-content-center">
+        <div class="d-flex align-items-center justify-content-center flex-column">
+          <i class="fas fa-home text-white"></i>
+          <p>Home</p>
+        </div>
       </div>
-    </div>
+    <% end %>
   </div>
+
     <div class="my-navbar-item" >
       <%= link_to playlists_path do %>
         <div class="d-flex align-items-center my-navbar-content justify-content-center">
@@ -26,4 +31,5 @@
         </div>
       <% end %>
     </div>
+
 </div>
