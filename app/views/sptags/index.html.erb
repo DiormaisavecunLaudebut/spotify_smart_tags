@@ -1,0 +1,31 @@
+<div class="accordion" id="accordionExample">
+  <% @sptags.each_with_index do |sptag, index| %>
+    <div class="card">
+      <div class="card-header" id="heading<%= index %>">
+        <h2 class="mb-0">
+          <%=  link_to sptag_showtracks_path(sptag), remote: true do %>
+            <button
+              class="btn btn-link btn-block text-left text-white
+                     d-flex justify-content-between align-items-center"
+              type="button"
+              data-toggle="collapse"
+              data-target="#collapse<%= index %>"
+              aria-expanded="true"
+              aria-controls="collapse<%= index %>">
+              <%= "#{sptag[0]} (#{sptag[1]} tracks)" %>
+            </button>
+          <% end %>
+        </h2>
+      </div>
+
+      <div id="collapse<%= index %>"
+      class="collapse"
+      aria-labelledby="heading<%= index %>"
+      data-parent="#accordionExample">
+        <div class="card-body card-body-flex" id="<%= sptag[0] %>">
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+<div data-list-tags="<%= @user_tags %>" id="hidden-list-tag" class="d-none"></div>

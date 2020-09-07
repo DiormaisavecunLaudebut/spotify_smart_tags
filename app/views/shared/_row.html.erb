@@ -1,4 +1,6 @@
-<div class="row-container">
+<% random = ("a".."z").to_a.sample(10).join + (1..100000).to_a.sample.to_s %>
+
+<div class="row-container" data-track-id="<%= track_id if tag_list %>">
   <div class="row-cover" style="background-image: url(<%= cover %>)"></div>
   <div class="row-details">
     <%= link_to path do  %>
@@ -7,14 +9,14 @@
     <span class="row-subtitle inactive-color"><%= subtitle %></span>
     <% if  tag_list %>
       <span
-        class="row-subtitle inactive-color"
+        class="row-subtitle inactive-color tag-count"
         data-toggle="collapse"
-        data-target="#<%= track_id %>"
+        data-target="#<%= random %>"
         aria-expanded="false"
         aria-controls="<%= track_id %>">
         <%= pluralise("tag", tag_list.count) %>
       </span>
-      <div class="collapse" id="<%= track_id %>">
+      <div class="collapse" id="<%= random %>">
         <% tag_list.each do |tag| %>
           <span class="badge badge-pill badge-light"><%= tag %></span>
         <% end %>
@@ -38,5 +40,3 @@
     </div>
   <% end %>
 </div>
-
-

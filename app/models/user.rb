@@ -2,6 +2,7 @@ class User < ApplicationRecord
   has_one :spotify_token
   has_many :playlists
   has_many :tracks
+  has_many :sptags
 
   # validate :spotify_client_must_exist
 
@@ -10,6 +11,16 @@ class User < ApplicationRecord
 
   def email_required?
     false
+  end
+
+  def add_tags(arr)
+    arr.each do |tag|
+      sptag = Sptag.where(name: tag).take
+      Sptag.create(name: tag, user: self) unless sptag
+    end
+  end
+
+  def remove_tags(arr) # pablior
   end
 
   def add_spotify_data(sp_data)

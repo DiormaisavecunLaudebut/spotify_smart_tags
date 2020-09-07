@@ -1,0 +1,23 @@
+.card-header {
+  background: $mydarklight;
+}
+
+.card-body {
+  min-height: 45px;
+  padding: 0;
+  background: $mydark;
+}
+
+.card-body-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

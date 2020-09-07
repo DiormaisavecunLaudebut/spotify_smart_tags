@@ -1,34 +1,9 @@
-<div class="container mt-2">
-
-  <h1 class="active-color mb-3">Spotify Smart Tags</h1>
-
-  <% if !current_user %>
-    <%= link_to new_user_registration_path do %>
-      <div class="btn-full-page btn-sign-up mt-5">
-        <h1 class="active-color mb-0">Sign up</h1>
-      </div>
+<%= form_with(url: "/filter/tracks", method: "get", class: "d-flex align-items-center flex-column") do %>
+  <%= text_field_tag('q', nil, placeholder: 'Search tags', autocomplete: 'off') %>
+  <div>
+    <% current_user.sptags.map(&:name).each do |tag_name| %>
+      <span class="badge badge-pill badge-light"><%= tag_name %></span>
     <% end %>
-
-  <%= link_to new_user_session_path do %>
-    <div class="btn-full-page btn-log-in mt-5">
-      <h1 class="active-color mb-0">Log in</h1>
-    </div>
-  <% end %>
-
-  <% else %>
-    <%= link_to destroy_user_session_path, method: :delete do %>
-      <div class="btn-full-page btn-sign-out mt-5">
-        <h1 class="active-color mb-0">Sign out</h1>
-      </div>
-    <% end %>
-  <% end %>
-
-  <% if current_user && !current_user.valid_token? %>
-    <%= link_to @url do %>
-      <div class="btn-full-page btn-sign-in-spotify mt-5">
-        <h1 class="active-color mb-0">Connect Spotify</h1>
-      </div>
-    <% end %>
-  <% end %>
-
-</div>
+  </div>
+  <%= submit_tag("Apply", class: 'btn-submit-filter') %>
+<% end %>

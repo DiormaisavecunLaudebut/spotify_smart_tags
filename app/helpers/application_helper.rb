@@ -1,5 +1,9 @@
 module ApplicationHelper
   def pluralise(string, count)
-    count > 1 ? "#{count} #{string}s" : "aucun #{string}"
+    case count
+    when 0 then "aucun #{string}"
+    when 1 then "#{count} #{string}"
+    else "#{count} #{string}s"
+    end
   end
 end

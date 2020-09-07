@@ -2,12 +2,14 @@
 <div class="my-navbar d-flex justify-content-around">
 
   <div class="my-navbar-item" >
-    <div class="d-flex align-items-center my-navbar-content justify-content-center">
-      <div class="d-flex align-items-center justify-content-center flex-column">
-        <i class="fas fa-tag <%= "active-color" if  params[:controller] == 'pages'%>" ></i>
-        <p class="<%= "active-color" if  params[:controller] == 'pages'%>">Tag</p>
+    <%= link_to sptags_path do %>
+      <div class="d-flex align-items-center my-navbar-content justify-content-center">
+        <div class="d-flex align-items-center justify-content-center flex-column">
+          <i class="fas fa-tag <%= "active-color" if  params[:controller] == 'pages'%>" ></i>
+          <p class="<%= "active-color" if  params[:controller] == 'pages'%>">Tag</p>
+        </div>
       </div>
-    </div>
+    <% end %>
   </div>
 
   <div class="my-navbar-item" >

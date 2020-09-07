@@ -23,4 +23,13 @@ class Track < ApplicationRecord
   def self.find_or_create(tr, user)
     Track.find_track(tr['track']['id'], user) || Track.create_track(tr['track'], user)
   end
+
+  def add_tags(arr, user)
+    arr.each do |tag|
+      tag_list.add(tag)
+      sptag = user.sptags.where(name: tag).take
+      sptag ? sptag.update(track_count: sptag.track_count += 1) : Sptag.create(name: tag, track_count: 1)
+    end
+    save
+  end
 end

@@ -6,14 +6,7 @@
     cover: track.cover_url,
     path: track.external_url,
     tag_list: track.tag_list,
-    track_id: ("a".."z").to_a.sample(10).join
+    track_id: track.id
   %>
 <% end %>
-
-<div class="my-modal" >
-  <div class="badge-container"></div>
-  <input
-    id ="input-autocomplete"
-    data-list-tags="<%= @user_tags %>"
-    type="textarea">
-</div>
+<div data-list-tags="<%= @user_tags %>" id="hidden-list-tag" class="d-none"></div>

@@ -3,7 +3,7 @@
   background: rgb(130, 130, 130);
   position: absolute;
   height: 300px;
-  top: 40px;
+  z-index: 1000;
   left: 40px;
   display: flex;
   flex-direction: column;

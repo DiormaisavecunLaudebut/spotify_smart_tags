@@ -2,7 +2,7 @@ require 'Base64'
 
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
-  # before_action :refresh_user_token!
+  before_action :refresh_user_token!
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def configure_permitted_parameters
@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   end
 
   def refresh_user_token!
-    # return unless current_user.valid_token?
+    return unless current_user.valid_token?
 
     resp = refresh_token.parsed_response
     update_spotify_token(resp)
@@ -23,16 +23,7 @@ class ApplicationController < ActionController::Base
 
   def update_spotify_token(resp)
     token = SpotifyToken.where(user: current_user).take
-    token.update!(
-      expires_at: Time.now + resp['expires_in'],
-      code: resp['access_token']
-    )
-  end
-
-  end
-
-  def fetch_spotify_data(user)
-    new_user = user.created_at >= 3.minute.ago
+    token.update!(expires_at: Time.now + resp['expires_in'], code: resp['access_token'])
   end
 
   def new_offset(offset, limit, total)
@@ -63,3 +54,4 @@ class ApplicationController < ActionController::Base
     :headers => {"Authorization" => "Basic #{client_id_and_secret}"}
     )
   end
+end

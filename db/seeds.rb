@@ -15,21 +15,26 @@
 # Playlist.destroy_all
 # Track.destroy_all
 # User.destroy_all
-
-def assign_random_tags(track, tags)
-  n = (0..5).to_a.sample
-
-  puts "adding #{n} tags\ntrack: #{track.name}\n\n"
-
-  n.times do
-    tag = tags.sample
-    track.tag_list.add(tag) unless track.tag_list.include?(tag)
-    track.save
-  end
+def reset_track_tags(track)
+  puts "reseting tags for track #{track.name}"
+  track.tag_list = []
+  track.save
 end
 
-user = User.last
-tags = %w[chill dark bright techno deep_house house minimalist joyful club afrika jazzy vocal instrumental remix sad]
+def assign_random_tags(track, tags, user)
+  n = (0..5).to_a.sample
+
+  puts "adding #{n} tags to track: #{track.name}\n"
+
+  new_tags = tags.sample(n)
+  track.add_tags(new_tags, user)
+end
+
+user = User.where(username: "pablior").take
+tags = %w[chill dark bright techno deep_house house minimalist joyful club afrika jazzy vocal instrumental remix sad rap motivational]
+user.add_tags(tags)
+
 user.tracks.each do |track|
-  assign_random_tags(track, tags)
+  reset_track_tags(track)
+  assign_random_tags(track, tags, user)
 end

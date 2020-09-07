@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_03_102919) do
+ActiveRecord::Schema.define(version: 2020_09_06_143810) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,15 @@ ActiveRecord::Schema.define(version: 2020_09_03_102919) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "expires_at", null: false
     t.index ["user_id"], name: "index_spotify_tokens_on_user_id"
+  end
+
+  create_table "sptags", force: :cascade do |t|
+    t.string "name"
+    t.integer "track_count", default: 0
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_sptags_on_user_id"
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|
@@ -116,6 +125,7 @@ ActiveRecord::Schema.define(version: 2020_09_03_102919) do
   add_foreign_key "playlist_tracks", "tracks"
   add_foreign_key "playlists", "users"
   add_foreign_key "spotify_tokens", "users"
+  add_foreign_key "sptags", "users"
   add_foreign_key "taggings", "tags"
   add_foreign_key "tracks", "users"
 end

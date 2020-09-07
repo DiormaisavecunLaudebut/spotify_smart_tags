@@ -1,0 +1,89 @@
+var tracksString = "<%= @tracks %>"
+var tagName = "<%= @tag_name %>"
+var cardBody = document.getElementById(tagName)
+var trackCards = ""
+var tracks = tracksString.split('$$').map(e => e.split('**'))
+
+function pluralise(string, count) {
+  if (count == 0) {
+    return `aucun ${string}`
+  } else if (count == 1) {
+    return `1 string`
+  } else {
+    return `${count} ${string}s`
+  }
+}
+
+function cleanZone() {
+  cardBody.firstElementChild.remove();
+  cardBody.classList.remove('card-body-flex');
+  const cardHeader = cardBody.closest('.card').querySelector('a')
+  cardHeader.href = ""
+}
+
+function appendTracks() {
+  cleanZone();
+  tracks.forEach(track => {
+    const randomString = Math.random().toString(36).substring(7);;
+    const tagList = track.slice(5, -1)
+    const badges = tagList.map(e => `<span class="badge badge-pill badge-light">${e}</span>`).join('')
+    const trackCard =`
+<div class="row-container" data-track-id="${track[4]}">
+  <div class="row-cover" style="background-image: url(${track[2]})"></div>
+  <div class="row-details">
+    <a href="${track[3]}">
+      <span class="row-title active-color line-clamp">${track[0]}</span>
+    </a>
+    <span class="row-subtitle inactive-color">${track[1]}</span>
+    <span
+      class="row-subtitle inactive-color tag-count"
+      data-toggle="collapse"
+      data-target="#${randomString}"
+      aria-expanded="false"
+      aria-controls="${track[4]}">
+      ${pluralise("tag", tagList.length)}
+    </span>
+    <div class="collapse" id="${randomString}">${badges}</div>
+  </div>
+  <div class="d-flex align-items-center mr-2">
+    <i class="fas fa-ellipsis-h inactive-color" style="position: relative;">
+      <div class="my-dropdown-menu d-none">
+        <p
+          class="my-dropdown-item py-1 pl-2"
+          data-toggle="modal"
+          data-target="#exampleModal">
+          Edit Tags
+        </p>
+        <p class="my-dropdown-item py-1 pl-2">Action 2</p>
+        <p class="my-dropdown-item py-1 pl-2">Action 3</p>
+      </div>
+    </i>
+  </div>
+</div>`
+    trackCards += trackCard
+  })
+  cardBody.insertAdjacentHTML('afterbegin', trackCards)
+}
+
+appendTracks();
+
+
+// function sample(arr, n) {
+//   const shuffled = arr.sort(() => 0.5 - Math.random());
+//   let selected = shuffled.slice(0, n);
+//   return selected;
+// }
+
+// function range(start, end, step = 1) {
+//   const len = Math.floor((end - start) / step) + 1
+//   return Array(len).fill().map((_, idx) => start + (idx * step))
+// }
+
+// function genCharArray(charA, charZ) {
+//     var a = [], i = charA.charCodeAt(0), j = charZ.charCodeAt(0);
+//     for (; i <= j; ++i) {
+//         a.push(String.fromCharCode(i));
+//     }
+//     return a;
+// }
+

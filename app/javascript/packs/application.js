@@ -27,8 +27,12 @@ import "bootstrap";
 
 import { trackDropdown } from "../components/track-dropdown"
 import { autocomplete } from "../components/autocomplete-tags"
+import { openTagTracks, observeDOM } from '../components/open-tag-tracks'
+
 autocomplete();
 trackDropdown();
+openTagTracks();
+observeDOM();
 
 // Internal imports, e.g:
 // import { initSelect2 } from '../components/init_select2';

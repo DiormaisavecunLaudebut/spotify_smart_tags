@@ -7,6 +7,8 @@
 @import "home-page";
 @import "dropdown";
 @import "my-modal";
+@import "tag-index";
+@import "filter-tracks";
 
 
 html, body {
@@ -38,4 +40,17 @@ p {
   max-width: 240px;
 }
 
+.my-background {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 10;
+  background: black;
+  opacity: 0.5;
+}
 
+.accordion > .card {
+  overflow: visible;
+}
