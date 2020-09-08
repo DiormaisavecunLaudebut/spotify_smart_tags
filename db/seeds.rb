@@ -10,14 +10,23 @@
 # Playlist.where(created_at: Date.today.all_day).each(&:destroy)
 # Track.where(created_at: Date.today.all_day).each(&:destroy)
 
-# SpotifyToken.destroy_all
-# PlaylistTrack.destroy_all
-# Playlist.destroy_all
-# Track.destroy_all
-# User.destroy_all
+def resetDB
+  SpotifyToken.destroy_all
+  puts "All SpotifyTokens destroyed"
+  Playlist.destroy_all
+  puts "All Playlists destroyed"
+  Track.destroy_all
+  puts "All Tracks destroyed"
+  User.destroy_all
+  puts "All Users destroyed"
+  Sptag.destroy_all
+  puts "All Sptag destroyed"
+end
+
 def reset_track_tags(track)
   puts "reseting tags for track #{track.name}"
   track.tag_list = []
+  track.is_tag = false
   track.save
 end
 
@@ -27,14 +36,17 @@ def assign_random_tags(track, tags, user)
   puts "adding #{n} tags to track: #{track.name}\n"
 
   new_tags = tags.sample(n)
+
   track.add_tags(new_tags, user)
+  user.add_tags(tags)
 end
 
-user = User.where(username: "pablior").take
+# resetDB
+
 tags = %w[chill dark bright techno deep_house house minimalist joyful club afrika jazzy vocal instrumental remix sad rap motivational]
-user.add_tags(tags)
+user = User.where(username: 'pablior').take
 
 user.tracks.each do |track|
-  reset_track_tags(track)
+  # reset_track_tags(track)
   assign_random_tags(track, tags, user)
 end

@@ -1,0 +1,27 @@
+// replace loading toaster with success one, including link to open playlist on Spotify
+var playlistURL = "<%= @playlist_url %>"
+var afterCreateToast = `
+<a href="${playlistURL}" target="_blank">
+  <div style="color: #1FB954" id="create-toaster" class="alert fade alert-simple alert-primary alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light brk-library-rendered rendered show" role="alert" data-brk-library="component__alert">
+    <button type="button" class="close font__size-18" data-dismiss="alert">
+            <span  aria-hidden="true"><i class="fa fa-times alertprimary"></i></span>
+            <span class="sr-only">Close</span>
+          </button>
+    <i class="start-icon fab fa-spotify"></i>
+    Open in Playlist in Spotify
+  </div>
+</a>
+`
+function closeToast() {
+  var createToast = document.getElementById('create-toaster');
+  createToast.remove();
+}
+
+function replaceToaster() {
+  var loadingToast = document.getElementById('loading-toaster');
+  loadingToast.remove();
+  document.body.insertAdjacentHTML('afterbegin', afterCreateToast);
+  setTimeout(closeToast, 3500);
+}
+
+setTimeout(replaceToaster, 300);

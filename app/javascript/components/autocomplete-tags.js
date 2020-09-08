@@ -50,9 +50,11 @@ const displayExistingBadges = (row) => {
 }
 
 const resetTags = () => {
-  usedTags = []
-  newTags = []
-  Array.from(badgeContainer.children).forEach(e => e.remove());
+  if (badgeContainer) {
+    usedTags = []
+    newTags = []
+    Array.from(badgeContainer.children).forEach(e => e.remove());
+  }
 }
 
 const addExistingTag = (element) => {

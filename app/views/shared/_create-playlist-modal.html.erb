@@ -1,0 +1,27 @@
+<div class="my-modal modal-no-delete d-none">
+  <%= form_with(url: 'create/playlist', method: 'post', local: false, class: "my-form-container")  do %>
+
+    <div class="my-form-group d-flex flex-column">
+      <%= label_tag(:name, 'Name') %>
+      <%= text_field_tag(:name, nil, id: 'cpl-input-name', placeholder: '', autocomplete: 'off', value: "") %>
+    </div>
+
+    <div class="my-form-group d-flex flex-column mb-2">
+      <%= label(:description, 'Description') %>
+      <%= text_area_tag(:description, nil, id: 'cpl-input-description', placeholder: '', autocomplete: 'off', value: "") %>
+    </div>
+
+    <% %w[public collaborative].each_with_index do |name, index| %>
+      <div class="d-flex justify-content-between">
+        <p class="active-color"><%= name %></p>
+        <%= render 'shared/toggle-switch', index: index, name: name %>
+      </div>
+    <% end %>
+
+    <%= hidden_field_tag(:tracks, nil, id: 'hidden-input-tracks', name: "track-uris") %>
+    <%= hidden_field_tag(:tracks, nil, id: 'hidden-input-name', name: "name2") %>
+
+    <%= submit_tag 'Create Playlist', class: 'mt-3', id: 'btn-submit-create-playlist' %>
+
+  <% end %>
+</div>

@@ -288,10 +288,6 @@ Devise.setup do |config|
     fetch_spotify_data(user) if user.token
   end
 
-  def fetch_spotify_data(user)
-    new_user = user.created_at >= 3.minute.ago
-  end
-
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.

@@ -1,21 +1,14 @@
-
-require "pry"
-
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[lior]
   before_action :authenticate_user!
 
   def home
+    @user_tags = current_user.sptags.map(&:name).join(' ')
+    @trackland_playlists = current_user.trackland_playlists
   end
 
   def lior
     @url = build_spotify_code_url
-  end
-
-  def fetch_spotify_data
-    # new_user = user.created_at >= 3.minute.ago
-    update_user_data
-    update_user_playlists_and_tracks
   end
 
   def build_spotify_code_url

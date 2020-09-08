@@ -10,12 +10,20 @@ class TracksController < ApplicationController
   end
 
   def remove_tags_to_track
-    tags = %w[test1 test2 test3]
-    current_user.remove_tags(tags)
   end
 
   def filter_tracks
-    raise
+    @tags = params['q']
+    tracks_object = current_user.tracks_tagged_with(@tags.split(','))
+    @tracks = tracks_object.map { |i| track_info(i, @tag_name) }.join('$$')
+    @uris = tracks_object.map { |i| "spotify:track:#{i.spotify_id}" }.join('$$')
+
+    @untagged_tracks = current_user.tracks.where(is_tag: false).count
+
+    respond_to do |format|
+      format.html { redirect_to lior_path }
+      format.js
+    end
   end
 
   def create_tag; end

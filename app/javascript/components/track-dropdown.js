@@ -21,7 +21,7 @@ const closeModal = (e) => {
   const modal = document.querySelector('.my-modal');
   const background = document.querySelector('.my-background')
 
-  modal.remove();
+  modal.classList.value.match('no-delete') ? modal.classList.add('d-none') : modal.remove();
   background.remove();
   enableScroll();
   resetTags();
@@ -79,4 +79,4 @@ const trackDropdown = () => {
 
 
 
-export { trackDropdown, closeModal, updateDots };
+export { trackDropdown, closeModal, updateDots, addBackground };

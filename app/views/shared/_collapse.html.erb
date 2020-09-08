@@ -1,0 +1,26 @@
+<div class="card">
+  <div class="card-header" id="heading<%= id %>">
+    <h2 class="mb-0">
+      <%=  link_to path, remote: true do %>
+        <button
+          class="btn btn-link btn-block text-left text-white
+                 d-flex justify-content-between align-items-center"
+          type="button"
+          data-toggle="collapse"
+          data-target="#collapse<%= id %>"
+          aria-expanded="true"
+          aria-controls="collapse<%= id %>">
+          <%= "#{tag_name} (#{count} tracks)" %>
+        </button>
+      <% end %>
+    </h2>
+  </div>
+
+  <div id="collapse<%= id %>"
+  class="collapse"
+  aria-labelledby="heading<%= id %>"
+  data-parent="#accordionExample">
+    <div class="card-body card-body-flex" id="<%= id %>">
+    </div>
+  </div>
+</div>

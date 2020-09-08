@@ -1,5 +1,6 @@
 class Track < ApplicationRecord
-  has_many :playlist_tracks
+  has_many :playlist_tracks, dependent: :destroy
+  has_many :playlists, through: :playlist_tracks
   belongs_to :user
   acts_as_taggable_on :tags
 
@@ -8,11 +9,15 @@ class Track < ApplicationRecord
   end
 
   def self.create_track(tr, user)
+    arr = tr['album']['images']
+    cover_placeholder = "https://us.123rf.com/450wm/soloviivka/soloviivka1606/soloviivka160600001/59688426-music-note-vecteur-ic%C3%B4ne-blanc-sur-fond-noir.jpg?ver=6"
+    cover_url = arr.nil? || arr.empty? ? cover_placeholder : arr.first['url']
+
     Track.create(
       user: user,
       name: tr['name'],
       artist: tr['artists'][0]['name'],
-      cover_url: set_cover_url(tr['album']['images']),
+      cover_url: cover_url,
       href: tr['href'],
       duration: tr['duration_ms'],
       external_url: tr['external_urls']['spotify'],
@@ -25,11 +30,21 @@ class Track < ApplicationRecord
   end
 
   def add_tags(arr, user)
+    self.is_tag = true unless arr.empty?
+
     arr.each do |tag|
       tag_list.add(tag)
       sptag = user.sptags.where(name: tag).take
       sptag ? sptag.update(track_count: sptag.track_count += 1) : Sptag.create(name: tag, track_count: 1)
     end
     save
+  end
+
+  private
+
+
+  def set_cover_url(arr)
+    cover_placeholder = "https://us.123rf.com/450wm/soloviivka/soloviivka1606/soloviivka160600001/59688426-music-note-vecteur-ic%C3%B4ne-blanc-sur-fond-noir.jpg?ver=6"
+    arr.nil? || arr.empty? ? cover_placeholder : arr.first['url']
   end
 end

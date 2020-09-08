@@ -2,7 +2,7 @@ require 'Base64'
 
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
-  before_action :refresh_user_token!
+  before_action :refresh_data!
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def configure_permitted_parameters
@@ -14,8 +14,16 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [:username])
   end
 
+  def refresh_data!
+    return if current_user.nil? || current_user.data_updates.empty? || current_user.last_update('spotify') != Date.today.all_day
+
+    refresh_user_token!
+    DataUpdate.create(user: current_user, source: 'spotify')
+    UpdateSpotifyDataJob.perform_later(current_user.id)
+  end
+
   def refresh_user_token!
-    return unless current_user.valid_token?
+    return if current_user.nil? || current_user.spotify_token.nil? || current_user.valid_token? == true
 
     resp = refresh_token.parsed_response
     update_spotify_token(resp)
@@ -30,17 +38,13 @@ class ApplicationController < ActionController::Base
     offset + limit < total ? offset += limit : nil
   end
 
-  def spotify_api_call(path, options = {})
-    HTTParty.get(
-      path,
-      headers: { Authorization: current_user.token },
-      query: options.to_query
-    ).parsed_response
-  end
-
   def set_cover_url(arr)
     cover_placeholder = "https://us.123rf.com/450wm/soloviivka/soloviivka1606/soloviivka160600001/59688426-music-note-vecteur-ic%C3%B4ne-blanc-sur-fond-noir.jpg?ver=6"
     arr.nil? || arr.empty? ? cover_placeholder : arr.first['url']
+  end
+
+  def to_boolean(string)
+    string == "on"
   end
 
   def refresh_token
@@ -53,5 +57,18 @@ class ApplicationController < ActionController::Base
               :refresh_token => "#{current_user.spotify_token.refresh_token}"},
     :headers => {"Authorization" => "Basic #{client_id_and_secret}"}
     )
+  end
+
+  def track_info(track, tag_name = nil)
+    tags = track.tag_list
+    tags.delete(tag_name) if tag_name
+    [
+      track.name,
+      track.artist,
+      track.cover_url,
+      track.external_url,
+      track.id,
+      tags
+    ].join('**')
   end
 end

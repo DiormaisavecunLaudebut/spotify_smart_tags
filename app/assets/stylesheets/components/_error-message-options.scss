@@ -1,0 +1,11 @@
+.error-message-options {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 60px;
+  left: 180px;
+  width: 100px;
+  p { font-size: 12px;}
+}

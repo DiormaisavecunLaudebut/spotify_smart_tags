@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_06_143810) do
+ActiveRecord::Schema.define(version: 2020_09_08_201011) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "data_updates", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "source"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_data_updates_on_user_id"
+  end
 
   create_table "playlist_tracks", force: :cascade do |t|
     t.bigint "playlist_id", null: false
@@ -84,6 +92,17 @@ ActiveRecord::Schema.define(version: 2020_09_06_143810) do
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
+  create_table "trackland_playlists", force: :cascade do |t|
+    t.string "name"
+    t.string "tags", array: true
+    t.boolean "name_set"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "cover_url"
+    t.index ["user_id"], name: "index_trackland_playlists_on_user_id"
+  end
+
   create_table "tracks", force: :cascade do |t|
     t.string "name"
     t.string "artist"
@@ -116,16 +135,19 @@ ActiveRecord::Schema.define(version: 2020_09_06_143810) do
     t.string "product"
     t.integer "followers"
     t.string "username", null: false
+    t.boolean "admin", default: false, null: false
     t.index ["provider"], name: "index_users_on_provider"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid"], name: "index_users_on_uid"
   end
 
+  add_foreign_key "data_updates", "users"
   add_foreign_key "playlist_tracks", "playlists"
   add_foreign_key "playlist_tracks", "tracks"
   add_foreign_key "playlists", "users"
   add_foreign_key "spotify_tokens", "users"
   add_foreign_key "sptags", "users"
   add_foreign_key "taggings", "tags"
+  add_foreign_key "trackland_playlists", "users"
   add_foreign_key "tracks", "users"
 end

@@ -1,16 +1,27 @@
 class User < ApplicationRecord
   has_one :spotify_token
-  has_many :playlists
+  has_many :playlists, dependent: :destroy
   has_many :tracks
-  has_many :sptags
-
-  # validate :spotify_client_must_exist
+  has_many :sptags, dependent: :destroy
+  has_many :data_updates
+  has_many :trackland_playlists
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  validates :username, presence: true, uniqueness: true
+
   def email_required?
     false
+  end
+
+  def last_update(source)
+    DataUpdate.where(user: self, source: source).last.created_at.to_date.all_day
+  end
+
+  def fetch_spotify_data
+    update_user_data
+    update_user_playlists_and_tracks
   end
 
   def add_tags(arr)
@@ -20,10 +31,14 @@ class User < ApplicationRecord
     end
   end
 
+  def tracks_tagged_with(tags)
+    Track.tagged_with(tags).where(user: self)
+  end
+
   def remove_tags(arr) # pablior
   end
 
-  def add_spotify_data(sp_data)
+  def add_fetched_data(sp_data)
     update(
       country: sp_data['country'],
       spotify_client: sp_data['id'],
@@ -36,7 +51,7 @@ class User < ApplicationRecord
   end
 
   def valid_token?
-    return unless spotify_token
+    return if spotify_token.nil?
 
     spotify_token.expires_at >= Time.now
   end
@@ -51,41 +66,80 @@ class User < ApplicationRecord
     false
   end
 
-  validates :username, presence: true, uniqueness: true
+  def update_user_data
+    resp = spotify_api_call('https://api.spotify.com/v1/me')
+    add_fetched_data(resp)
+  end
 
-  private
+  def update_user_playlists_and_tracks(offset = 0, my_playlists = playlists.map(&:id))
+    puts "in update_user_playlists_and_tracks"
+    path = 'https://api.spotify.com/v1/me/playlists'
+    limit = 50
+    options = { limit: limit, offset: offset }
 
-  # def fetch_spotify_data
-  #   rsp_user = RSpotify::User.find(spotify_client)
-  #   rsp_user.playlists.each do |playlist|
-  #     create_playlist(playlist)
-  #     playlist.tracks.each { |t| create_track(t) }
-  #   end
-  # end
+    resp = spotify_api_call(path, options)
+    playlists = resp['items'].select { |i| i['owner']['id'] == spotify_client }
 
-  # def create_playlist(playlist)
-  #   cover_placeholder = "https://us.123rf.com/450wm/soloviivka/soloviivka1606/soloviivka160600001/59688426-music-note-vecteur-ic%C3%B4ne-blanc-sur-fond-noir.jpg?ver=6"
-  #   url = playlist.id
-  #   name = playlist.name
-  #   cover_url = playlist.images.empty? ? cover_placeholder : playlist.images.first['url']
+    playlists.each do |sp|
+      playlist = Playlist.find_playlist(sp['id'], self)
+      if playlist
+        my_playlists.delete(playlist.id)
+      else
+        playlist = Playlist.create_playlist(sp, self)
+      end
+      fetch_playlist_tracks(playlist) if playlist.track_count != sp['tracks']['total']
+    end
 
-  #   Playlist.create(user: self, url: url, cover_url: cover_url)
-  # end
+    offset = new_offset(offset, limit, resp['total'])
+    offset ? update_user_playlists_and_tracks(offset, my_playlists) : delete_remaining_playlists(my_playlists)
+  end
 
-  # def create_track(track)
-  #   name = track.name
-  #   artist = track.artists.first.name
-  #   url = track.id
-  #   cover_url = track.album.images.first['url']
+  def fetch_playlist_tracks(playlist, offset = 0, my_tracks = [])
+    path = "https://api.spotify.com/v1/playlists/#{playlist.spotify_id}/tracks"
+    my_tracks = playlist.tracks.map(&:id) if my_tracks.empty?
+    limit = 100
+    options = { limit: limit, offset: offset }
 
-  #   Track.create(user: self, url: url, cover_url: cover_url, artist: artist)
-  # end
+    resp = spotify_api_call(path, options)
+    puts resp
+    tracks = resp['items']
 
-  # def spotify_client_must_exist
-  #   begin
-  #     user = RSpotify::User.find(spotify_client)
-  #   rescue
-  #     errors.add(:spotify_client, 'this username does not exist')
-  #   end
-  # end
+    tracks.each do |tr|
+      track = Track.find_track(tr['track']['id'], self)
+      if track
+        my_tracks.delete(track.id)
+      else
+        track = Track.create_track(tr['track'], self)
+        PlaylistTrack.create_plt(playlist, track)
+      end
+    end
+
+    offset = new_offset(offset, limit, resp['total'])
+    fetch_playlist_tracks(playlist, offset, my_tracks) if offset
+
+    delete_remaining_tracks(my_tracks)
+  end
+
+  def delete_remaining_tracks(tracks)
+    tracks.map { |i| Track.find(i) }.each(&:destroy)
+  end
+
+  def spotify_api_call(path, options = {})
+    HTTParty.get(
+      path,
+      headers: { Authorization: token },
+      query: options.to_query
+    ).parsed_response
+  end
+
+  def new_offset(offset, limit, total)
+    offset + limit < total ? offset += limit : nil
+  end
+
+  def delete_remaining_playlists(playlists)
+    playlists.map { |i| Playlist.find(i) }.each do |playlist|
+      playlist.destroy
+      playlist.tracks.each { |track| track.destroy if track.playlist_tracks.empty? }
+    end
+  end
 end

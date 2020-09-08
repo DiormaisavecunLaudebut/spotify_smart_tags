@@ -25,14 +25,27 @@
 // // External imports
 import "bootstrap";
 
-import { trackDropdown } from "../components/track-dropdown"
-import { autocomplete } from "../components/autocomplete-tags"
-import { openTagTracks, observeDOM } from '../components/open-tag-tracks'
+import { trackDropdown, updateDots } from "../components/track-dropdown";
+import { autocomplete } from "../components/autocomplete-tags";
+import { openTagTracks } from '../components/open-tag-tracks';
+import { applyFilter } from "../components/filter-tracks";
+import { trackCard } from "../components/global-functions-trackCard";
+import { emptyStateHTML } from "../components/global-functions-emptyState";
+import { listenCreatePlaylistModal } from "../components/global-functions-create-playlist-modal";
+import { managePlaylistCreationOptions } from "../components/manage-playlist-creation-options";
+import { listenPlaylistCreation } from '../components/close-modal-after-create';
 
 autocomplete();
 trackDropdown();
 openTagTracks();
-observeDOM();
+applyFilter();
+managePlaylistCreationOptions();
+listenPlaylistCreation();
+
+global.trackCard = trackCard;
+global.emptyStateHTML = emptyStateHTML;
+global.updateDots = updateDots;
+global.listenCreatePlaylistModal = listenCreatePlaylistModal;
 
 // Internal imports, e.g:
 // import { initSelect2 } from '../components/init_select2';

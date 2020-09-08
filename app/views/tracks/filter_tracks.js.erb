@@ -1,0 +1,76 @@
+var tags = "<%= @tags %>".split(',')
+var spotifyUris = "<%= @uris %>";
+var untaggedTracks = "<%= @untagged_tracks %>"
+var tracksString = "<%= @tracks %>"
+var badgesName = tags.slice(0, tags.length - 1);
+var badgesElement = Array.from(document.querySelectorAll('.badge-filter'));
+var trackCards = ""
+var tracks = tracksString.split('$$').map(e => e.split('**'))
+var container = document.querySelector('.container')
+var hiddenInputTracks = document.getElementById('hidden-input-tracks');
+var hiddenInputName = document.getElementById('hidden-input-name');
+var inputName = document.getElementById('cpl-input-name');
+var inputDescription = document.getElementById('cpl-input-description');
+
+function fillInputsWithFilter() {
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth()+1;
+  var yyyy = today.getFullYear();
+  var usedTags = badgesName.join(', ')
+  today = `${dd}/${mm}/${yyyy}`
+
+  hiddenInputTracks.value = spotifyUris
+  hiddenInputName.value = usedTags
+  inputName.value = usedTags
+  inputDescription.value = `Playlist generated from Trackland the ${today} with the following tags: ${usedTags}`
+}
+
+function appendTracks() {
+  const sectionHeader = `
+<div style="padding: 0 16px">
+  <h3 class="active-color m-0">${tracks.length} tracks</h3>
+  <p class="text-success" id="open-create-playlist">create playlist</p>
+</div>
+`
+
+  trackCards += sectionHeader
+  tracks.forEach(track => { trackCards += trackCard(track) })
+
+  container.insertAdjacentHTML('afterend', `<section class="mt-3" id="filtered-tracks">${trackCards}</section>`)
+
+  fillInputsWithFilter();
+  updateDots();
+  listenCreatePlaylistModal();
+}
+
+function cleanZone() {
+  const emptyState = document.getElementById('empty-state');
+  const trackCards = document.getElementById('filtered-tracks');
+
+  if (emptyState) emptyState.remove();
+  if (trackCards) trackCards.remove();
+}
+
+function changeBadgesColor() {
+  const appliedBadges = badgesElement.filter(e => badgesName.includes(e.innerText))
+  appliedBadges.forEach(badge => {
+    badge.classList.remove('badge-primary');
+    badge.classList.add('badge-success');
+  })
+}
+
+function appendEmptyState() {
+  const emptyState = emptyStateHTML(
+    'No track found',
+    `You have ${untaggedTracks} untagged tracks, maybe it's time tag them...`,
+     "Let's go 🚀",
+      "")
+  container.insertAdjacentHTML('afterend', emptyState)
+}
+
+
+changeBadgesColor();
+cleanZone();
+
+tracksString == "" ? appendEmptyState() : appendTracks()

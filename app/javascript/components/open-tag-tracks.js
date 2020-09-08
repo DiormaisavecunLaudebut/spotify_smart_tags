@@ -21,20 +21,20 @@ const openTagTracks = () => {
   }))
 }
 
-const callback = function(mutationsList, observer) {
-  for(let mutation of mutationsList) {
-    if (mutation.addedNodes.length > 1 && mutation.addedNodes[1].classList.value.includes('row-container')) {
-      updateDots();
-    }
-  }
-};
+// const callback = function(mutationsList, observer) {
+//   for(let mutation of mutationsList) {
+//     if (mutation.addedNodes.length > 1 && mutation.addedNodes[1].classList.value.includes('row-container')) {
+//       updateDots();
+//     }
+//   }
+// };
 
 
-const observer = new MutationObserver(callback);
-const config = { attributes: true, childList: true, subtree: true }
+// const observer = new MutationObserver(callback);
+// const config = { attributes: true, childList: true, subtree: true }
 
-const observeDOM = () => {
-  observer.observe(document, config)
-}
+// const observeDOM = () => {
+//   observer.observe(document, config)
+// }
 
-export { openTagTracks, observeDOM }
+export { openTagTracks }
