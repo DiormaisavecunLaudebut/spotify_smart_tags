@@ -1,8 +1,7 @@
-require 'Base64'
-
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :refresh_data!
+  before_action :refresh_user_token!
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def configure_permitted_parameters
@@ -15,60 +14,39 @@ class ApplicationController < ActionController::Base
   end
 
   def refresh_data!
-    return if current_user.nil? || current_user.data_updates.empty? || current_user.last_update('spotify') != Date.today.all_day
+    return if helpers.no_data_refresh_needed(current_user)
 
-    refresh_user_token!
+    refresh_user_token! # this line shouldnt be necessary pablior
     DataUpdate.create(user: current_user, source: 'spotify')
     UpdateSpotifyDataJob.perform_later(current_user.id)
   end
 
   def refresh_user_token!
-    return if current_user.nil? || current_user.spotify_token.nil? || current_user.valid_token? == true
+    return if helpers.no_token_refresh_needed(current_user)
 
-    resp = refresh_token.parsed_response
+    resp = refresh_token
     update_spotify_token(resp)
   end
 
   def update_spotify_token(resp)
-    token = SpotifyToken.where(user: current_user).take
-    token.update!(expires_at: Time.now + resp['expires_in'], code: resp['access_token'])
-  end
+    token = current_user.spotify_token
+    expiration_date = Time.now + resp['expires_in']
 
-  def new_offset(offset, limit, total)
-    offset + limit < total ? offset += limit : nil
-  end
-
-  def set_cover_url(arr)
-    cover_placeholder = "https://us.123rf.com/450wm/soloviivka/soloviivka1606/soloviivka160600001/59688426-music-note-vecteur-ic%C3%B4ne-blanc-sur-fond-noir.jpg?ver=6"
-    arr.nil? || arr.empty? ? cover_placeholder : arr.first['url']
-  end
-
-  def to_boolean(string)
-    string == "on"
+    token.update!(expires_at: expiration_date, code: resp['access_token'])
   end
 
   def refresh_token
-    client_id = ENV['SPOTIFY_CLIENT']
-    client_secret = ENV['SPOTIFY_SECRET']
-    client_id_and_secret = Base64.strict_encode64("#{client_id}:#{client_secret}")
-    result = HTTParty.post(
-      "https://accounts.spotify.com/api/token",
-      :body => {:grant_type => "refresh_token",
-              :refresh_token => "#{current_user.spotify_token.refresh_token}"},
-    :headers => {"Authorization" => "Basic #{client_id_and_secret}"}
-    )
-  end
+    path = 'https://accounts.spotify.com/api/token'
+    token = false
+    content_type = nil
+    client_id_and_secret = helpers.encode_credentials
 
-  def track_info(track, tag_name = nil)
-    tags = track.tag_list
-    tags.delete(tag_name) if tag_name
-    [
-      track.name,
-      track.artist,
-      track.cover_url,
-      track.external_url,
-      track.id,
-      tags
-    ].join('**')
+    SpotifyApiCall.post(
+      path,
+      token,
+      helpers.refresh_token_body(current_user.spotify_token.refresh_token),
+      content_type,
+      client_id_and_secret
+    )
   end
 end

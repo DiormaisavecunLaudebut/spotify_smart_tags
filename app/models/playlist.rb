@@ -12,8 +12,8 @@ class Playlist < ApplicationRecord
   end
 
   def self.create_playlist(sp, user)
-    cover_placeholder = "https://us.123rf.com/450wm/soloviivka/soloviivka1606/soloviivka160600001/59688426-music-note-vecteur-ic%C3%B4ne-blanc-sur-fond-noir.jpg?ver=6"
-    cover_url = sp['images'].nil? || sp['images'].empty? ? cover_placeholder : sp['images'].first['url']
+    ApplicationController.helpers.set_cover_url(sp['images'])
+
     Playlist.create(
       user: user,
       name: sp['name'],

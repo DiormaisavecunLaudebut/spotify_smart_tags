@@ -9,9 +9,7 @@ class Track < ApplicationRecord
   end
 
   def self.create_track(tr, user)
-    arr = tr['album']['images']
-    cover_placeholder = "https://us.123rf.com/450wm/soloviivka/soloviivka1606/soloviivka160600001/59688426-music-note-vecteur-ic%C3%B4ne-blanc-sur-fond-noir.jpg?ver=6"
-    cover_url = arr.nil? || arr.empty? ? cover_placeholder : arr.first['url']
+    cover_url = ApplicationController.helpers.set_cover_url(tr['album']['images'])
 
     Track.create(
       user: user,
@@ -38,13 +36,5 @@ class Track < ApplicationRecord
       sptag ? sptag.update(track_count: sptag.track_count += 1) : Sptag.create(name: tag, track_count: 1)
     end
     save
-  end
-
-  private
-
-
-  def set_cover_url(arr)
-    cover_placeholder = "https://us.123rf.com/450wm/soloviivka/soloviivka1606/soloviivka160600001/59688426-music-note-vecteur-ic%C3%B4ne-blanc-sur-fond-noir.jpg?ver=6"
-    arr.nil? || arr.empty? ? cover_placeholder : arr.first['url']
   end
 end

@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :sptags, dependent: :destroy
   has_many :data_updates
   has_many :trackland_playlists
+  has_many :spotify_api_calls
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
@@ -33,9 +34,6 @@ class User < ApplicationRecord
 
   def tracks_tagged_with(tags)
     Track.tagged_with(tags).where(user: self)
-  end
-
-  def remove_tags(arr) # pablior
   end
 
   def add_fetched_data(sp_data)
@@ -67,7 +65,9 @@ class User < ApplicationRecord
   end
 
   def update_user_data
-    resp = spotify_api_call('https://api.spotify.com/v1/me')
+    path = 'https://api.spotify.com/v1/me'
+
+    resp = SpotifyApiCall.get(path, token)
     add_fetched_data(resp)
   end
 
@@ -77,7 +77,8 @@ class User < ApplicationRecord
     limit = 50
     options = { limit: limit, offset: offset }
 
-    resp = spotify_api_call(path, options)
+    resp = SpotifyApiCall.get(path, token, options)
+    puts resp
     playlists = resp['items'].select { |i| i['owner']['id'] == spotify_client }
 
     playlists.each do |sp|
@@ -90,7 +91,7 @@ class User < ApplicationRecord
       fetch_playlist_tracks(playlist) if playlist.track_count != sp['tracks']['total']
     end
 
-    offset = new_offset(offset, limit, resp['total'])
+    offset = ApplicationController.helpers.new_offset(offset, limit, resp['total'])
     offset ? update_user_playlists_and_tracks(offset, my_playlists) : delete_remaining_playlists(my_playlists)
   end
 
@@ -100,8 +101,7 @@ class User < ApplicationRecord
     limit = 100
     options = { limit: limit, offset: offset }
 
-    resp = spotify_api_call(path, options)
-    puts resp
+    resp = SpotifyApiCall.get(path, token, options)
     tracks = resp['items']
 
     tracks.each do |tr|
@@ -114,7 +114,7 @@ class User < ApplicationRecord
       end
     end
 
-    offset = new_offset(offset, limit, resp['total'])
+    offset = ApplicationController.helpers.new_offset(offset, limit, resp['total'])
     fetch_playlist_tracks(playlist, offset, my_tracks) if offset
 
     delete_remaining_tracks(my_tracks)
@@ -122,18 +122,6 @@ class User < ApplicationRecord
 
   def delete_remaining_tracks(tracks)
     tracks.map { |i| Track.find(i) }.each(&:destroy)
-  end
-
-  def spotify_api_call(path, options = {})
-    HTTParty.get(
-      path,
-      headers: { Authorization: token },
-      query: options.to_query
-    ).parsed_response
-  end
-
-  def new_offset(offset, limit, total)
-    offset + limit < total ? offset += limit : nil
   end
 
   def delete_remaining_playlists(playlists)

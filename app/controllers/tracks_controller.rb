@@ -15,7 +15,7 @@ class TracksController < ApplicationController
   def filter_tracks
     @tags = params['q']
     tracks_object = current_user.tracks_tagged_with(@tags.split(','))
-    @tracks = tracks_object.map { |i| track_info(i, @tag_name) }.join('$$')
+    @tracks = tracks_object.map { |i| helpers.serialize_track_info(i, @tag_name) }.join('$$')
     @uris = tracks_object.map { |i| "spotify:track:#{i.spotify_id}" }.join('$$')
 
     @untagged_tracks = current_user.tracks.where(is_tag: false).count

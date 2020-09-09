@@ -8,7 +8,7 @@ class SptagsController < ApplicationController
   def show_tracks
     @tag_name = params['sptag_id'].match(/(.*)\//)[1]
     tracks_object = current_user.tracks_tagged_with(@tag_name)
-    @tracks = tracks_object.map { |i| track_info(i, @tag_name) }.join('$$')
+    @tracks = tracks_object.map { |i| helpers.serialize_track_info(i, @tag_name) }.join('$$')
 
     respond_to do |format|
       format.html { redirect_to sptags_path }
@@ -18,7 +18,7 @@ class SptagsController < ApplicationController
 
   def show_untagged_tracks
     tracks_object = current_user.tracks.where(is_tag: false)
-    @tracks = tracks_object.map { |i| track_info(i, @tag_name) }.join('$$')
+    @tracks = tracks_object.map { |i| helpers.serialize_track_info(i, @tag_name) }.join('$$')
 
     respond_to do |format|
       format.html { redirect_to sptags_path }
