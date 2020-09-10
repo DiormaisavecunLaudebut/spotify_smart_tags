@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :refresh_data!
   before_action :refresh_user_token!
   before_action :configure_permitted_parameters, if: :devise_controller?
+  around_action :switch_locale
 
   def configure_permitted_parameters
     # For additional fields in app/views/devise/registrations/new.html.erb
@@ -19,6 +20,15 @@ class ApplicationController < ActionController::Base
     refresh_user_token! # this line shouldnt be necessary pablior
     DataUpdate.create(user: current_user, source: 'spotify')
     UpdateSpotifyDataJob.perform_later(current_user.id)
+  end
+
+  def default_url_options
+    { locale: I18n.locale }
+  end
+
+  def switch_locale(&action)
+    locale = current_user.try(:locale) || I18n.default_locale
+    I18n.with_locale(locale, &action)
   end
 
   def refresh_user_token!

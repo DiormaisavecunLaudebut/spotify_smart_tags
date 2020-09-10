@@ -16,6 +16,11 @@ class User < ApplicationRecord
     false
   end
 
+  def switch_lang
+    lang = locale == 'fr' ? 'en' : 'fr'
+    update(locale: lang)
+  end
+
   def last_update(source)
     DataUpdate.where(user: self, source: source).last.created_at.to_date.all_day
   end
