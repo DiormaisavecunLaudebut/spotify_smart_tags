@@ -28,17 +28,18 @@ module ApplicationHelper
   end
 
   def no_data_refresh_needed(user)
+    today = Date.today.all_day
     check1 = user.nil?
-    check2 = user.data_updates.empty?
-    check3 = user.last_update('spotify') != Date.today.all_day
+    check2 = user&.data_updates&.empty?
+    check3 = user&.last_update('spotify') == today
 
     check1 || check2 || check3
   end
 
   def no_token_refresh_needed(user)
     check1 = user.nil?
-    check2 = current_user.spotify_token.nil?
-    check3 = current_user.valid_token? == true
+    check2 = current_user&.spotify_token.nil?
+    check3 = current_user&.valid_token? == true
 
     check1 || check2 || check3
   end

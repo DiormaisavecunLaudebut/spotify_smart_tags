@@ -11,7 +11,7 @@
       <%= text_area_tag(:description, nil, id: 'cpl-input-description', placeholder: '', autocomplete: 'off', value: "") %>
     </div>
 
-    <% %w[public collaborative].each_with_index do |name, index| %>
+    <% %w[public collaborative self-destroy].each_with_index do |name, index| %>
       <div class="d-flex justify-content-between">
         <p class="active-color"><%= name %></p>
         <%= render 'shared/toggle-switch', index: index, name: name %>

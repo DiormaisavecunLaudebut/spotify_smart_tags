@@ -22,11 +22,11 @@ class User < ApplicationRecord
   end
 
   def last_update(source)
-    DataUpdate.where(user: self, source: source).last.created_at.to_date.all_day
+    DataUpdate.where(user: self, source: source).last&.created_at&.to_date&.all_day
   end
 
   def fetch_spotify_data
-    update_user_data
+    # update_user_data
     update_user_playlists_and_tracks
   end
 
@@ -77,13 +77,11 @@ class User < ApplicationRecord
   end
 
   def update_user_playlists_and_tracks(offset = 0, my_playlists = playlists.map(&:id))
-    puts "in update_user_playlists_and_tracks"
     path = 'https://api.spotify.com/v1/me/playlists'
     limit = 50
     options = { limit: limit, offset: offset }
 
     resp = SpotifyApiCall.get(path, token, options)
-    puts resp
     playlists = resp['items'].select { |i| i['owner']['id'] == spotify_client }
 
     playlists.each do |sp|

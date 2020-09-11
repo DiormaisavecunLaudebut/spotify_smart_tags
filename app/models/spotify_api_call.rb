@@ -25,11 +25,20 @@ class SpotifyApiCall < ApplicationRecord
     ).parsed_response
   end
 
+  def self.delete(path, token)
+    SpotifyApiCall.create(path: path)
+
+    HTTParty.delete(
+      path,
+      headers: { Authorization: token }
+    ).parsed_response
+  end
+
   def build_headers(content_type, token, encoded_clients)
     if content_type == 'application/json'
       { "Authorization" => token, "Content-Type" => content_type }
     elsif token == false
-      {"Authorization" => "Basic #{encoded_clients}"}
+      { "Authorization" => "Basic #{encoded_clients}" }
     else
       { "Authorization" => token }
     end

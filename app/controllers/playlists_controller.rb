@@ -16,6 +16,7 @@ class PlaylistsController < ApplicationController
     path = "https://api.spotify.com/v1/users/#{current_user.spotify_client}/playlists"
     content_type = 'application/json'
     uris = params['track-uris'].split('$$')
+    self_destroy = params['self-destroy']
 
     resp = SpotifyApiCall.post(
       path,
@@ -25,7 +26,9 @@ class PlaylistsController < ApplicationController
     )
 
     playlist = Playlist.create_playlist(resp, current_user)
-    TracklandPlaylist.create_playlist(current_user, params)
+    TracklandPlaylist.create_playlist(current_user, params, playlist)
+
+    DestroyPlaylistJob.set(wait: 10.minute).perform_later(current_user.id, playlist.id) if self_destroy == 'on'
 
     fill_playlist_with_tracks(playlist, uris)
 

@@ -1,6 +1,7 @@
 class Playlist < ApplicationRecord
   has_many :playlist_tracks, dependent: :destroy
   has_many :tracks, through: :playlist_tracks
+  has_one :trackland_playlist
   belongs_to :user
 
   def self.find_playlist(spotify_id, user)
@@ -12,7 +13,7 @@ class Playlist < ApplicationRecord
   end
 
   def self.create_playlist(sp, user)
-    ApplicationController.helpers.set_cover_url(sp['images'])
+    cover_url = ApplicationController.helpers.set_cover_url(sp['images'])
 
     Playlist.create(
       user: user,
@@ -24,6 +25,19 @@ class Playlist < ApplicationRecord
       spotify_id: sp['id'],
       track_count: sp['total'].nil? ? 0 : sp['total']
     )
+  end
+
+  def unfollow(user)
+    path = "https://api.spotify.com/v1/playlists/#{spotify_id}/followers"
+    token = user.token
+
+    resp = SpotifyApiCall.delete(path, token)
+
+    puts resp
+    puts "pablior #{resp.class}"
+
+    TracklandPlaylist.where(playlist: self, user: user).take.destroy
+    destroy
   end
 
   def increment
