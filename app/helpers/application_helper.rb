@@ -92,4 +92,8 @@ module ApplicationHelper
       tags
     ].join('**')
   end
+
+  def discogs_headers
+    { 'Authorization' => "Discogs key=#{ENV['DISCOGS_CLIENT']}, secret=#{ENV['DISCOGS_SECRET']}"}
+  end
 end
