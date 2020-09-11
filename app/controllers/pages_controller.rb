@@ -1,3 +1,5 @@
+require "discogs"
+
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[lior]
   before_action :authenticate_user!

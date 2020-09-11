@@ -37,4 +37,20 @@ class Track < ApplicationRecord
     end
     save
   end
+
+  def get_suggestions
+    path = "https://api.discogs.com/database/search?track=#{name}&artist=#{artist}"
+
+    resp = HTTParty.get(
+      path,
+      headers: ApplicationController.helpers.discogs_headers
+    ).parsed_response
+    if resp['pagination']['items'].zero?
+      nil
+      # try with another API ?
+    else
+      result = resp['results'].first
+      [result['genre'], result['style']].flatten
+    end
+  end
 end
