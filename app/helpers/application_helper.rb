@@ -96,4 +96,13 @@ module ApplicationHelper
   def discogs_headers
     { 'Authorization' => "Discogs key=#{ENV['DISCOGS_CLIENT']}, secret=#{ENV['DISCOGS_SECRET']}"}
   end
+
+  def map_names(type, metadata)
+    ids = metadata[type]['ids']
+    return nil if ids.count.zero?
+
+    path = "https://api.napster.com/v2.2/#{type}/" + ids.join(',')
+    resp = HTTParty.get(URI.escape(path), headers: { "apikey" => ENV['NAPSTER_CLIENT']}).parsed_response
+    resp[type].map { |i| i['name'] }.first(3)
+  end
 end

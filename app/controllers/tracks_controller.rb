@@ -12,6 +12,16 @@ class TracksController < ApplicationController
   def remove_tags_to_track
   end
 
+  def tags_suggestions
+    track = Track.find(params['track_id'])
+    @suggestions = track.get_suggestions.join('$$')
+
+    respond_to do |format|
+      format.html { redirect_to lior_path }
+      format.js
+    end
+  end
+
   def filter_tracks
     @tags = params['q']
     tracks_object = current_user.tracks_tagged_with(@tags.split(','))
@@ -28,3 +38,4 @@ class TracksController < ApplicationController
 
   def create_tag; end
 end
+

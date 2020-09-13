@@ -39,18 +39,16 @@ class Track < ApplicationRecord
   end
 
   def get_suggestions
-    path = "https://api.discogs.com/database/search?track=#{name}&artist=#{artist}"
+    path = "https://api.napster.com/v2.2/search?query=#{name}&type=track&artist=#{artist}"
+    resp = HTTParty.get(URI.escape(path), headers: { "apikey" => ENV['NAPSTER_CLIENT']}).parsed_response
 
-    resp = HTTParty.get(
-      path,
-      headers: ApplicationController.helpers.discogs_headers
-    ).parsed_response
-    if resp['pagination']['items'].zero?
-      nil
-      # try with another API ?
-    else
-      result = resp['results'].first
-      [result['genre'], result['style']].flatten
-    end
+    return unless resp['meta']['returnedCount'].positive?
+
+    metadata = resp['search']['data']['tracks'][0]['links']
+
+    genres = ApplicationController.helpers.map_names('genres', metadata)
+    tags = ApplicationController.helpers.map_names('tags', metadata)
+
+    spotify_tags.push(genres, tags).flatten.compact.uniq
   end
 end

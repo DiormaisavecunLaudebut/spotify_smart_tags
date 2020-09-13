@@ -1,0 +1,17 @@
+// The modal will be displayed through a regular JS file
+// So if the request takes some time the user won't have to wait
+
+// inster the tag suggestions in the right place
+
+
+var suggestions = "<%= @suggestions %>"
+var badgeContainer = document.querySelector('.badge-container');
+
+function appendSuggestions() {
+  suggestions.split('$$').forEach(sugg => {
+    var badge = `<span class="badge m-1 badge-pill badge-primary">${sugg}</span>`
+    badgeContainer.insertAdjacentHTML('beforeend', badge)
+  })
+}
+
+if (suggestions) appendSuggestions();

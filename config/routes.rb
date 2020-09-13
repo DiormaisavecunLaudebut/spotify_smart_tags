@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   resources :tracks, only: [:show] do
     post 'tag', to: 'tracks#add_tags_to_track', as: :add_tag
     delete 'untag', to: 'tracks#remove_tags_to_track', as: :untag
+    get 'napster/tags', to: 'tracks#tags_suggestions', as: :tags_suggestions
   end
 
   resources :tags, only: [:index]

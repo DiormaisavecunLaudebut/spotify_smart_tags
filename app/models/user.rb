@@ -26,7 +26,7 @@ class User < ApplicationRecord
   end
 
   def fetch_spotify_data
-    # update_user_data
+    update_user_data
     update_user_playlists_and_tracks
   end
 
@@ -82,6 +82,7 @@ class User < ApplicationRecord
     options = { limit: limit, offset: offset }
 
     resp = SpotifyApiCall.get(path, token, options)
+
     playlists = resp['items'].select { |i| i['owner']['id'] == spotify_client }
 
     playlists.each do |sp|
@@ -106,21 +107,75 @@ class User < ApplicationRecord
 
     resp = SpotifyApiCall.get(path, token, options)
     tracks = resp['items']
+    new_tracks = []
 
     tracks.each do |tr|
       track = Track.find_track(tr['track']['id'], self)
       if track
         my_tracks.delete(track.id)
       else
-        track = Track.create_track(tr['track'], self)
-        PlaylistTrack.create_plt(playlist, track)
+        new_tracks << Track.create_track(tr['track'], self)
+        PlaylistTrack.create_plt(playlist, new_tracks.last)
       end
     end
+
+    fetch_spotify_tracks_metadata(new_tracks)
 
     offset = ApplicationController.helpers.new_offset(offset, limit, resp['total'])
     fetch_playlist_tracks(playlist, offset, my_tracks) if offset
 
     delete_remaining_tracks(my_tracks)
+  end
+
+  def fetch_spotify_tracks_metadata(tracks)
+    ids = tracks.map(&:spotify_id)
+    path = 'https://api.spotify.com/v1/audio-features'
+    resp = SpotifyApiCall.get(path, token, { ids: ids.join(',') })
+
+    resp['audio_features'].each do |result|
+      track = Track.where(user: self, spotify_id: result['id']).take
+
+      evaluate_danceability(track, result['danceability'])
+      evaluate_instrumentalness(track, result['instrumentalness'])
+      evaluate_valence(track, result['valence'])
+      evaluate_acousticness(track, result['acousticness'])
+      track.save
+    end
+  end
+
+  def evaluate_danceability(track, value)
+    # Danceability describes how suitable a track is for dancing based on a combination
+    # of musical elements including tempo, rhythm stability, beat strength, and overall
+    # regularity. A value of 0.0 is least danceable and 1.0 is most danceable.
+
+    track.spotify_tags << 'dance' if value >= 0.82
+  end
+
+  def evaluate_instrumentalness(track, value)
+    # Predicts whether a track contains no vocals. 'Ooh' and 'aah' sounds are
+    # treated as instrumental in this context. Rap or spoken word tracks are
+    # clearly 'vocal'. The closer the instrumentalness value is to 1.0, the greater
+    # likelihood the track contains no vocal content. Values above 0.5 are intended
+    # to represent instrumental tracks, but confidence is higher as the value approaches 1.0.
+
+    track.spotify_tags << 'vocal' if value <= 0.01
+    track.spotify_tags << 'instrumental' if value >= 0.8
+  end
+
+  def evaluate_valence(track, value)
+    # A measure from 0.0 to 1.0 describing the musical positiveness conveyed by
+    # a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric),
+    # while tracks with low valence sound more negative (e.g. sad, depressed, angry).
+
+    track.spotify_tags << %w[sad depressed angry].sample if value <= 0.25
+    track.spotify_tags << %w[happy cheerful euphoric].sample if value >= 0.75
+  end
+
+  def evaluate_acousticness(track, value)
+    # A confidence measure from 0.0 to 1.0 of whether the track is acoustic.
+    # 1.0 represents high confidence the track is acoustic.
+
+    track.spotify_tags << 'acoustic' if value >= 0.75
   end
 
   def delete_remaining_tracks(tracks)

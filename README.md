@@ -1,1 +1,5 @@
-{:discogs=>{:tracks=>65, :tags=>194}, :jamendo=>{:tracks=>25, :tags=>96}, :lastfm=>{:tracks=>99, :tags=>186}, :audiodb=>{:tracks=>23, :tags=>21}, :napster=>{:tracks=>100, :tags=>900}}
+[[:napster, {:tracks=>1228, :tags=>11052}],
+ [:lastfm, {:tracks=>1181, :tags=>1883}],
+ [:discogs, {:tracks=>849, :tags=>2458}],
+ [:jamendo, {:tracks=>441, :tags=>1543}],
+ [:audiodb, {:tracks=>274, :tags=>217}]]

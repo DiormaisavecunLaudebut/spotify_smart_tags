@@ -27,12 +27,14 @@
     <div class="d-flex align-items-center mr-2">
       <i class="fas fa-ellipsis-h inactive-color" style="position: relative;">
         <div class="my-dropdown-menu d-none">
-          <p
-            class="my-dropdown-item py-1 pl-2"
-            data-toggle="modal"
-            data-target="#exampleModal">
-            Edit Tags
-          </p>
+          <%= link_to track_tags_suggestions_path(track_id), remote: true do %>
+            <p
+              class="my-dropdown-item py-1 pl-2"
+              data-toggle="modal"
+              data-target="#exampleModal">
+              Edit Tags
+            </p>
+          <% end %>
           <p class="my-dropdown-item py-1 pl-2">Action 3</p>
           <a class="text-black my-dropdown-item py-1 pl-2" href="<%= path %> ">Open in Spotify</a>
         </div>

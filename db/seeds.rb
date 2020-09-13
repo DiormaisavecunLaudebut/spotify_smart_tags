@@ -31,10 +31,10 @@ end
 tags = %w[chill dark bright techno deep_house house minimalist joyful club afrika jazzy vocal instrumental remix sad rap motivational rock smooth ]
 user = User.where(username: 'pablior').take
 
-# user.tracks.each do |track|
-#   # reset_track_tags(track)
-#   assign_random_tags(track, tags, user)
-# end
+user.tracks.each do |track|
+  # reset_track_tags(track)
+  assign_random_tags(track, tags, user)
+end
 
 
 
