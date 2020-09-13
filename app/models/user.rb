@@ -16,6 +16,14 @@ class User < ApplicationRecord
     false
   end
 
+  def get_permissions
+    case status
+    when 'amateur' then ApplicationController.helpers.amateur_permissions
+    when 'pro' then ApplicationController.helpers.pro_permissions
+    when 'music geek' then ApplicationController.helpers.music_geek_permission
+    end
+  end
+
   def switch_lang
     lang = locale == 'fr' ? 'en' : 'fr'
     update(locale: lang)
