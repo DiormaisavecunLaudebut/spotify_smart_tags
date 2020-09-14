@@ -1,26 +1,22 @@
 <div class='container mt-3'>
   <h1 class="big-title text-white">What do you want to listen ?</h1>
   <%= form_with(url: '/filter/tracks', method: 'get', local: false, class: 'd-flex align-items-center flex-column') do %>
-
+    <%= hidden_field_tag(:tracks, nil, id: 'hidden-input-tags', name: "filter-tags") %>
     <div class="mt-2 badge-container">
       <% current_user.sptags.map(&:name).first(6).each do |tag_name| %>
-          <%= link_to select_tag_path(tag_name: tag_name), remote: true do  %>
-            <div class="mtag tag-inactive"><%= tag_name %></div>
-          <% end %>
+          <div class="mtag tag-inactive"><%= tag_name %></div>
       <% end %>
     </div>
 
     <div class="msearch d-flex align-items-center mt-3">
       <i class="fas fa-search"></i>
-      <input id="input-autocomplete" autocomplete="off" type="textarea" name="tags">
+      <input id="input-autocomplete" autocomplete="off" type="textarea" name="tags" placeholder="Search tags">
     </div>
 
     <%= submit_tag("Find tracks", class: 'btn-submit-filter mt-3 primary-btn', id: 'btn-submit-filter') %>
 
   <% end %>
-
 </div>
 
-<!--<%= render 'shared/create-playlist-modal' %>-->
-
 <div data-list-tags="<%= @user_tags %>" id="hidden-list-tag" class="d-none"></div>
+<%= render 'shared/create-playlist-modal' %>

@@ -1,15 +1,18 @@
 .my-modal {
-  width: 80%;
-  background: rgb(130, 130, 130);
+  width: 100%;
+  background: black;
   position: absolute;
-  height: 300px;
-  z-index: 1000;
-  left: 40px;
-  display: flex;
+  height: 93%;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
+  transition: all 0.35s ease;
+  z-index: 2;
 }
 
 .badge-container {
 }
+
+#btn-submit-create-playlist {
+  position: absolute;
+  bottom: 60px;
+}
+

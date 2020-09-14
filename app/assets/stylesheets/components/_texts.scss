@@ -38,3 +38,27 @@
   height: 44px;
   border: none !important;
 }
+
+.btn-fixed {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+}
+
+.p-label {
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.m-input {
+    background: black;
+    color: white;
+    border: 1px solid $mgray;
+    border-radius: 0 30px 30px 30px;
+    padding-left: 8px;
+}

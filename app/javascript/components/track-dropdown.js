@@ -19,10 +19,8 @@ const updateDots = () => {
 
 const closeModal = (e) => {
   const modal = document.querySelector('.my-modal');
-  const background = document.querySelector('.my-background')
 
   modal.classList.value.match('no-delete') ? modal.classList.add('d-none') : modal.remove();
-  background.remove();
   enableScroll();
   resetTags();
 }
@@ -50,19 +48,11 @@ const openModal = (element) => {
   autocomplete();
 }
 
-const addBackground = () => {
-  const background = document.createElement('div')
-  background.classList.add('my-background')
-
-  document.body.appendChild(background)
-  background.addEventListener('click', closeModal)
-}
 
 const performAction = (action, element) => {
   if (action == "Edit Tags") {
     openModal(element);
     disableScroll();
-    addBackground();
   }
 }
 
@@ -79,4 +69,4 @@ const trackDropdown = () => {
 
 
 
-export { trackDropdown, closeModal, updateDots, addBackground };
+export { trackDropdown, closeModal, updateDots };
