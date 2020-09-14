@@ -16,7 +16,7 @@ class PlaylistsController < ApplicationController
     path = "https://api.spotify.com/v1/users/#{current_user.spotify_client}/playlists"
     content_type = 'application/json'
     uris = params['track-uris'].split('$$')
-    self_destroy = params['self-destroy']
+    self_destroy = params['Self-destroy']
 
     resp = SpotifyApiCall.post(
       path,

@@ -17,12 +17,16 @@ const updateDots = () => {
   trackDropdown();
 }
 
+
+
 const closeModal = (e) => {
   const modal = document.querySelector('.my-modal');
 
-  modal.classList.value.match('no-delete') ? modal.classList.add('d-none') : modal.remove();
+  modal.style.transform = ""
+  modal.style.top = ""
   enableScroll();
   resetTags();
+  setTimeout(function toggle() { modal.classList.add('d-none')}, 150);
 }
 
 const openModal = (element) => {

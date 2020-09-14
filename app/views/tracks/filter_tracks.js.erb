@@ -11,8 +11,7 @@ var hiddenInputTracks = document.getElementById('hidden-input-tracks');
 var hiddenInputName = document.getElementById('hidden-input-name');
 var inputName = document.getElementById('cpl-input-name');
 var inputDescription = document.getElementById('cpl-input-description');
-var createPlaylistBtn = `<div id="open-create-playlist" class="primary-btn btn-fixed" style="z-index:1;">Create Playlist</div>`
-
+var createPlaylistBtn = document.getElementById('open-create-playlist');
 
 function fillInputsWithFilter() {
   var today = new Date();
@@ -29,7 +28,7 @@ function fillInputsWithFilter() {
 }
 
 function appendTracks() {
-  document.body.insertAdjacentHTML('afterbegin', createPlaylistBtn)
+  createPlaylistBtn.classList.remove('d-none');
 
   var windowHeight = window.innerHeight
   var width = window.innerWidth * 0.1 / 2

@@ -4,7 +4,7 @@
   line-height: 35px;
 }
 
-._text-primary {
+.text-mprimary {
   color: $mprimary;
 }
 
@@ -37,6 +37,17 @@
   border-radius: 20px;
   height: 44px;
   border: none !important;
+  transition: all 0.2s ease;
+}
+
+.secondary-btn {
+  background: $mgray;
+  width: 90%;
+  color: $mlightgray;
+  border-radius: 20px;
+  height: 44px;
+  border: none !important;
+  transition: all 0.2s ease;
 }
 
 .btn-fixed {
@@ -56,9 +67,10 @@
 }
 
 .m-input {
-    background: black;
-    color: white;
-    border: 1px solid $mgray;
-    border-radius: 0 30px 30px 30px;
-    padding-left: 8px;
+  background: black;
+  color: $mgray;
+  border: 1px solid $mgray;
+  border-radius: 0 30px 30px 30px;
+  padding-left: 8px;
+  transition: all 0.1s ease;
 }

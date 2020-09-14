@@ -20,8 +20,8 @@ module ApiCallsHelper
     {
       name: params['name'],
       description: params['description'],
-      public: to_boolean(params['public']),
-      collaborative: to_boolean(params['collaborative'])
+      public: to_boolean(params['Public']),
+      collaborative: to_boolean(params['Collaborative'])
     }
   end
 

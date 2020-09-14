@@ -1,4 +1,5 @@
 <div class="my-modal modal-no-delete pt-5 px-3 d-none">
+  <img src="https://image.flaticon.com/icons/png/512/61/61155.png" class="close-icon"></img>
   <h1 class="big-title text-white" style="margin: 0 10px;">Create Playlist</h1>
   <%= form_with(url: 'create/playlist', method: 'post', local: false, class: "my-form-container")  do %>
 
@@ -7,7 +8,7 @@
       <%= text_field_tag(:name, nil, id: 'cpl-input-name', placeholder: '', autocomplete: 'off', value: "", class: 'm-input') %>
     </div>
 
-    <div class="my-form-group d-flex flex-column mb-5 mt-3">
+    <div class="my-form-group d-flex flex-column mb-3 mt-3">
       <%= label(:description, 'Description', class: 'p-label') %>
       <%= text_area_tag(:description, nil, id: 'cpl-input-description', placeholder: '', autocomplete: 'off', value: "", class: 'm-input') %>
     </div>
@@ -19,6 +20,7 @@
       </div>
     <% end %>
 
+    <p id="error-message"class="text-mprimary d-none">Playlists cannot be both collaborative and public</p>
     <%= hidden_field_tag(:tracks, nil, id: 'hidden-input-tracks', name: "track-uris") %>
     <%= hidden_field_tag(:tracks, nil, id: 'hidden-input-name', name: "name2") %>
 

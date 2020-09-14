@@ -13,6 +13,24 @@
 
 #btn-submit-create-playlist {
   position: absolute;
-  bottom: 60px;
+  bottom: 30px;
 }
 
+#cpl-input-description {
+  height: 120px;
+}
+
+.close-icon {
+  position: absolute;
+  width: 22px;
+  right: 24px;
+  height: 22px;
+  top: 24px;
+  filter: invert(58%) sepia(4%) saturate(0%) hue-rotate(236deg) brightness(95%) contrast(88%);
+}
+
+.fa-question-circle {
+  color: white;
+  margin-left: 8px;
+  font-size: 14px;
+}

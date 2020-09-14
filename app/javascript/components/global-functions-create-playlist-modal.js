@@ -1,4 +1,6 @@
 import { disableScroll } from '../components/manage-scroll'
+import { closeModal } from '../components/track-dropdown';
+
 const modal = document.querySelector('.my-modal');
 const height = window.innerHeight
 let position = 0
@@ -6,17 +8,27 @@ let position = 0
 function positionModal() {
   const modal = document.querySelector('.my-modal');
   const btnHover = document.getElementById('open-create-playlist');
-  const lastRow = Array.from(document.querySelectorAll('.row-container')).slice(-1)[0]
-  position = lastRow.offsetTop
+  const lastElement = document.body.lastElementChild
+  position = lastElement.offsetTop
 
-  modal.style.top = `${lastRow.offsetTop}px`
+  modal.style.top = `${lastElement.offsetTop}px`
   btnHover.addEventListener('mouseover', e => modal.classList.toggle('d-none'))
-  btnHover.addEventListener('mouseout', e => modal.classList.toggle('d-none'))
+  // btnHover.addEventListener('mouseout', e => modal.classList.toggle('d-none'))
+}
+
+function switchClass(e) {
+  e.currentTarget.classList.toggle('text-white')
+  e.currentTarget.classList.toggle('search-focus')
 }
 
 function openCreatePlaylistModal(e) {
+  modal.classList.remove('d-none')
   modal.style.transform = `translate(0, -${position - window.scrollY}px)`
-
+  document.querySelectorAll('.m-input').forEach(input => {
+    input.addEventListener('focus', switchClass)
+    input.addEventListener('focusout', switchClass)
+  })
+  document.querySelector('.close-icon').addEventListener('click', closeModal)
   disableScroll();
 }
 
