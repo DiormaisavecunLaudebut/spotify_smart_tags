@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :data_updates
   has_many :trackland_playlists
   has_many :spotify_api_calls
+  has_many :filter_requests
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
@@ -22,6 +23,23 @@ class User < ApplicationRecord
     when 'pro' then ApplicationController.helpers.pro_permissions
     when 'music geek' then ApplicationController.helpers.music_geek_permission
     end
+  end
+
+  def add_points(value)
+    update!(points: points + value)
+    update_status(points)
+  end
+
+  def update_status(points)
+    if points >= 1000
+      status = 'music geek'
+    elsif points >= 200
+      status = 'pro'
+    else
+      status = nil
+    end
+    update!(status: status) if status
+    status
   end
 
   def switch_lang

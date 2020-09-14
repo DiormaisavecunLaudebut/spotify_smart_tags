@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_13_124306) do
+ActiveRecord::Schema.define(version: 2020_09_14_100059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,15 @@ ActiveRecord::Schema.define(version: 2020_09_13_124306) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_data_updates_on_user_id"
+  end
+
+  create_table "filter_requests", force: :cascade do |t|
+    t.boolean "launched", default: false
+    t.string "tags", default: [], array: true
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_filter_requests_on_user_id"
   end
 
   create_table "playlist_tracks", force: :cascade do |t|
@@ -150,12 +159,15 @@ ActiveRecord::Schema.define(version: 2020_09_13_124306) do
     t.string "locale", default: "fr", null: false
     t.integer "points", default: 0, null: false
     t.string "status", default: "amateur", null: false
+    t.string "connectors", default: [], array: true
+    t.string "request_tags", default: [], array: true
     t.index ["provider"], name: "index_users_on_provider"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid"], name: "index_users_on_uid"
   end
 
   add_foreign_key "data_updates", "users"
+  add_foreign_key "filter_requests", "users"
   add_foreign_key "playlist_tracks", "playlists"
   add_foreign_key "playlist_tracks", "tracks"
   add_foreign_key "playlists", "users"

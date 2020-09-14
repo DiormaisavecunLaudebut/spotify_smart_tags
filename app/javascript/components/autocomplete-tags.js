@@ -58,8 +58,9 @@ const resetTags = () => {
 }
 
 const addExistingTag = (element) => {
+  badgeContainer = document.querySelector('.badge-container')
   const tag = element.innerHTML
-  const badge = `<span class="badge m-1 badge-pill badge-light">${tag}</span>`;
+  const badge = `<div class="mtag tag-inactive">${tag}</div>`;
 
   usedTags.push(tag);
   newTags.push(tag);
@@ -70,7 +71,7 @@ const addExistingTag = (element) => {
 
 const createTag = (element) => {
   const tag = element.childNodes[1].innerHTML
-  const badge = `<span class="badge m-1 badge-pill badge-light">${tag}</span>`;
+  const badge = `<div class="mtag tag-inactive">${tag}</div>`;
 
   usedTags.push(tag);
   newTags.push(tag);
@@ -83,19 +84,23 @@ const createTag = (element) => {
 
 const insertTag = (e) => {
   e.stopPropagation();
+
   const item = e.target.classList.value.includes('autocomplete') ? e.target : e.target.parentElement
   item.classList.value.includes('create-tag') ? createTag(item) : addExistingTag(item)
 }
 
 const appendDropdown = (tags) => {
-  const dropdownItems = tags.map(tag => `<p class="my-dropdown-item-autocomplete py-1 pl-2">${tag}</p>`).join('');
+  const dropdownItems = tags.map(tag => `<a class="js-data-remote" data-remote="true" href="/tag/select?locale=fr&tag_name=${tag}"><p class="my-dropdown-item-autocomplete py-1 pl-2">${tag}</p></a>`).join('');
   let dropdown =`<div class="my-dropdown-menu-autocomplete">${dropdownItems}</div>`;
-  const modal = document.querySelector('.my-modal');
+  const searchbar = document.querySelector('.msearch');
 
-  modal.insertAdjacentHTML('beforeend', dropdown);
+  searchbar.insertAdjacentHTML('afterbegin', dropdown);
+  // const lis = document.querySelectorAll('.js-data-remote');
+  // lis.forEach(el => el.addEventListener('click', e => e.preventDefault()))
+  searchbar.classList.add('top-radius')
 
   dropdown = document.querySelector('.my-dropdown-menu-autocomplete');
-  dropdown.addEventListener('click', insertTag)
+  dropdown.addEventListener('click', insertTag);
 }
 
 const clearSuggestions = (tags) => {
@@ -123,13 +128,12 @@ const updateDropdownItems = (items, tags) => {
 
 const filterTags = (e) => {
   const inputValue = e.currentTarget.value;
-  const tags = userTags.filter(tag => tag.includes(inputValue) && !usedTags.includes(tag)).sort();
+  const tags = userTags.filter(tag => tag.includes(inputValue) && !usedTags.includes(tag)).sort().slice(0, 5);
   const dropdown = document.querySelector('.my-dropdown-menu-autocomplete');
 
   if (dropdown) {
     const existingItems = Array.from(document.querySelector('.my-dropdown-menu-autocomplete').children)
     inputValue == "" ? clearSuggestions(existingItems) : updateDropdownItems(existingItems, tags)
-    // updateDropdownItems(existingItems, tags)
   } else {
     appendDropdown(tags);
   }

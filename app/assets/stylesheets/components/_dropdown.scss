@@ -11,13 +11,14 @@
 
 .my-dropdown-menu-autocomplete {
   position: absolute;
-  width: 194px;
-  top: 246px;
-  left: 18px;
-  background: white;
-  border-radius: 3px;
-  border: 1px solid $mydarklight;
+  width: 345px;
+  top: 38px;
+  left: -1px;
+  background: black;
+  border-radius: 0px;
+  border: 1px solid white;
   z-index: 1;
+  border-radius: 0 0 20px 20px;
 }
 
 .my-dropdown-item {
@@ -26,5 +27,9 @@
 }
 
 .my-dropdown-item-autocomplete {
-  color: black;
+  color: white;
+  margin-left: 38px;
+  padding: 10px 0 !important;
+  border-bottom: 1px solid white;
+  width: 266px;
 }

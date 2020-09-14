@@ -12,10 +12,16 @@
 @import "toggle-switch";
 @import "error-message-options";
 @import "toast";
-
+@import "texts";
+@import "tag";
+@import "search";
 
 html, body {
   background: $mydark;
+}
+
+input:focus {
+  outline: none;
 }
 
 label {

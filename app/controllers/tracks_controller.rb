@@ -23,7 +23,7 @@ class TracksController < ApplicationController
   end
 
   def filter_tracks
-    @tags = params['q']
+    @tags = current_user.request_tags
     tracks_object = current_user.tracks_tagged_with(@tags.split(','))
     @tracks = tracks_object.map { |i| helpers.serialize_track_info(i, @tag_name) }.join('$$')
     @uris = tracks_object.map { |i| "spotify:track:#{i.spotify_id}" }.join('$$')
@@ -38,4 +38,3 @@ class TracksController < ApplicationController
 
   def create_tag; end
 end
-

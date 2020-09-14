@@ -13,10 +13,14 @@
   </head>
 
   <body>
-    <%= render 'shared/navbar' if current_user %>
-    <%= render 'shared/flashes' %>
+    <% if current_user&.connectors&.empty? %>
+      <%= render 'shared/connectors' %>
+    <% else %>
+      <%= render 'shared/navbar' if current_user %>
+      <%= render 'shared/flashes' %>
 
-    <%= yield %>
+      <%= yield %>
+    <% end %>
     <div style="height: 48px; width: 100%"></div>
   </body>
 </html>

@@ -13,14 +13,15 @@ class SpotifyController < ApplicationController
 
     if current_user.spotify_token.nil?
       SpotifyToken.create_token(current_user, resp)
+      current_user.connectors << 'Spotify'
+      current_user.save
     else
       update_spotify_token(resp)
     end
-
-    redirect_to root_path
   end
 
   def gather_user_data_from_spotify
+    spotify_token
     DataUpdate.create(user: current_user, source: 'spotify')
     current_user.fetch_spotify_data
 

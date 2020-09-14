@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :refresh_data!
   before_action :refresh_user_token!
+  before_action :reset_filter_tags
   before_action :configure_permitted_parameters, if: :devise_controller?
   around_action :switch_locale
 
@@ -12,6 +13,12 @@ class ApplicationController < ActionController::Base
 
     # For additional in app/views/devise/registrations/edit.html.erb
     devise_parameter_sanitizer.permit(:account_update, keys: [:username])
+  end
+
+  def reset_filter_tags
+    return if current_user&.request_tags.empty? || %w[filter_tracks select_tag].include?(action_name)
+
+    current_user.update!(request_tags: [])
   end
 
   def refresh_data!

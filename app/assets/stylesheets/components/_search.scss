@@ -1,0 +1,32 @@
+.msearch {
+  height: 40px;
+  width: 100%;
+  border: 1px solid $mgray;
+  border-radius: 40px;
+  position: relative;
+}
+
+#input-autocomplete {
+  margin-left: 8px;
+  height: inherit;
+  flex-grow: 1;
+  border-radius: 40px;
+  background: none;
+  border: none !important;
+  color: $mgray;
+}
+
+.fa-search {
+  color: $mgray;
+  font-size: 18px;
+  margin-left: 20px;
+}
+
+.search-focus {
+  border: 1px solid white;
+  color: white;
+}
+
+.top-radius {
+  border-radius: 20px 20px 0 0;
+}

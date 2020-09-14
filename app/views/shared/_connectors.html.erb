@@ -1,0 +1,20 @@
+
+
+<div class="mcontainer" style="margin-top: 20vh">
+  <h1 class="big-title text-white">You must <span class="_text-primary">connect to one Music Streaming platform</span> to continue...</h1>
+  <div class="d-flex mt-3">
+    <%= render 'shared/toggle-switch', index: 1, name: 'Spotify', path: @url %>
+    <div class="d-flex justify-content-center align-items-center ml-3 mb-1">
+      <i class="fab fa-spotify text-white small-icon"></i>
+      <p class="text-p text-active">Spotify</p>
+    </div>
+  </div>
+
+  <div class="d-flex mt-3">
+    <%= render 'shared/toggle-switch', index: 2, name: 'Deezer', path: "/" %>
+    <div class="d-flex justify-content-center align-items-center ml-3 mb-1">
+      <img class="small-icon invert-color" src="https://img.icons8.com/ios/452/deezer.png" style="height: 25px">
+      <p class="text-p text-active">Deezer</p>
+    </div>
+  </div>
+</div>

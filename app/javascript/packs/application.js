@@ -28,19 +28,23 @@ import "bootstrap";
 import { trackDropdown, updateDots } from "../components/track-dropdown";
 import { autocomplete } from "../components/autocomplete-tags";
 import { openTagTracks } from '../components/open-tag-tracks';
-import { applyFilter } from "../components/filter-tracks";
 import { trackCard } from "../components/global-functions-trackCard";
 import { emptyStateHTML } from "../components/global-functions-emptyState";
 import { listenCreatePlaylistModal } from "../components/global-functions-create-playlist-modal";
 import { managePlaylistCreationOptions } from "../components/manage-playlist-creation-options";
 import { listenPlaylistCreation } from '../components/close-modal-after-create';
+import { connectorPage } from '../components/connectors-page';
+import { listenBadgeClick } from '../components/style-tags';
+import { listenSearchFocus } from '../components/searchbar';
 
 autocomplete();
 trackDropdown();
 openTagTracks();
-applyFilter();
 managePlaylistCreationOptions();
 listenPlaylistCreation();
+connectorPage();
+listenBadgeClick();
+listenSearchFocus();
 
 global.trackCard = trackCard;
 global.emptyStateHTML = emptyStateHTML;

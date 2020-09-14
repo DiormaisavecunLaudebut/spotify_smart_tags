@@ -5,6 +5,7 @@ class PagesController < ApplicationController
   before_action :authenticate_user!
 
   def home
+    @url = build_spotify_code_url
     @user_tags = current_user.sptags.map(&:name).join(' ')
     @trackland_playlists = current_user.trackland_playlists
   end

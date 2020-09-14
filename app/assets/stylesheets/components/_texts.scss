@@ -1,0 +1,40 @@
+.big-title {
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 35px;
+}
+
+._text-primary {
+  color: $mprimary;
+}
+
+.mcontainer {
+  margin: 0 18px;
+}
+
+.text-p {
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.small-icon {
+  width: 19px;
+  height: 19px;
+}
+
+.invert-color {
+  -webkit-filter: invert(100%); /* Safari/Chrome */
+  filter: invert(100%);
+}
+
+.primary-btn {
+  background: $mprimary;
+  width: 90%;
+  color: white;
+  border-radius: 20px;
+  height: 44px;
+  border: none !important;
+}
