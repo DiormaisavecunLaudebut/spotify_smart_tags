@@ -16,9 +16,9 @@ class ApplicationController < ActionController::Base
   end
 
   def reset_filter_tags
-    return if current_user&.request_tags.empty? || %w[filter_tracks select_tag].include?(action_name)
+    return if current_user&.request_tags&.empty? || %w[filter_tracks select_tag].include?(action_name)
 
-    current_user.update!(request_tags: [])
+    current_user&.update!(request_tags: [])
   end
 
   def refresh_data!

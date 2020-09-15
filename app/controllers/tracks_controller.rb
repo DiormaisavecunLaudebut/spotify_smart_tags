@@ -22,6 +22,17 @@ class TracksController < ApplicationController
     end
   end
 
+  def show_tags
+    @id = params['track_id']
+    track = Track.find(@id)
+    @tags = track.tag_list.join('$$')
+
+    respond_to do |format|
+      format.html { redirect_to lior_path }
+      format.js
+    end
+  end
+
   def filter_tracks
     @tags = params['filter-tags']
     tracks_object = current_user.tracks_tagged_with(@tags.split(','))

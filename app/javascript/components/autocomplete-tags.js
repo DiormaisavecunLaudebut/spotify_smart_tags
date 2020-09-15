@@ -11,7 +11,10 @@ let userTags = [];
 
 document.addEventListener('click', e => {
   const dropdown = document.querySelector('.my-dropdown-menu-autocomplete');
-  if (dropdown && e.target.id != 'input-autocomplete') dropdown.remove()
+  if (dropdown && e.target.id != 'input-autocomplete') {
+    dropdown.remove()
+    document.querySelector('.msearch').classList.remove('top-radius')
+  }
 })
 
 const insertNewBadges = (rowContainer) => {
@@ -67,6 +70,9 @@ const addExistingTag = (element) => {
   element.remove();
   badgeContainer.insertAdjacentHTML('beforeend', badge);
   inputAutocomplete.focus();
+  updateMtags();
+  listenBadgeClick();
+  Array.from(document.querySelectorAll('.mtag')).slice(-1)[0].click();
 }
 
 const createTag = (element) => {
@@ -90,13 +96,11 @@ const insertTag = (e) => {
 }
 
 const appendDropdown = (tags) => {
-  const dropdownItems = tags.map(tag => `<a class="js-data-remote" data-remote="true" href="/tag/select?locale=fr&tag_name=${tag}"><p class="my-dropdown-item-autocomplete py-1 pl-2">${tag}</p></a>`).join('');
+  const dropdownItems = tags.map(tag => `<p class="my-dropdown-item-autocomplete py-1 pl-2">${tag}</p>`).join('');
   let dropdown =`<div class="my-dropdown-menu-autocomplete">${dropdownItems}</div>`;
   const searchbar = document.querySelector('.msearch');
 
   searchbar.insertAdjacentHTML('afterbegin', dropdown);
-  // const lis = document.querySelectorAll('.js-data-remote');
-  // lis.forEach(el => el.addEventListener('click', e => e.preventDefault()))
   searchbar.classList.add('top-radius')
 
   dropdown = document.querySelector('.my-dropdown-menu-autocomplete');
@@ -119,7 +123,7 @@ const suggestTagCreation = (tag) => {
 
 const updateDropdownItems = (items, tags) => {
   clearSuggestions(items);
-  if (tags.length == 0) {
+  if (tags.length == 0 && window.location.href.match(/playlist|sptags/)) {
     suggestTagCreation(inputAutocomplete.value)
   } else {
     tags.reverse().forEach(tag => addTagToDropdown(tag));

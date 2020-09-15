@@ -28,7 +28,7 @@ def assign_random_tags(track, tags, user)
   user.add_tags(tags)
 end
 
-tags = %w[chill dark bright techno deep_house house minimalist joyful club afrika jazzy vocal instrumental remix sad rap motivational rock smooth ]
+tags = %w[chill dark bright techno deep_house house minimalist joyful club afrika jazzy vocal instrumental remix sad motivational smooth]
 user = User.where(username: 'pablior').take
 
 user.tracks.each do |track|

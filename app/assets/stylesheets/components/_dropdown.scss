@@ -7,6 +7,9 @@
   border-radius: 3px;
   border: 1px solid $mydarklight;
   z-index: 1;
+  :last-child {
+    border-bottom: none !important;
+  }
 }
 
 .my-dropdown-menu-autocomplete {

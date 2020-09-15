@@ -1,0 +1,28 @@
+var tags = "<%= @tags %>".split('$$')
+var trackId = "<%= @id %>"
+var rowContainer = document.querySelector(`[data-track-id='${trackId}']`)
+var rowDetails = rowContainer.querySelector('.row-details')
+
+function appendTags() {
+  rowContainer.classList.add('tag-displayed');
+  rowDetails.lastElementChild.classList.add('d-none');
+  if (tags.length > 2) {
+    var badges = tags.map(e => `<div class="mr-2 mb-1 mtag-small tag-primary">${e}</div>`).join('');
+  } else {
+    var badges = tags.map(e => `<div class="mr-2 mtag-small tag-primary">${e}</div>`).join('');
+  }
+  const badgeContainer = `<div class="small-tags-container">${badges}</div>`
+  rowDetails.insertAdjacentHTML('beforeend', badgeContainer)
+}
+
+function removeTags() {
+  rowContainer.classList.remove('tag-displayed');
+  rowDetails.querySelector('.small-tags-container').remove();
+  rowDetails.lastElementChild.classList.remove('d-none');
+}
+
+if (rowContainer.classList.value.includes('tag-displayed')) {
+  removeTags();
+}  else if (tags[0] != "") {
+  appendTags();
+}

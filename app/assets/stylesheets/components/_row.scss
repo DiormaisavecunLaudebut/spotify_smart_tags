@@ -1,7 +1,8 @@
 .row-container {
-  margin: 4px 0px;
+  margin: 20px 0px;
   display: flex;
   padding: 0px 16px;
+  position: relative;
 }
 
 .row-details {
@@ -9,13 +10,44 @@
   flex-direction: column;
   flex-grow: 1;
   max-width: 263px;
+  justify-content: center;
 }
 
 .row-cover {
   margin-right: 16px;
-  height: 40px;
-  width: 40px;
+  height: 64px;
+  width: 64px;
   background: white;
   background-size: cover;
-  margin-top: 15px;
+}
+
+.row-title {
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  margin-bottom: 4px;
+}
+
+.row-subtitle {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 15px;
+  color: $mgray;
+  margin-bottom: 6px;
+}
+
+.link-row {
+  display: flex;
+  flex-grow: 1;
+}
+
+.ellipsis-container {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 15px;
+  top: 24px;
 }

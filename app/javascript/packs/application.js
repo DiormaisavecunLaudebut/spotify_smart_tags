@@ -34,7 +34,7 @@ import { listenCreatePlaylistModal, positionModal } from "../components/global-f
 import { managePlaylistCreationOptions } from "../components/manage-playlist-creation-options";
 import { listenPlaylistCreation } from '../components/close-modal-after-create';
 import { connectorPage } from '../components/connectors-page';
-import { listenBadgeClick } from '../components/style-tags';
+import { listenBadgeClick, updateMtags } from '../components/style-tags';
 import { listenSearchFocus } from '../components/searchbar';
 
 autocomplete();
@@ -51,6 +51,8 @@ global.emptyStateHTML = emptyStateHTML;
 global.updateDots = updateDots;
 global.listenCreatePlaylistModal = listenCreatePlaylistModal;
 global.positionModal = positionModal;
+global.listenBadgeClick = listenBadgeClick
+global.updateMtags = updateMtags
 
 // Internal imports, e.g:
 // import { initSelect2 } from '../components/init_select2';

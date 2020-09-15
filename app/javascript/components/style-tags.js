@@ -1,7 +1,11 @@
-const mtags = document.querySelectorAll('.mtag');
+let mtags = document.querySelectorAll('.mtag');
 const inputTags = document.getElementById('hidden-input-tags');
 const submitBtn = document.getElementById('btn-submit-filter');
 
+
+const updateMtags = () => {
+  mtags = document.querySelectorAll('.mtag');
+}
 
 const toggleSubmitClass = () => {
   submitBtn.classList.toggle('primary-btn');
@@ -29,4 +33,4 @@ const listenBadgeClick = () => {
   if (mtags) mtags.forEach(tag => tag.addEventListener('click', applyStyle))
 }
 
-export { listenBadgeClick }
+export { listenBadgeClick, updateMtags }

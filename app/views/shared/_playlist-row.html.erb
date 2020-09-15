@@ -1,0 +1,9 @@
+<div class="row-container">
+  <%= link_to playlist_path(id), class: 'link-row' do %>
+    <div class="row-cover" style="background-image: url(<%= cover %>)"></div>
+      <div class="row-details">
+        <span class="row-title active-color line-clamp"><%= title %></span>
+        <span class="row-subtitle"><%= subtitle %></span>
+    </div>
+  <% end %>
+</div>

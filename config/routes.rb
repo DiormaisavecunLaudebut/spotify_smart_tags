@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   end
 
   resources :tracks, only: [:show] do
+    get 'track/tags', to: 'tracks#show_tags', as: :show_tags
     post 'tag', to: 'tracks#add_tags_to_track', as: :add_tag
     delete 'untag', to: 'tracks#remove_tags_to_track', as: :untag
     get 'napster/tags', to: 'tracks#tags_suggestions', as: :tags_suggestions
