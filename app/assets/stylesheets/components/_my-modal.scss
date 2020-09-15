@@ -9,6 +9,9 @@
 }
 
 .badge-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 #btn-submit-create-playlist {

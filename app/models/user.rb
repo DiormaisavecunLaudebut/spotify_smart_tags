@@ -57,6 +57,7 @@ class User < ApplicationRecord
   end
 
   def add_tag(tag)
+    tag = tag.downcase.capitalize
     sptag = Sptag.where(name: tag).take
     Sptag.create(name: tag, user: self) unless sptag
   end

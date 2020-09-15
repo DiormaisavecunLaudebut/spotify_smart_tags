@@ -11,25 +11,30 @@ var modal = document.querySelector('.track-modal');
 var trackName = document.querySelector('.track-name');
 var trackArtist = document.querySelector('.track-artist');
 var trackCover = document.querySelector('.track-cover');
-var tagsContainer = document.querySelector('.tags-container');
-var deleteTagsContainer = document.querySelector('.delete-tags-container');
 var trackHref = document.getElementById('tag-href');
 var closeIcon = document.querySelector('.close-icon');
+var tagsContainer = document.querySelector('.tags-container');
+var deleteTagsContainer = document.querySelector('.delete-tags-container');
+
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
 
 function displayDeleteTags() {
   removeTagOption.classList.add('tags-shown');
   removeTagOption.style.marginBottom = "8px"
 
-  var badges = tags.map(e => `
-    <form action="/tracks/${trackId}/remove-tag" method="post" data-remote="true" id="tag-${e}">
-      <input type="hidden" name="tag" id="${e}" value="${e}">
-      <button type="submit" class="mtag">${e}</button>
+  var badges = Array.from(tagsContainer.children).map(e => `
+    <form action="/tracks/${trackId}/remove-tag" method="post" data-remote="true" id="tag-${e.innerText}">
+      <input type="hidden" name="tag" id="${e.innerText}" value="${e.innerText}">
+      <button type="submit" class="mtag">${e.innerText.toLowerCase().capitalize()}</button>
     </form>
   `).join('')
   deleteTagsContainer.insertAdjacentHTML('afterbegin', badges)
 }
 
 function removeDeleteTags() {
+  var deleteTagsContainer = document.querySelector('.delete-tags-container');
   removeTagOption.style.marginBottom = ""
   removeTagOption.classList.remove('tags-shown');
   Array.from(deleteTagsContainer.children).forEach(e => e.remove());
@@ -44,9 +49,13 @@ function playOption() {
 }
 
 function resetModalDetails() {
+  console.log('hi')
   var badgeContainer = document.querySelector('.badge-container');
   var searchbar = document.querySelector('.msearch')
 
+  removeTagOption.style.marginBottom = ""
+  removeTagOption.classList.remove('tags-shown')
+  addTagOption.classList.remove('row-open')
   modal.style.transform = ""
   trackName.innerText = ""
   trackArtist.innerText = ""
@@ -54,6 +63,8 @@ function resetModalDetails() {
   trackHref.href = ""
   modal.dataset.trackId = ""
 
+  Array.from(deleteTagsContainer.children).forEach(e => e.remove())
+  Array.from(tagsContainer.children).forEach(e => e.remove())
   if (searchbar) searchbar.remove()
   if (badgeContainer) Array.from(badgeContainer.children).forEach(e => e.remove())
 }
@@ -62,6 +73,8 @@ function closeTrackModal() {
   resetModalDetails();
   setTimeout(function dnone() { modal.classList.add('d-none') }, 300)
   enableScroll();
+  closeIcon.removeEventListener('click', closeTrackModal)
+  removeTagOption.removeEventListener('click', playOption)
 }
 
 function addTrackDetails() {

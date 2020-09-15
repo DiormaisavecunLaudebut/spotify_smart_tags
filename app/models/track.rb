@@ -28,6 +28,7 @@ class Track < ApplicationRecord
   end
 
   def add_tag(tag, user)
+    tag = tag.downcase.capitalize
     self.is_tag = true
     tag_list.add(tag)
     sptag = user.sptags.where(name: tag).take
@@ -36,6 +37,7 @@ class Track < ApplicationRecord
   end
 
   def remove_tag(tag, user)
+    tag = tag.downcase.capitalize
     self.is_tag = false if tag_list.count.zero?
     tag_list.remove(tag)
     sptag = user.sptags.where(name: tag).take

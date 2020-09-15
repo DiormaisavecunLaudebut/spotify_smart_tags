@@ -2,11 +2,10 @@ var id = "<%= @id %>"
 var suggestions = "<%= @suggestions %>".split('$$')
 var row = document.getElementById('add-tag')
 var searchbar = `
-<div style="width: 90vw; align-self: center;" class='msearch d-flex align-items-center'>
+<div style=align-self: center;" class='msearch d-flex align-items-center'>
   <i class="fas fa-search"></i>
   <input id="input-autocomplete" autocomplete="off" type="textarea" name="tags" placeholder="Search tags">
 </div>`
-
 
 // window.onscroll = function(e) {
 //   // print "false" if direction is down and "true" if up
@@ -17,24 +16,29 @@ var searchbar = `
 // }
 
 function removeTags(e) {
-  e.preventDefault();
-  document.querySelector('.msearch').remove();
-  document.querySelector('.badge-container').remove();
+  var badgeContainer = document.querySelector('.badge-container');
+  var theSearchbar = document.querySelector('.msearch')
+  if (theSearchbar) theSearchbar.remove()
+  if (badgeContainer) badgeContainer.remove();
   row.href = `/tracks/${id}/napster`
 }
 
-row.addEventListener('click', removeTags)
-
 function appendTags() {
-  row.href = ""
   var tags = suggestions.map(e => `
     <form action="/tracks/${id}/tag" method="post" data-remote="true" id="tag-${e}">
       <input type="hidden" name="tag" id="${e}" value="${e}">
       <button type="submit" class="mtag">${e}</button>
     </form>
   `).join('')
-  row.insertAdjacentHTML('afterend', searchbar)
   row.insertAdjacentHTML('afterend', `<div class="badge-container" style="margin-top: 16px">${tags}</div>`)
 }
 
+function ntm() {
+  row.classList.toggle('row-open')
+  row.href = ""
+  if (row.classList.value.includes('row-open')) row.insertAdjacentHTML('afterend', searchbar)
+  row.addEventListener('click', removeTags)
+}
+
+ntm();
 if (suggestions[0] != "") appendTags();

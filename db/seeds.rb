@@ -24,8 +24,10 @@ def assign_random_tags(track, tags, user)
 
   new_tags = tags.sample(n)
 
-  track.add_tags(new_tags, user)
-  user.add_tags(tags)
+  new_tags.each do |tag|
+    track.add_tag(tag, user)
+    user.add_tag(tag)
+  end
 end
 
 tags = %w[chill dark bright techno deep_house house minimalist joyful club afrika jazzy vocal instrumental remix sad motivational smooth]
@@ -35,7 +37,3 @@ user.tracks.each do |track|
   # reset_track_tags(track)
   assign_random_tags(track, tags, user)
 end
-
-
-
-
