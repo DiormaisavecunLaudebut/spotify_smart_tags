@@ -1,17 +1,40 @@
-// The modal will be displayed through a regular JS file
-// So if the request takes some time the user won't have to wait
+var id = "<%= @id %>"
+var suggestions = "<%= @suggestions %>".split('$$')
+var row = document.getElementById('add-tag')
+var searchbar = `
+<div style="width: 90vw; align-self: center;" class='msearch d-flex align-items-center'>
+  <i class="fas fa-search"></i>
+  <input id="input-autocomplete" autocomplete="off" type="textarea" name="tags" placeholder="Search tags">
+</div>`
 
-// inster the tag suggestions in the right place
 
+// window.onscroll = function(e) {
+//   // print "false" if direction is down and "true" if up
+//   console.log(window.scrollY)
 
-var suggestions = "<%= @suggestions %>"
-var badgeContainer = document.querySelector('.badge-container');
+//   console.log(this.oldScroll > this.scrollY);
+//   this.oldScroll = this.scrollY;
+// }
 
-function appendSuggestions() {
-  suggestions.split('$$').forEach(sugg => {
-    var badge = `<span class="badge m-1 badge-pill badge-primary">${sugg}</span>`
-    badgeContainer.insertAdjacentHTML('beforeend', badge)
-  })
+function removeTags(e) {
+  e.preventDefault();
+  document.querySelector('.msearch').remove();
+  document.querySelector('.badge-container').remove();
+  row.href = `/tracks/${id}/napster`
 }
 
-if (suggestions) appendSuggestions();
+row.addEventListener('click', removeTags)
+
+function appendTags() {
+  row.href = ""
+  var tags = suggestions.map(e => `
+    <form action="/tracks/${id}/tag" method="post" data-remote="true" id="tag-${e}">
+      <input type="hidden" name="tag" id="${e}" value="${e}">
+      <button type="submit" class="mtag">${e}</button>
+    </form>
+  `).join('')
+  row.insertAdjacentHTML('afterend', searchbar)
+  row.insertAdjacentHTML('afterend', `<div class="badge-container" style="margin-top: 16px">${tags}</div>`)
+}
+
+if (suggestions[0] != "") appendTags();

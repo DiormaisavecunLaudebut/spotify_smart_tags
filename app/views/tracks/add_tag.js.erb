@@ -1,0 +1,16 @@
+var tagName = "<%= @tag %>"
+var trackId = "<%= @id %>"
+var tagsContainer = document.querySelector('.tags-container');
+var tag = document.getElementById(`tag-${tagName}`);
+var rowContainer = document.querySelector(`[data-track-id='${trackId}']`);
+var badge = rowContainer.querySelector('.mtag-small');
+
+function insertTag() {
+  var tagCount = badge.innerText.split(' ')[0] + 1
+  badge.innerText = `${tagCount} TAGS`
+  tag.classList.add('tag-transition')
+  tagsContainer.insertAdjacentHTML('beforeend', `<div class="mtag-small tag-primary mr-1 mb-1">${tagName}</div>`)
+  tag.remove();
+}
+
+insertTag();

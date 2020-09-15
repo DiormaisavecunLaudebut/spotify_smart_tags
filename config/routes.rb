@@ -22,10 +22,12 @@ Rails.application.routes.draw do
   end
 
   resources :tracks, only: [:show] do
+    get 'modal', to: 'tracks#show_modal', as: :show_modal
     get 'track/tags', to: 'tracks#show_tags', as: :show_tags
-    post 'tag', to: 'tracks#add_tags_to_track', as: :add_tag
+    post 'tag', to: 'tracks#add_tag', as: :add_tag
+    post 'remove-tag', to: 'tracks#remove_tag', as: :remove_tag
     delete 'untag', to: 'tracks#remove_tags_to_track', as: :untag
-    get 'napster/tags', to: 'tracks#tags_suggestions', as: :tags_suggestions
+    get 'napster', to: 'tracks#tags_suggestions', as: :tags_suggestions
   end
 
   resources :tags, only: [:index]

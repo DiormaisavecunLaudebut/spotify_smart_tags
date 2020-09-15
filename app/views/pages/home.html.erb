@@ -9,10 +9,7 @@
       <% end %>
     </div>
 
-    <div class="msearch d-flex align-items-center mt-3">
-      <i class="fas fa-search"></i>
-      <input id="input-autocomplete" autocomplete="off" type="textarea" name="tags" placeholder="Search tags">
-    </div>
+    <%= render 'shared/searchbar' %>
 
     <%= submit_tag("Find tracks", class: 'btn-submit-filter mt-3 secondary-btn', id: 'btn-submit-filter') %>
 

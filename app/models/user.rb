@@ -56,11 +56,9 @@ class User < ApplicationRecord
     update_user_playlists_and_tracks
   end
 
-  def add_tags(arr)
-    arr.each do |tag|
-      sptag = Sptag.where(name: tag).take
-      Sptag.create(name: tag, user: self) unless sptag
-    end
+  def add_tag(tag)
+    sptag = Sptag.where(name: tag).take
+    Sptag.create(name: tag, user: self) unless sptag
   end
 
   def tracks_tagged_with(tags)

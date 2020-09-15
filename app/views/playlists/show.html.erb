@@ -1,3 +1,5 @@
+<% track = Track.find(32) %>
+
 <% @tracks.each do |track| %>
   <%= render 'shared/row',
     title: track.name,
@@ -8,4 +10,7 @@
     track_id: track.id
   %>
 <% end %>
+
+<%= render 'shared/track-modal'%>
+
 <div data-list-tags="<%= @user_tags %>" id="hidden-list-tag" class="d-none"></div>

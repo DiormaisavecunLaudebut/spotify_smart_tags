@@ -15,9 +15,14 @@
 @import "texts";
 @import "tag";
 @import "search";
+@import "track-modal";
 
 html, body {
   background: $mydark;
+}
+
+button {
+  background: none;
 }
 
 input:focus, textarea:focus {

@@ -1,20 +1,54 @@
 class TracksController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: %i[add_tags_to_track]
+  skip_before_action :verify_authenticity_token, only: %i[add_tag remove_tag]
 
-  def add_tags_to_track
-    track = Track.find(params['track_id'])
-    tags = params['tags'].split(',')
+  def add_tag
+    @id = params['track_id']
+    track = Track.find(@id)
+    @tag = params['tag']
 
-    track.add_tags(tags, current_user)
-    current_user.add_tags(tags) # this line might be useless, to check late
+    track.add_tag(@tag, current_user) # pablior check (wtf)
+    current_user.add_tag(@tag) # this line might be useless, to check late
+
+    respond_to do |format|
+      format.html { redirect_to lior_path }
+      format.js
+    end
   end
 
-  def remove_tags_to_track
+  def remove_tag
+    @id = params['track_id']
+    track = Track.find(@id)
+    @tag = params['tag']
+
+    track.remove_tag(@tag, current_user)
+
+    respond_to do |format|
+      format.html { redirect_to lior_path }
+      format.js
+    end
   end
 
   def tags_suggestions
-    track = Track.find(params['track_id'])
-    @suggestions = track.get_suggestions.join('$$')
+    @id = params['track_id']
+    track = Track.find(@id)
+    tags = track.get_suggestions
+    @suggestions = tags.nil? ? "" : tags.reject { |i| track.tag_list.include?(i) }.sample(4).join('$$')
+
+    respond_to do |format|
+      format.html { redirect_to lior_path }
+      format.js
+    end
+  end
+
+  def show_modal
+    @id = params['track_id']
+    track = Track.find(@id)
+
+    @name = track.name
+    @artist = track.artist
+    @href = track.external_url
+    @cover = track.cover_url
+    @tags = track.tag_list.join('$$')
 
     respond_to do |format|
       format.html { redirect_to lior_path }

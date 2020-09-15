@@ -4,8 +4,18 @@
   line-height: 35px;
 }
 
+.small-title {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 23px;
+}
+
 .text-mprimary {
   color: $mprimary;
+}
+
+.text-mgray {
+  color: $mgray;
 }
 
 .mcontainer {

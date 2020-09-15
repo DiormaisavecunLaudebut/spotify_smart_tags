@@ -1,0 +1,10 @@
+var tagId = "<%= @id %>"
+var tagName = "<%= @tag %>"
+
+var tag = document.getElementById(`tag-${tagName}`)
+var tagsContainer = document.querySelector('.tags-container')
+var otherTag = Array.from(tagsContainer.children).filter(e => e.innerText == tagName.toUpperCase())[0]
+
+console.log('otherTag', otherTag)
+otherTag.remove();
+tag.remove();

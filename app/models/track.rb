@@ -27,14 +27,19 @@ class Track < ApplicationRecord
     Track.find_track(tr['track']['id'], user) || Track.create_track(tr['track'], user)
   end
 
-  def add_tags(arr, user)
-    self.is_tag = true unless arr.empty?
+  def add_tag(tag, user)
+    self.is_tag = true
+    tag_list.add(tag)
+    sptag = user.sptags.where(name: tag).take
+    sptag ? sptag.update!(track_count: sptag.track_count += 1) : Sptag.create(name: tag, track_count: 1)
+    save
+  end
 
-    arr.each do |tag|
-      tag_list.add(tag)
-      sptag = user.sptags.where(name: tag).take
-      sptag ? sptag.update(track_count: sptag.track_count += 1) : Sptag.create(name: tag, track_count: 1)
-    end
+  def remove_tag(tag, user)
+    self.is_tag = false if tag_list.count.zero?
+    tag_list.remove(tag)
+    sptag = user.sptags.where(name: tag).take
+    sptag.update!(track_count: sptag.track_count -= 1)
     save
   end
 

@@ -25,7 +25,7 @@
 // // External imports
 import "bootstrap";
 
-import { trackDropdown, updateDots } from "../components/track-dropdown";
+// import { trackDropdown, updateDots } from "../components/track-dropdown";
 import { autocomplete } from "../components/autocomplete-tags";
 import { openTagTracks } from '../components/open-tag-tracks';
 import { trackCard } from "../components/global-functions-trackCard";
@@ -36,23 +36,28 @@ import { listenPlaylistCreation } from '../components/close-modal-after-create';
 import { connectorPage } from '../components/connectors-page';
 import { listenBadgeClick, updateMtags } from '../components/style-tags';
 import { listenSearchFocus } from '../components/searchbar';
+import { listenEllipsis } from '../components/track-modal';
+import { disableScroll, enableScroll } from '../components/manage-scroll';
 
 autocomplete();
-trackDropdown();
+// trackDropdown();
 openTagTracks();
 managePlaylistCreationOptions();
 listenPlaylistCreation();
 connectorPage();
 listenBadgeClick();
 listenSearchFocus();
+listenEllipsis();
 
 global.trackCard = trackCard;
 global.emptyStateHTML = emptyStateHTML;
-global.updateDots = updateDots;
+// global.updateDots = updateDots;
 global.listenCreatePlaylistModal = listenCreatePlaylistModal;
 global.positionModal = positionModal;
 global.listenBadgeClick = listenBadgeClick
 global.updateMtags = updateMtags
+global.disableScroll = disableScroll
+global.enableScroll = enableScroll
 
 // Internal imports, e.g:
 // import { initSelect2 } from '../components/init_select2';

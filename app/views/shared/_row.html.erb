@@ -1,32 +1,21 @@
 <% random = ("a".."z").to_a.sample(10).join + (1..100000).to_a.sample.to_s %>
 
 <div class="row-container" data-track-id="<%= track_id if tag_list %>">
+
   <div class="row-cover" style="background-image: url(<%= cover %>)"></div>
   <%= link_to track_show_tags_path(track_id), class: "link-row", remote: true do %>
+
     <div class="row-details">
-    <span class="row-title active-color line-clamp"><%= title %></span>
-    <span class="row-subtitle"><%= subtitle %></span>
-    <% if  tag_list %>
+      <span class="row-title active-color line-clamp"><%= title %></span>
+      <span class="row-subtitle"><%= subtitle %></span>
       <div class="mtag-small"> <%= pluralise('tag', tag_list.count) %></div>
-    <% end %>
-  </div>
+    </div>
+
   <% end %>
-  <% if tag_list %>
+  <%= link_to track_show_modal_path(track_id), remote: true do %>
     <div class="mr-2 ellipsis-container">
-      <i class="fas fa-ellipsis-h inactive-color" style="position: relative;">
-        <div class="my-dropdown-menu d-none">
-          <%= link_to track_tags_suggestions_path(track_id), remote: true do %>
-            <p
-              class="my-dropdown-item py-1 pl-2"
-              data-toggle="modal"
-              data-target="#exampleModal">
-              Edit Tags
-            </p>
-          <% end %>
-          <p class="my-dropdown-item py-1 pl-2">Action 3</p>
-          <a class="text-black my-dropdown-item py-1 pl-2" href="<%= path %> ">Open in Spotify</a>
-        </div>
-      </i>
+      <i class="fas fa-ellipsis-h inactive-color" style="position: relative;"></i>
     </div>
   <% end %>
+
 </div>
