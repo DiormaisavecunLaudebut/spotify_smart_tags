@@ -12,9 +12,12 @@ const spinner = `
 
 const openTagTracks = () => {
   cardHeaders.forEach(el => el.addEventListener('click', event => {
-    const collapse = event.currentTarget.nextElementSibling;
+    const collapse = event.currentTarget.closest('.card').querySelector('.collapse')
     const cardBody = collapse.firstElementChild
 
+    // console.log(event.currentTarget)
+    // console.log('collapse', collapse)
+    // console.log('cardBody', cardBody)
     collapse.classList.toggle('show');
     if (!cardBody.classList.value.includes('data-loaded')) cardBody.insertAdjacentHTML('afterbegin', spinner);
     cardBody.classList.add('data-loaded');

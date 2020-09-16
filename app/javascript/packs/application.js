@@ -26,38 +26,40 @@
 import "bootstrap";
 
 // import { trackDropdown, updateDots } from "../components/track-dropdown";
-import { autocomplete } from "../components/autocomplete-tags";
-import { openTagTracks } from '../components/open-tag-tracks';
-import { trackCard } from "../components/global-functions-trackCard";
-import { emptyStateHTML } from "../components/global-functions-emptyState";
-import { listenCreatePlaylistModal, positionModal } from "../components/global-functions-create-playlist-modal";
-import { managePlaylistCreationOptions } from "../components/manage-playlist-creation-options";
-import { listenPlaylistCreation } from '../components/close-modal-after-create';
-import { connectorPage } from '../components/connectors-page';
-import { listenBadgeClick, updateMtags } from '../components/style-tags';
-import { listenSearchFocus } from '../components/searchbar';
-import { listenEllipsis } from '../components/track-modal';
-import { disableScroll, enableScroll } from '../components/manage-scroll';
+import { autocomplete } from "../components/autocomplete-tags"
+import { openTagTracks } from '../components/open-tag-tracks'
+import { trackCard } from "../components/global-functions-trackCard"
+import { emptyStateHTML } from "../components/global-functions-emptyState"
+import { listenCreatePlaylistModal, positionModal } from "../components/global-functions-create-playlist-modal"
+import { managePlaylistCreationOptions } from "../components/manage-playlist-creation-options"
+import { listenPlaylistCreation } from '../components/close-modal-after-create'
+import { connectorPage } from '../components/connectors-page'
+import { listenBadgeClick, updateMtags } from '../components/style-tags'
+import { listenSearchFocus } from '../components/searchbar'
+import { listenEllipsis } from '../components/track-modal'
+import { disableScroll, enableScroll } from '../components/manage-scroll'
+import { listenCoverClick } from '../components/select-track'
 
-autocomplete();
+autocomplete()
 // trackDropdown();
-openTagTracks();
-managePlaylistCreationOptions();
-listenPlaylistCreation();
-connectorPage();
-listenBadgeClick();
-listenSearchFocus();
-listenEllipsis();
+openTagTracks()
+managePlaylistCreationOptions()
+listenPlaylistCreation()
+connectorPage()
+listenBadgeClick()
+listenSearchFocus()
+listenEllipsis()
 
 global.trackCard = trackCard;
-global.emptyStateHTML = emptyStateHTML;
+global.emptyStateHTML = emptyStateHTML
 // global.updateDots = updateDots;
-global.listenCreatePlaylistModal = listenCreatePlaylistModal;
-global.positionModal = positionModal;
+global.listenCreatePlaylistModal = listenCreatePlaylistModal
+global.positionModal = positionModal
 global.listenBadgeClick = listenBadgeClick
 global.updateMtags = updateMtags
 global.disableScroll = disableScroll
 global.enableScroll = enableScroll
+global.listenCoverClick = listenCoverClick
 
 // Internal imports, e.g:
 // import { initSelect2 } from '../components/init_select2';

@@ -19,15 +19,14 @@
 
 
 
-// const closeModal = (e) => {
-//   const modal = document.querySelector('.my-modal');
+const closeModal = (e) => {
+  const modal = document.querySelector('.my-modal');
 
-//   modal.style.transform = ""
-//   modal.style.top = ""
-//   enableScroll();
-//   resetTags();
-//   setTimeout(function toggle() { modal.classList.add('d-none')}, 150);
-// }
+  modal.style.transform = ""
+  modal.style.top = ""
+  enableScroll();
+  setTimeout(function toggle() { modal.classList.add('d-none')}, 150);
+}
 
 // const openModal = (element) => {
 //   const row = element.closest('.row-container');
@@ -73,4 +72,4 @@
 
 
 
-// export { trackDropdown, closeModal, updateDots };
+export { closeModal };

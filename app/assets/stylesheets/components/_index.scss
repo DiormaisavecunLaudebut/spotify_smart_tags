@@ -16,9 +16,20 @@
 @import "tag";
 @import "search";
 @import "track-modal";
+@import "collapse";
+@import "select-track";
 
 html, body {
   background: $mydark;
+}
+
+.btn-link:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.btn:focus {
+  box-shadow: none;
 }
 
 button {
@@ -65,7 +76,7 @@ a:hover {
   left: 0;
   bottom: 0;
   z-index: 10;
-  background: black;
+  background: $mblack;
   opacity: 0.5;
 }
 

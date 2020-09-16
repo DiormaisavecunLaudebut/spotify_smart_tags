@@ -23,6 +23,8 @@ String.prototype.capitalize = function() {
 function displayDeleteTags() {
   removeTagOption.classList.add('tags-shown');
   removeTagOption.style.marginBottom = "8px"
+  removeTagOption.classList.remove('mbt')
+  deleteTagsContainer.classList.add('mbt')
 
   var badges = Array.from(tagsContainer.children).map(e => `
     <form action="/tracks/${trackId}/remove-tag" method="post" data-remote="true" id="tag-${e.innerText}">
@@ -36,7 +38,10 @@ function displayDeleteTags() {
 function removeDeleteTags() {
   var deleteTagsContainer = document.querySelector('.delete-tags-container');
   removeTagOption.style.marginBottom = ""
+  removeTagOption.classList.add('mbt')
+  deleteTagsContainer.classList.remove('mbt')
   removeTagOption.classList.remove('tags-shown');
+
   Array.from(deleteTagsContainer.children).forEach(e => e.remove());
 }
 
@@ -49,10 +54,15 @@ function playOption() {
 }
 
 function resetModalDetails() {
-  console.log('hi')
   var badgeContainer = document.querySelector('.badge-container');
   var searchbar = document.querySelector('.msearch')
 
+  if (!addTagOption.classList.value.includes('mbt')) {
+    addTagOption.classList.add('mbt')
+    badgeContainer.remove()
+  }
+
+  addTagOption.dataset.suggestions = ""
   removeTagOption.style.marginBottom = ""
   removeTagOption.classList.remove('tags-shown')
   addTagOption.classList.remove('row-open')

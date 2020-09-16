@@ -15,7 +15,7 @@ function appendTracks() {
   cleanZone();
   tracks.forEach(track => { trackCards += trackCard(track) })
   cardBody.insertAdjacentHTML('afterbegin', trackCards)
-  updateDots();
+  listenCoverClick()
 }
 
 appendTracks();

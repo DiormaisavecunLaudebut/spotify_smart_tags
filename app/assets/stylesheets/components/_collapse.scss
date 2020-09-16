@@ -1,0 +1,42 @@
+.card {
+  margin: 0 18px;
+  border: none;
+}
+
+.card-header {
+  background: $mblack;
+  padding: 14px 0;
+  border-bottom: 1px solid $mgray;
+}
+
+.collapse-title {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: white;
+  font-family: Work Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 23px;
+  text-align: left;
+  padding: 0;
+}
+
+.collapse {
+  background: $mblack;
+}
+
+.not-bold {
+  font-weight: normal;
+  margin-left: 8px;
+}
+
+.fa-chevron-down {
+  color: $mlightgray;
+  position: absolute;
+  top: 0;
+  right: 4px;
+  font-size: 24px;
+  transition: all 0.3s ease;
+}

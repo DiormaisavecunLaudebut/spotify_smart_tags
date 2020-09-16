@@ -1,0 +1,28 @@
+.track-selected {
+
+}
+
+.track-select-background {
+  position: absolute;
+  background: none;
+  width: 64px;
+  height: 64px;
+  top: 0;
+  bottom: 0;
+  opacity: 0.8;
+  right: 0;
+  left: 0;
+  justify-content: center;
+  display: flex;
+  transition: all 0.3s ease;
+  z-index: 5;
+}
+
+.fa-check {
+  font-size: 0;
+  color: white;
+  opacity: 1;
+  text-align: center;
+  align-self: center;
+  transition: all 0.3s ease;
+}

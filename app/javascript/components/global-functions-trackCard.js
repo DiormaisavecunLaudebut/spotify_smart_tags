@@ -18,9 +18,13 @@ function trackCard(track) {
         tagList         =     track.slice(5, track.length),
         badges          =     tagList.map(e => `<span class="badge badge-pill mr-1 badge-light">${e}</span>`).join('')
   const subtitle = tags == '' ? 'No tag' : pluralise('tag', tagList.length)
+  if (name == "Cola - Club Mix") {
+    //console.log(tagList)
+  }
   const card = `
-<div class="row-container" data-track-id="${id}">
-  <div class="row-cover" style="background-image: url(${cover_url})"></div>
+<div class="row-container" style="padding: 0;" data-track-id="${id}">
+<img class="row-cover" src="${cover_url}" alt="">
+<div class="track-select-background"><i class="fas fa-check"></i></div>
   <a class="link-row" data-remote="true" href="/tracks/${id}/track/tags?locale=fr">
     <div class="row-details">
       <span class="row-title active-color line-clamp">${name}</span>
@@ -29,6 +33,7 @@ function trackCard(track) {
     </div>
   </a>
 </div>`
+
   return card
 }
 

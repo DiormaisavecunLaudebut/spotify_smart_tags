@@ -1,11 +1,12 @@
 var id = "<%= @id %>"
-var suggestions = "<%= @suggestions %>".split('$$')
+var suggestions = "<%= @suggestions %>"
 var row = document.getElementById('add-tag')
 var searchbar = `
 <div style=align-self: center;" class='msearch d-flex align-items-center'>
   <i class="fas fa-search"></i>
   <input id="input-autocomplete" autocomplete="off" type="textarea" name="tags" placeholder="Search tags">
 </div>`
+var closeIcon = document.querySelector('.close-icon');
 
 // window.onscroll = function(e) {
 //   // print "false" if direction is down and "true" if up
@@ -15,30 +16,60 @@ var searchbar = `
 //   this.oldScroll = this.scrollY;
 // }
 
-function removeTags(e) {
+function removeTags() {
   var badgeContainer = document.querySelector('.badge-container');
   var theSearchbar = document.querySelector('.msearch')
+  row.classList.remove('row-open')
+  row.classList.add('mbt')
+  badgeContainer.classList.remove('mbt')
   if (theSearchbar) theSearchbar.remove()
   if (badgeContainer) badgeContainer.remove();
-  row.href = `/tracks/${id}/napster`
+}
+
+function reopenRow() {
+  row.classList.add('row-open')
+  row.classList.remove('mbt')
+  appendTags();
+  row.insertAdjacentHTML('afterend', searchbar);
+}
+
+function manageTags() {
+  if (row.classList.value.includes('row-open')) {
+    // add tags if suggestions
+    // store tags somewhere in HTML
+    removeTags();
+  } else {
+    reopenRow();
+  }
+}
+
+function removeListener() {
+  row.removeEventListener('click', manageTags)
 }
 
 function appendTags() {
-  var tags = suggestions.map(e => `
+  var suggestionsSerialized = row.dataset.suggestions.split('$$')
+  var tags = suggestionsSerialized.map(e => `
     <form action="/tracks/${id}/tag" method="post" data-remote="true" id="tag-${e}">
       <input type="hidden" name="tag" id="${e}" value="${e}">
       <button type="submit" class="mtag">${e}</button>
     </form>
   `).join('')
   row.insertAdjacentHTML('afterend', `<div class="badge-container" style="margin-top: 16px">${tags}</div>`)
+
+  var badgeContainer = document.querySelector('.badge-container');
+  badgeContainer.classList.add('mbt')
 }
 
 function ntm() {
+  row.classList.remove('mbt')
+  closeIcon.addEventListener('click', removeListener)
+  row.dataset.suggestions = suggestions
   row.classList.toggle('row-open')
   row.href = ""
-  if (row.classList.value.includes('row-open')) row.insertAdjacentHTML('afterend', searchbar)
-  row.addEventListener('click', removeTags)
+  if (suggestions[0] != "") appendTags();
+  row.insertAdjacentHTML('afterend', searchbar)
+  row.addEventListener('click', manageTags)
 }
 
 ntm();
-if (suggestions[0] != "") appendTags();

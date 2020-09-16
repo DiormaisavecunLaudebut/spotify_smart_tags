@@ -32,7 +32,7 @@ class TracksController < ApplicationController
     @id = params['track_id']
     track = Track.find(@id)
     tags = track.get_suggestions
-    @suggestions = tags.nil? ? "" : tags.reject { |i| track.tag_list.include?(i) }.sample(4).join('$$')
+    @suggestions = tags.nil? ? "" : tags.reject { |i| track.tag_list.include?(i.downcase.capitalize) }.sample(4).join('$$')
 
     respond_to do |format|
       format.html { redirect_to lior_path }
