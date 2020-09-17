@@ -19,6 +19,9 @@
 @import "collapse";
 @import "select-track";
 @import "bulk-tag-modal";
+@import "account";
+@import "notification";
+@import "achievements";
 
 html, body {
   background: $mydark;
@@ -59,7 +62,7 @@ a:hover {
 }
 
 .inactive-color {
-  color: rgb(179, 179, 179)
+  color: $mgray;
 }
 
 .line-clamp {

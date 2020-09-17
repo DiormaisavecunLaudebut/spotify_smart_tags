@@ -1,0 +1,45 @@
+.user-profile-pic {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.account-container {
+  padding: 30px 40px 0 40px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.account-container2 {
+  margin: 0 20px;
+  margin-top: 40px;
+}
+
+.account-option {
+  width: 20px;
+  height: 20px;
+  background: black;
+  border: 2px solid gray;
+  z-index: 10;
+}
+
+.option-checked {
+  position: absolute;
+  top: 2px;
+  left: 0px;
+  font-size: 22px;
+}
+
+.opacity0 {
+  opacity: 0;
+}
+
+.font0 {
+  font-size: 0;
+}
+
+.m20 {
+  margin: 0 20px;
+}

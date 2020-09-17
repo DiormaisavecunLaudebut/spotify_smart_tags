@@ -4,7 +4,6 @@ const errorMessage = document.getElementById('error-message')
 
 if (publicCheckbox) publicCheckbox.checked = false
 
-
 const checkOptions = (e) => {
   const publicOption = document.getElementById('myonoffswitch0').checked;
   const collaborativeOption = document.getElementById('myonoffswitch1').checked;
@@ -14,6 +13,7 @@ const checkOptions = (e) => {
   const check2 = publicOption == true && collaborativeOption == false && target == "Collaborative"
   if (check1 || check2) {
     e.preventDefault();
+    console.log('hi')
     errorMessage.classList.remove('d-none')
   } else {
     if (errorMessage) errorMessage.classList.add('d-none');
@@ -21,7 +21,9 @@ const checkOptions = (e) => {
 }
 
 const managePlaylistCreationOptions = () => {
-  toggles.forEach(toggle => toggle.addEventListener('click', checkOptions))
+  if (!window.location.href.match('account')) {
+    toggles.forEach(toggle => toggle.addEventListener('click', checkOptions))
+  }
 }
 
 

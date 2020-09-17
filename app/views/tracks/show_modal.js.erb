@@ -83,6 +83,7 @@ function closeTrackModal() {
   resetModalDetails();
   setTimeout(function dnone() { modal.classList.add('d-none') }, 300)
   enableScroll();
+
   closeIcon.removeEventListener('click', closeTrackModal)
   removeTagOption.removeEventListener('click', playOption)
 }
@@ -90,6 +91,7 @@ function closeTrackModal() {
 function addTrackDetails() {
   var badges = tags.map(e => `<div class="mtag-small tag-primary mr-1 mb-1">${e}</div>`).join('')
 
+  covers.forEach(cover => cover.style.zIndex = 0)
   modal.dataset.trackId = trackId
   addTagOption.href = `/tracks/${trackId}/napster`
   trackName.innerText = name

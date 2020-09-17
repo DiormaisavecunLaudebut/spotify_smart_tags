@@ -10,6 +10,9 @@ class PagesController < ApplicationController
     @trackland_playlists = current_user.trackland_playlists
   end
 
+  def account
+  end
+
   def lior
     @url = build_spotify_code_url
   end

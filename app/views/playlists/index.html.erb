@@ -5,7 +5,9 @@
     subtitle: "#{playlist.track_count} tracks",
     cover: playlist.cover_url,
     path: playlist_path(playlist),
-    id: playlist.id
+    id: playlist.id,
+    actual: playlist.tracks.select(&:is_tag).count,
+    max: playlist.tracks.count
    %>
 
 <% end %>

@@ -2,19 +2,22 @@ var tracksString = "<%= @tracks %>"
 var cardBody = document.getElementById("tasoeur")
 var trackCards = ""
 var tracks = tracksString.split('$$').map(e => e.split('**'))
+var chevron = cardBody.closest('.card').querySelector('.fa-chevron-down')
 
 function cleanZone() {
   cardBody.firstElementChild.remove();
   cardBody.classList.remove('card-body-flex');
   const cardHeader = cardBody.closest('.card').querySelector('a')
   cardHeader.href = ""
+  cardHeader.firstElementChild.classList.remove('mbt')
+  chevron.style.transform = "rotate(180deg)"
 }
 
 function appendTracks() {
   cleanZone();
   tracks.forEach(track => { trackCards += trackCard(track) })
   cardBody.insertAdjacentHTML('afterbegin', trackCards)
-  updateDots();
+  listenCoverClick()
 }
 
 appendTracks();

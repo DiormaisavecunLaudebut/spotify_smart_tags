@@ -2,11 +2,13 @@
 <div class="my-navbar d-flex justify-content-around">
 
   <div class="my-navbar-item" >
-    <%= link_to sptags_path do %>
-      <div class="d-flex align-items-center my-navbar-content justify-content-center">
-        <div class="d-flex align-items-center justify-content-center flex-column">
-          <i class="fas fa-tag <%= "active-color" if  params[:controller] == 'pages'%>" ></i>
-          <p class="<%= "active-color" if  params[:controller] == 'pages'%>">Tag</p>
+    <%= link_to playlists_path do %>
+      <% color = params[:controller] == 'playlists' ? 'text-mprimary' : 'inactive-color' %>
+      <% background =  'navbar-item-selected' if params[:controller] == 'playlists' %>
+      <div class="d-flex align-items-center my-navbar-content justify-content-center <%= background %> ">
+        <div style="height: 100%" class="d-flex align-items-center justify-content-center flex-column">
+          <i class="fas fa-compact-disc <%= color %> "></i>
+          <p class="mnavbar-text <%= color %> ">Playlists</p>
         </div>
       </div>
     <% end %>
@@ -14,24 +16,42 @@
 
   <div class="my-navbar-item" >
     <%= link_to root_path do %>
-      <div class="d-flex align-items-center my-navbar-content justify-content-center">
-        <div class="d-flex align-items-center justify-content-center flex-column">
-          <i class="fas fa-home text-white"></i>
-          <p>Home</p>
+      <% color = params[:controller] == 'pages' && params[:action] != 'account' ? 'text-mprimary' : 'inactive-color' %>
+      <% background = 'navbar-item-selected' if params[:controller] == 'pages' && params[:action] != 'account' %>
+      <div class="d-flex align-items-center my-navbar-content justify-content-center <%= background %> ">
+        <div style="height: 100%" class="d-flex align-items-center justify-content-center flex-column">
+          <i class="fas fa-home <%= color %> "></i>
+          <p class="mnavbar-text <%= color %> ">Home</p>
         </div>
       </div>
     <% end %>
   </div>
 
-    <div class="my-navbar-item" >
-      <%= link_to playlists_path do %>
-        <div class="d-flex align-items-center my-navbar-content justify-content-center">
-          <div class="d-flex align-items-center justify-content-center flex-column">
-            <i class="fas fa-search text-white"></i>
-            <p>Search</p>
-          </div>
+  <div class="my-navbar-item" >
+    <%= link_to sptags_path do %>
+      <% color = params[:controller] == 'sptags' ? 'text-mprimary' : 'inactive-color' %>
+      <% background = 'navbar-item-selected' if params[:controller] == 'sptags' %>
+      <div class="d-flex align-items-center my-navbar-content justify-content-center <%= background %> ">
+        <div style="height: 100%" class="d-flex align-items-center justify-content-center flex-column">
+          <i class="fas fa-tag <%= color %> " ></i>
+          <p class="mnavbar-text <%= color %> ">Tags</p>
         </div>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="my-navbar-item" >
+    <%= link_to account_path do %>
+      <% color = params[:controller] == 'pages' && params[:action] == 'account' ? 'text-mprimary' : 'inactive-color' %>
+      <% background = 'navbar-item-selected' if params[:controller] == 'pages' && params[:action] == 'account' %>
+      <div class="d-flex align-items-center my-navbar-content justify-content-center <%= background %> ">
+        <div style="height: 100%" class="d-flex align-items-center justify-content-center flex-column">
+          <i class="fas fa-user <%= color %>"></i>
+          <p class="mnavbar-text <%= color %> ">Account</p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
 
 </div>

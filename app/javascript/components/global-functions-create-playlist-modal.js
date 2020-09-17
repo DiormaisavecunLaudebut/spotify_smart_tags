@@ -22,6 +22,9 @@ function switchClass(e) {
 }
 
 function openCreatePlaylistModal(e) {
+  var covers = document.querySelectorAll('.track-select-background')
+  covers.forEach(cover => cover.style.zIndex = 0)
+
   modal.classList.remove('d-none')
   modal.style.transform = `translate(0, -${position - window.scrollY}px)`
   document.querySelectorAll('.m-input').forEach(input => {

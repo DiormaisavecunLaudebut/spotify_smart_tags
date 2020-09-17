@@ -1,20 +1,98 @@
 var tracksString = "<%= @tracks %>"
 var tagName = "<%= @tag_name %>"
+var subTagsString = "<%= @subtags %>"
 var cardBody = document.getElementById(tagName)
 var trackCards = ""
 var tracks = tracksString.split('$$').map(e => e.split('**'))
+var subtags = subTagsString.split('$$').map(e => e.split('**'))
+var hiddenSubfilters = document.getElementById('hidden-subfilters')
+
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
+function filterTracks(subfilters) {
+  var appliedFilters = []
+
+  tracks.forEach((track) => {
+    subfilters.forEach((subfilter) => {
+      if (track.includes(subfilter) && !appliedFilters.includes(track)) appliedFilters.push(track)
+    })
+  })
+  return appliedFilters
+}
 
 function cleanZone() {
+  const cardHeader = cardBody.closest('.card').querySelector('a')
+  const chevron = cardBody.closest('.card').querySelector('.fa-chevron-down')
+
   cardBody.firstElementChild.remove();
   cardBody.classList.remove('card-body-flex');
-  const cardHeader = cardBody.closest('.card').querySelector('a')
+  chevron.style.transform = "rotate(180deg)"
+
+  cardHeader.firstElementChild.classList.remove('mbt')
   cardHeader.href = ""
 }
 
+function applyFilter(e) {
+  var tagName = e.currentTarget.innerText.split(' ')[0].toLowerCase().capitalize()
+
+  if (e.currentTarget.classList.value.includes('tag-primary')) {
+    var subfiltersString = hiddenSubfilters.dataset.subfilters
+    hiddenSubfilters.dataset.subfilters = subfiltersString.replace(`${tagName},`, '')
+  } else {
+    hiddenSubfilters.dataset.subfilters += tagName + ","
+  }
+
+  var subfilters = hiddenSubfilters.dataset.subfilters.split(',')
+  var newTracks = filterTracks(subfilters)
+  var rows = cardBody.querySelectorAll('.row-container')
+  var filteredTracks = newTracks.map(track => trackCard(track)).join('')
+
+  rows.forEach(row => row.remove())
+  e.currentTarget.classList.toggle('text-white');
+  e.currentTarget.classList.toggle('tag-primary');
+
+  cardBody.insertAdjacentHTML('beforeend', filteredTracks)
+}
+
+function appendLastTags() {
+  var tagContainer = document.querySelector('.small-tags-container')
+  var badges = subtags.slice(5, subtags.length).map(tag => `<div class="mtag-small text-white mr-2 mb-1">${`${tag[0]} (${tag[1]})` }</div>`).join('')
+  tagContainer.insertAdjacentHTML('beforeend', `<div class="small-tags-container">${badges}</div>`)
+
+  document.querySelector('.see-all-link').remove()
+  var smallTags = Array.from(document.querySelectorAll('.mtag-small'))
+  var newSmallTags = smallTags.slice(6, smallTags.length)
+  newSmallTags.forEach(tag => tag.addEventListener('click', applyFilter))
+}
+
+function appendSeeAllLink() {
+  tagContainer = document.querySelector('.small-tags-container')
+
+  tagContainer.insertAdjacentHTML('afterend', `<p class="see-all-link">See all</p>`)
+  var seeAllLink = document.querySelector('.see-all-link')
+
+  seeAllLink.addEventListener('click', appendLastTags)
+}
+
+function appendFirstTags() {
+  var badges = subtags.slice(0, 5).map(tag => `<div class="mtag-small text-white mr-2 mb-1">${`${tag[0]} (${tag[1]})` }</div>`).join('')
+
+  cardBody.insertAdjacentHTML('afterbegin', `<div class="small-tags-container">${badges}</div>`)
+
+  document.querySelectorAll('.mtag-small').forEach(tag => tag.addEventListener('click', applyFilter))
+
+  if (subtags.length > 5) appendSeeAllLink()
+}
+
 function appendTracks() {
-  cleanZone();
+  cleanZone()
+  appendFirstTags()
+
   tracks.forEach(track => { trackCards += trackCard(track) })
-  cardBody.insertAdjacentHTML('afterbegin', trackCards)
+  cardBody.insertAdjacentHTML('beforeend', trackCards)
+
   listenCoverClick()
 }
 

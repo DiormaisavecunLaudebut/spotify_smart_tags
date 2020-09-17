@@ -1,5 +1,5 @@
 .my-navbar {
-  height: 48px;
+  height: 56px;
   background: $mydarklight;
   position: fixed;
   bottom: 0;
@@ -9,9 +9,13 @@
 
 .my-navbar-item {
   height: 100%;
-  flex: 1 1 0%;
+  width: inherit;
 }
 
 .my-navbar-content {
   height: 100%;
+}
+
+.mnavbar-text {
+  align-self: flex-end;
 }

@@ -40,6 +40,8 @@ import { listenEllipsis } from '../components/track-modal'
 import { disableScroll, enableScroll } from '../components/manage-scroll'
 import { listenCoverClick } from '../components/select-track'
 import { listenTagModal, closeTagModal } from '../components/tag-modal'
+import { listenAccountToggles } from '../components/account-connectors'
+import { listenOptions } from '../components/account-options'
 
 autocomplete()
 // trackDropdown();
@@ -51,6 +53,8 @@ listenBadgeClick()
 listenSearchFocus()
 listenEllipsis()
 listenTagModal()
+listenAccountToggles();
+listenOptions();
 
 if (window.location.href.match(/playlists\/\d+/)) {
   const closeIcon = document.querySelector('.close-icon.tag-modal-icon')

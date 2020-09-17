@@ -271,6 +271,7 @@ DEPENDENCIES
   httparty
   jbuilder (~> 2.7)
   listen (~> 3.2)
+  nokogiri
   open_uri_redirections
   pg (>= 0.18, < 2.0)
   pry-byebug

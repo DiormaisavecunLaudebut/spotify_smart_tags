@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_14_100059) do
+ActiveRecord::Schema.define(version: 2020_09_17_190300) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -161,6 +161,7 @@ ActiveRecord::Schema.define(version: 2020_09_14_100059) do
     t.string "status", default: "amateur", null: false
     t.string "connectors", default: [], array: true
     t.string "request_tags", default: [], array: true
+    t.boolean "filter_all", default: false
     t.index ["provider"], name: "index_users_on_provider"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid"], name: "index_users_on_uid"

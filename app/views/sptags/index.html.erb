@@ -1,3 +1,8 @@
+<h1 class="big-title text-white" style="padding:  18px 18px 10px 18px">
+  You have <%= @untagged_tracks_count %> untagged tracks,
+  <span class="big-title text-mprimary"> let's tag them! </span>
+</h1>
+
 <div id="bulk-tag" class="primary-btn btn-fixed d-none" style="z-index: 100"></div>
 
 <div class="accordion" id="accordionExample">
@@ -21,3 +26,4 @@
 <%= render 'shared/bulk-tag-modal', tags: @modal_tags %>
 
 <div data-list-tags="<%= @user_tags %>" id="hidden-list-tag" class="d-none"></div>
+<div data-subfilters="" id="hidden-subfilters" class="d-none"></div>

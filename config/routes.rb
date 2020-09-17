@@ -7,8 +7,11 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { registrations: "registrations" }
 
+  post 'filter-all', to: 'users#filter_all_option', as: :filter_all
+
   root to: 'pages#home'
   get 'lior', to: 'pages#lior', as: :lior
+  get 'account', to: 'pages#account', as: :account
   get 'auth/spotify/callback', to: 'spotify#gather_user_data_from_spotify'
   post 'user/gather-data', to: 'spotify#gather_user_data_from_spotify', as: :fetch_spotify_data
   post 'create/playlist', to: 'playlists#create_spotify_playlist', as: :create_spotify_playlist

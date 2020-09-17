@@ -1,6 +1,6 @@
 # Additional translations at https://github.com/heartcombo/devise/wiki/I18n
 
-en:
+fr:
   devise:
     confirmations:
       confirmed: "Votre adresse e-mail a été confirmée avec succès."
@@ -9,10 +9,10 @@ en:
     failure:
       already_authenticated: "Vous êtes déjà connecté."
       inactive: "Votre compte n'est pas encore activé."
-      invalid: "% {Authentication_keys} ou mot de passe non valide."
+      invalid: "Username ou mot de passe non valide."
       locked: "Ton compte est bloqué."
       last_attempt: "Vous avez encore une tentative avant que votre compte ne soit verrouillé."
-      not_found_in_database: "% {Authentication_keys} ou mot de passe non valide."
+      not_found_in_database: "Username ou mot de passe non valide."
       timeout: "Votre session a expiré. Veuillez vous reconnecter pour continuer."
       unauthenticated: "Vous devez vous connecter ou vous inscrire avant de continuer."
       unconfirmed: "Vous devez confirmer votre adresse e-mail avant de continuer."
@@ -28,7 +28,7 @@ en:
       password_change:
         subject: "Mot de passe changé"
     omniauth_callbacks:
-      failure: "Impossible de vous authentifier auprès de% {kind} car \"%{raison}\"."
+      failure: "Impossible de vous authentifier auprès de %{kind} car \"%{raison}\"."
       success: "Authentification réussie du compte %{kind}."
     passwords:
       no_token: "Vous ne pouvez pas accéder à cette page sans venir d'un e-mail de réinitialisation de mot de passe. Si vous venez d'un e-mail de réinitialisation de mot de passe, assurez-vous d'avoir utilisé l'URL complète fournie."

@@ -7,9 +7,18 @@ class SptagsController < ApplicationController
   end
 
   def show_tracks
+    tags = {}
     @tag_name = params['sptag_id'].match(/(.*)\//)[1]
     tracks_object = current_user.tracks_tagged_with(@tag_name)
     @tracks = tracks_object.map { |i| helpers.serialize_track_info(i) }.join('$$')
+
+    tracks_object.each do |track|
+      track.tag_list.each do |tag|
+        tags[tag].nil? ? tags[tag] = 1 : tags[tag] += 1
+      end
+    end
+
+    @subtags = tags.to_a.sort_by(&:last).reverse.map { |i| i.join('**') }.join('$$')
 
     respond_to do |format|
       format.html { redirect_to sptags_path }

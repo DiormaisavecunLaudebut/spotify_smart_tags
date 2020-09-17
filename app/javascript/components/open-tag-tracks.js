@@ -15,12 +15,17 @@ const openTagTracks = () => {
   cardHeaders.forEach(el => el.addEventListener('click', event => {
     const collapse = event.currentTarget.closest('.card').querySelector('.collapse')
     const cardBody = collapse.firstElementChild
+    const chevron = cardBody.closest('.card').querySelector('.fa-chevron-down')
 
     collapse.classList.toggle('show');
     if (!cardBody.classList.value.includes('data-loaded')) {
       cardBody.insertAdjacentHTML('afterbegin', spinner);
     } else {
+      const cardHeader = cardBody.closest('.card').querySelector('.card-header')
       const backgrounds = cardBody.querySelectorAll('.track-selected')
+
+      chevron.style.transform = ""
+      cardHeader.classList.toggle('mbt')
       backgrounds.forEach(background => unselectTrack(background))
     }
     cardBody.classList.add('data-loaded');

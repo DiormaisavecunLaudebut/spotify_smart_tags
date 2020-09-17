@@ -1,0 +1,24 @@
+.mnotification {
+  top: 20px;
+  right: 20px;
+  width: 300px;
+  position: fixed;
+  min-height: 50px;
+  height: fit-content;
+  z-index: 10000;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  background: $mprimarydark;
+  padding: 12px;
+}
+
+.fa-times {
+  font-size: 24px;
+  align-self: flex-start;
+}
+
+.notification-text {
+  font-size: 14px;
+  flex-grow: 1;
+}

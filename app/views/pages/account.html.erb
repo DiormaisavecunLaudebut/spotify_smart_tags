@@ -1,0 +1,59 @@
+<div class="account-container">
+  <img class="user-profile-pic" src=" <%= pretty_images.sample %> " alt="">
+  <h1 class="big-title mt-3 mb-0 text-white"> <%= current_user.username.capitalize %> </h1>
+  <p class="" style="color: #c7c7c7;">Member since <%= current_user.created_at.strftime("%B %d, %Y") %> </p>
+</div>
+
+<div class="account-container2 mbt">
+  <div class="d-flex align-items-center mb-3">
+    <i class="fas fa-share-alt inactive-color"></i>
+    <h3 class="small-title text-white ml-2 mb-0">Connected Apps</h3>
+  </div>
+
+  <div style="margin-left: 24px;">
+    <% ['Spotify', 'Deezer', 'Apple Music'].each_with_index do |name, index| %>
+      <% index = index.to_s + name %>
+      <div class="d-flex justify-content-between align-items-center mb-2" style="width: fit-content;">
+        <%= render 'shared/toggle-switch', index: index, name: name %>
+        <p class="active-color" style="margin: -4px 0 0 20px"><%= name %></p>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+  <div class="d-flex align-items-center mt-3 mb-3" style="margin: 0 20px;">
+    <i class="fas fa-cog inactive-color"></i>
+    <h3 class="small-title text-white ml-2 mb-0">Options</h3>
+  </div>
+
+  <%= form_with(url: '/filter-all', method: 'post', local: false, class: 'd-flex m20 mb-3', id: 1) do %>
+    <div class="d-flex align-items-center" style="position: relative;">
+      <%= submit_tag("", class: "account-option #{'opacity0' if current_user.filter_all}", id: 'filter-all-checkbox') %>
+        <i class="fas fa-check option-checked <%= 'font0' unless current_user.filter_all %> "></i>
+      <p class="active-color ml-2">Search among everyone's tracks</p>
+    </div>
+  <% end %>
+
+  <%= form_with(url: '', method: 'post', local: false, class: 'd-flex m20 mb-3 option-row', id: 2) do %>
+    <div class="d-flex align-items-center" style="position: relative;">
+      <div class="account-option"></div>
+        <i class="fas fa-check option-checked font0 "></i>
+      <p class="active-color ml-2">Daily Recommendation</p>
+    </div>
+  <% end %>
+
+  <%= form_with(url: '', method: 'post', local: false, class: 'd-flex mbt m20 pb-3 option-row', id: 3) do %>
+    <div class="d-flex align-items-center" style="position: relative;">
+      <div class="account-option"></div>
+        <i class="fas fa-check option-checked font0 "></i>
+      <p class="active-color ml-2">Prevent me from listening shitty stuff</p>
+    </div>
+  <% end %>
+
+
+<%= link_to destroy_user_session_path, method: :delete do %>
+  <div class="d-flex align-items-center mt-3 mb-4" style="margin: 0 20px;">
+    <i class="fas fa-sign-out-alt inactive-color"></i>
+    <h3 class="small-title text-white ml-2 mb-0">Sign out</h3>
+  </div>
+<% end %>
