@@ -6,6 +6,9 @@ class PlaylistsController < ApplicationController
     playlist = Playlist.find(params['id'])
     @tracks = playlist.tracks
     @user_tags = current_user.sptags.map(&:name).join(' ')
+
+    @sptags = current_user.sptags.map { |sptag| [sptag.name, sptag.track_count] }.sort_by(&:last).reverse
+    @modal_tags = @sptags.first(6).map(&:first)
   end
 
   def index

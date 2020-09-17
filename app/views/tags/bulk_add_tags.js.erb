@@ -1,0 +1,20 @@
+var trackIds = "<%= @ids %>".split('$$')
+
+function updateTagCount(id) {
+  var track = document.querySelector(`[data-track-id='${id}'`)
+  var badge = track.querySelector('.mtag-small')
+  var tagCount = parseInt(badge.innerText.split(' ')[0]) + 1
+
+  badge.innerText = `${tagCount} TAGS`
+}
+
+function resetAndClose() {
+  trackIds.forEach(id => updateTagCount(id))
+
+  var tracksSelected = document.querySelectorAll('.track-selected')
+
+  closeTagModal()
+  tracksSelected.forEach(track => unselectTrack(track))
+}
+
+resetAndClose();

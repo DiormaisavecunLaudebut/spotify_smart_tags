@@ -2,7 +2,8 @@
 
 <div class="row-container" data-track-id="<%= track_id if tag_list %>">
 
-  <div class="row-cover" style="background-image: url(<%= cover %>)"></div>
+  <img src=" <%= cover %> " class="row-cover"></img>
+  <div class="track-select-background" style="left: 16px;"><i class="fas fa-check"></i></div>
   <%= link_to track_show_tags_path(track_id), class: "link-row", remote: true do %>
 
     <div class="row-details">

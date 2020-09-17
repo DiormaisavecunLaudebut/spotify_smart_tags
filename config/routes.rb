@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get 'filter/tracks', to: 'tracks#filter_tracks', as: :filter_tracks
   get 'utaggedtracks', to: 'sptags#show_untagged_tracks', as: :show_untagged_tracks
   get 'tag/select', to: 'tags#select_tag', as: :select_tag
+  post 'add-tags', to: 'tags#bulk_add_tags', as: :add_tags
 
   resources :sptags, only: [:index] do
     get 'showtracks', to: 'sptags#show_tracks'

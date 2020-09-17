@@ -18,9 +18,6 @@ function trackCard(track) {
         tagList         =     track.slice(5, track.length),
         badges          =     tagList.map(e => `<span class="badge badge-pill mr-1 badge-light">${e}</span>`).join('')
   const subtitle = tags == '' ? 'No tag' : pluralise('tag', tagList.length)
-  if (name == "Cola - Club Mix") {
-    //console.log(tagList)
-  }
   const card = `
 <div class="row-container" style="padding: 0;" data-track-id="${id}">
 <img class="row-cover" src="${cover_url}" alt="">

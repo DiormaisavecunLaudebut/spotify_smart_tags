@@ -8,7 +8,7 @@ var row = document.getElementById('add-tag')
 
 function insertTag() {
   row.dataset.suggestions = row.dataset.suggestions.split('$$').filter(e => e != tagName).join('$$')
-  var tagCount = badge.innerText.split(' ')[0] + 1
+  var tagCount = parseInt(badge.innerText.split(' ')[0]) + 1
   badge.innerText = `${tagCount} TAGS`
   tag.classList.add('tag-transition')
   tagsContainer.insertAdjacentHTML('beforeend', `<div class="mtag-small tag-primary mr-1 mb-1">${tagName}</div>`)

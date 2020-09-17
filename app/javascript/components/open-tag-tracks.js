@@ -1,4 +1,5 @@
 import { updateDots } from '../components/track-dropdown'
+import { unselectTrack } from '../components/select-track'
 
 const cardHeaders = Array.from(document.querySelectorAll('.card-header'));
 const spinner = `
@@ -15,29 +16,15 @@ const openTagTracks = () => {
     const collapse = event.currentTarget.closest('.card').querySelector('.collapse')
     const cardBody = collapse.firstElementChild
 
-    // console.log(event.currentTarget)
-    // console.log('collapse', collapse)
-    // console.log('cardBody', cardBody)
     collapse.classList.toggle('show');
-    if (!cardBody.classList.value.includes('data-loaded')) cardBody.insertAdjacentHTML('afterbegin', spinner);
+    if (!cardBody.classList.value.includes('data-loaded')) {
+      cardBody.insertAdjacentHTML('afterbegin', spinner);
+    } else {
+      const backgrounds = cardBody.querySelectorAll('.track-selected')
+      backgrounds.forEach(background => unselectTrack(background))
+    }
     cardBody.classList.add('data-loaded');
   }))
 }
 
-// const callback = function(mutationsList, observer) {
-//   for(let mutation of mutationsList) {
-//     if (mutation.addedNodes.length > 1 && mutation.addedNodes[1].classList.value.includes('row-container')) {
-//       updateDots();
-//     }
-//   }
-// };
-
-
-// const observer = new MutationObserver(callback);
-// const config = { attributes: true, childList: true, subtree: true }
-
-// const observeDOM = () => {
-//   observer.observe(document, config)
-// }
-
-export { openTagTracks }
+export { openTagTracks, unselectTrack }

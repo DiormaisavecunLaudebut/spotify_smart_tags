@@ -1,4 +1,4 @@
-<% track = Track.find(32) %>
+<div id="bulk-tag" class="primary-btn btn-fixed d-none" style="z-index: 100"></div>
 
 <% @tracks.each do |track| %>
   <%= render 'shared/row',
@@ -12,5 +12,7 @@
 <% end %>
 
 <%= render 'shared/track-modal'%>
+<%= render 'shared/bulk-tag-modal', tags: @modal_tags %>
 
 <div data-list-tags="<%= @user_tags %>" id="hidden-list-tag" class="d-none"></div>
+

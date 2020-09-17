@@ -8,14 +8,6 @@ var searchbar = `
 </div>`
 var closeIcon = document.querySelector('.close-icon');
 
-// window.onscroll = function(e) {
-//   // print "false" if direction is down and "true" if up
-//   console.log(window.scrollY)
-
-//   console.log(this.oldScroll > this.scrollY);
-//   this.oldScroll = this.scrollY;
-// }
-
 function removeTags() {
   var badgeContainer = document.querySelector('.badge-container');
   var theSearchbar = document.querySelector('.msearch')
@@ -35,8 +27,6 @@ function reopenRow() {
 
 function manageTags() {
   if (row.classList.value.includes('row-open')) {
-    // add tags if suggestions
-    // store tags somewhere in HTML
     removeTags();
   } else {
     reopenRow();

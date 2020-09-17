@@ -1,0 +1,18 @@
+.bulk-tag-modal {
+  background: $mblack;
+  height: 100vh;
+  transition: all 0.3s ease;
+  padding: 44px 18px 0 18px;
+  position: relative;
+  z-index: 20;
+}
+
+.fa-tags {
+  color: $mgray;
+  font-size: 20px;
+}
+
+.bulk-tag-submit {
+  position: absolute;
+  bottom: 100px;
+}

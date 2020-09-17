@@ -1,5 +1,6 @@
 var trackSelectedCount = 0
 const bulkAction = document.getElementById('bulk-tag')
+const hiddenInput = document.getElementById('hidden-input-tracks-ids')
 
 function displayBulkAction() {
   const windowHeight = window.innerHeight
@@ -16,6 +17,10 @@ function removeBulkAction() {
 
 function selectTrack(bk) {
   var iconCheck = bk.firstElementChild
+  const trackId = bk.closest('.row-container').dataset.trackId
+
+  bk.classList.toggle('track-selected');
+  hiddenInput.value += trackId + ','
 
   if (trackSelectedCount == 0) displayBulkAction()
 
@@ -28,6 +33,11 @@ function selectTrack(bk) {
 
 function unselectTrack(bk) {
   var iconCheck = bk.firstElementChild
+  const trackId = bk.closest('.row-container').dataset.trackId
+  const regex = new RegExp(`${trackId},`);
+
+  bk.classList.toggle('track-selected');
+  hiddenInput.value = hiddenInput.value.replace(regex, '')
 
   if (trackSelectedCount == 1) removeBulkAction()
 
@@ -41,8 +51,7 @@ function unselectTrack(bk) {
 function manageSelection(e) {
   var bk = e.currentTarget
 
-  bk.classList.toggle('track-selected');
-  bk.classList.value.includes('track-selected') ? selectTrack(bk) : unselectTrack(bk)
+  bk.classList.value.includes('track-selected') ?  unselectTrack(bk) : selectTrack(bk)
 
   bulkAction.innerText = trackSelectedCount >= 2 ? `Tag ${trackSelectedCount} tracks` : "Tag 1 track"
 }
@@ -53,6 +62,4 @@ function listenCoverClick() {
   coverBackground.forEach(background => background.addEventListener('click', manageSelection))
 }
 
-export { listenCoverClick }
-
-// rgba(198, 40, 50, 1);
+export { listenCoverClick, unselectTrack }

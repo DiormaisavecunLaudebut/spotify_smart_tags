@@ -33,8 +33,8 @@ class Playlist < ApplicationRecord
 
     resp = SpotifyApiCall.delete(path, token)
 
-    puts resp
-    puts "pablior #{resp.class}"
+    # puts resp
+    # puts "pablior #{resp.class}"
 
     TracklandPlaylist.where(playlist: self, user: user).take.destroy
     destroy

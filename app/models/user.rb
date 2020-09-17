@@ -62,6 +62,15 @@ class User < ApplicationRecord
     Sptag.create(name: tag, user: self) unless sptag
   end
 
+  def add_tags(tags)
+    tags = tags.map { |tag| tag.downcase.capitalize }
+
+    tags.each do |tag|
+      sptag = Sptag.where(name: tag).take
+      Sptag.create(name: tag, user: self) unless sptag
+    end
+  end
+
   def tracks_tagged_with(tags)
     Track.tagged_with(tags).where(user: self)
   end

@@ -36,10 +36,23 @@ class Track < ApplicationRecord
     save
   end
 
+  def add_tags(tags, user)
+    tags.each do |tag|
+      sptag = user.sptags.where(name: tag).take
+      sptag ? sptag.update!(track_count: sptag.track_count += 1) : Sptag.create(name: tag, track_count: 1)
+    end
+
+    tags = tags.map { |tag| tag.downcase.capitalize }.join(', ')
+    self.is_tag = true
+    tag_list.add(tags, parse: true)
+
+    save
+  end
+
   def remove_tag(tag, user)
     tag = tag.downcase.capitalize
-    self.is_tag = false if tag_list.count.zero?
     tag_list.remove(tag)
+    self.is_tag = false if tag_list.count.zero?
     sptag = user.sptags.where(name: tag).take
     sptag.update!(track_count: sptag.track_count -= 1)
     save
