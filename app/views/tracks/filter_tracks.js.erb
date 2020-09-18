@@ -12,6 +12,7 @@ var hiddenInputName = document.getElementById('hidden-input-name');
 var inputName = document.getElementById('cpl-input-name');
 var inputDescription = document.getElementById('cpl-input-description');
 var createPlaylistBtn = document.getElementById('open-create-playlist');
+var playlistSection = document.getElementById('my-playlists');
 
 function fillInputsWithFilter() {
   var today = new Date();
@@ -59,6 +60,7 @@ function cleanZone() {
 
   if (emptyState) emptyState.remove();
   if (trackCards) trackCards.remove();
+  if (playlistSection) playlistSection.remove();
 }
 
 function changeBadgesColor() {

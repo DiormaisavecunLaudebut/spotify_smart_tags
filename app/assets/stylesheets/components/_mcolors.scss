@@ -1,0 +1,27 @@
+.background-mprimary {
+  background: $mprimary;
+}
+
+.background-msuccess {
+  background: $msuccess;
+}
+
+.background-points {
+  background: linear-gradient(90.99deg, #F2C94C 0%, #F2994A 100%);
+}
+
+.background-linear-success {
+  background: linear-gradient(90.99deg, #6FCF97 0%, #23a75a 100%);
+}
+
+.background-linear-primary {
+  background: linear-gradient(90.99deg, #e15962 0%, #C62832 100%);
+}
+
+.text-mwarning {
+  color: $mwarning;
+}
+
+.text-msuccess {
+  color: $msuccess;
+}

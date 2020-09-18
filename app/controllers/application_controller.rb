@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :refresh_user_token!
   before_action :reset_filter_tags
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :new_daily_challenge
   around_action :switch_locale
 
   def configure_permitted_parameters
@@ -13,6 +14,12 @@ class ApplicationController < ActionController::Base
 
     # For additional in app/views/devise/registrations/edit.html.erb
     devise_parameter_sanitizer.permit(:account_update, keys: [:username])
+  end
+
+  def new_daily_challenge
+    return if helpers.no_new_challenge_needed(current_user)
+
+    DailyChallenge.create(user: current_user)
   end
 
   def reset_filter_tags

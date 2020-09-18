@@ -1,12 +1,44 @@
 class TagsController < ApplicationController
-  def select_tag
-    tag = params['tag_name']
-    tags = current_user.request_tags
-    tags.include?(tag) ? tags.delete(tag) : tags.push(tag)
-    current_user.update!(request_tags: tags)
+
+  def add_tag
+    @id = params['track_id']
+    track = Track.find(@id)
+    @tag = params['tag']
+    @notification = track.is_tag
+
+    @challenge_completed = update_challenge(1)
+
+    track.add_tag(@tag, current_user) # pablior check (wtf)
+    current_user.add_tag(@tag) # this line might be useless, to check late
+
+    puts "pablior => #{@notification}"
+    respond_to do |format|
+      format.html { redirect_to lior_path }
+      format.js
+    end
+  end
+
+  def remove_tag
+    @id = params['track_id']
+    track = Track.find(@id)
+    @tag = params['tag']
+
+    track.remove_tag(@tag, current_user)
 
     respond_to do |format|
-      format.html { redirect_to root_path }
+      format.html { redirect_to lior_path }
+      format.js
+    end
+  end
+
+  def tags_suggestions
+    @id = params['track_id']
+    track = Track.find(@id)
+    tags = track.get_suggestions
+    @suggestions = tags.nil? ? "" : tags.reject { |i| track.tag_list.include?(i.downcase.capitalize) }.sample(4).join('$$')
+
+    respond_to do |format|
+      format.html { redirect_to lior_path }
       format.js
     end
   end
@@ -15,6 +47,10 @@ class TagsController < ApplicationController
     @ids = params['track-ids'].split(',').join('$$')
     tags = params['tags'].split(',')
     tracks = params['track-ids'].split(',').map { |i| Track.find(i) }
+
+    @points = tracks.select { |i| i.is_tag == false }.count * 10
+    @challenge_completed = update_challenge(tracks.count)
+
     tracks.each do |track|
       track.add_tags(tags, current_user)
       current_user.add_tags(tags)
@@ -25,4 +61,22 @@ class TagsController < ApplicationController
       format.js
     end
   end
+
+  private
+
+  def update_challenge(count)
+    challenge = current_user.daily_challenges.last
+    score = challenge.tracks_tagged
+    challenge.update!(tracks_tagged: score + count)
+
+    if challenge.tracks_tagged >= 10
+      challenge.update!(completed: true)
+      true
+    else
+      false
+    end
+  end
+
 end
+
+

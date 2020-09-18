@@ -1,4 +1,6 @@
 var trackIds = "<%= @ids %>".split('$$')
+var points = "<%= @points %>"
+var challengeCompleted = "<%= @challenge_completed %>"
 
 function updateTagCount(id) {
   var track = document.querySelector(`[data-track-id='${id}'`)
@@ -15,6 +17,12 @@ function resetAndClose() {
 
   closeTagModal()
   tracksSelected.forEach(track => unselectTrack(track))
+}
+
+if (challengeCompleted == 'true') {
+  displayChallengeNotification()
+} else if (points != "0") {
+  displayPointsNotification(points)
 }
 
 resetAndClose();

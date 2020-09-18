@@ -1,10 +1,10 @@
 var id = "<%= @id %>"
-var suggestions = "<%= @suggestions %>"
+var suggestions = "<%= j @suggestions %>"
 var row = document.getElementById('add-tag')
 var searchbar = `
 <div style=align-self: center;" class='msearch d-flex align-items-center'>
   <i class="fas fa-search"></i>
-  <input id="input-autocomplete" autocomplete="off" type="textarea" name="tags" placeholder="Search tags">
+  <input id="input-autocomplete2" autocomplete="off" type="textarea" name="tags" placeholder="Search tags">
 </div>`
 var closeIcon = document.querySelector('.close-icon');
 
@@ -59,6 +59,7 @@ function ntm() {
   row.href = ""
   if (suggestions[0] != "") appendTags();
   row.insertAdjacentHTML('afterend', searchbar)
+  autocomplete2();
   row.addEventListener('click', manageTags)
 }
 

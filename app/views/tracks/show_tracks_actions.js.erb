@@ -91,7 +91,7 @@ function closeTrackModal() {
 function addTrackDetails() {
   var badges = tags.map(e => `<div class="mtag-small tag-primary mr-1 mb-1">${e}</div>`).join('')
 
-  covers.forEach(cover => cover.style.zIndex = 0)
+  if (!window.location.href.match('playlist')) covers.forEach(cover => cover.style.zIndex = 0)
   modal.dataset.trackId = trackId
   addTagOption.href = `/tracks/${trackId}/napster`
   trackName.innerText = name

@@ -18,6 +18,31 @@ module ApplicationHelper
     )
   end
 
+  def pl_bk(ratio)
+    if ratio == 100
+      "background-linear-success"
+    elsif ratio >= 66.66
+      "background-points"
+    else
+      "background-linear-primary"
+    end
+  end
+
+  def days_ago(playlist)
+    seconds = (Time.now.to_i - Time.at(playlist.created_at.to_i).to_i)
+    seconds / 606024
+  end
+
+  def pl_cl(ratio)
+    if ratio == 100
+      "text-msuccess"
+    elsif ratio >= 66.66
+      "text-mwarning"
+    else
+      "text-mprimary"
+    end
+  end
+
   def set_cover_url(arr)
     cover_placeholder = "https://us.123rf.com/450wm/soloviivka/soloviivka1606/soloviivka160600001/59688426-music-note-vecteur-ic%C3%B4ne-blanc-sur-fond-noir.jpg?ver=6"
     arr.nil? || arr.empty? ? cover_placeholder : arr.first['url']
@@ -34,6 +59,14 @@ module ApplicationHelper
     check3 = user&.last_update('spotify') == today
 
     check1 || check2 || check3
+  end
+
+  def no_new_challenge_needed(user)
+    today = Date.today.all_day
+    check1 = user.nil?
+    check2 = user&.last_challenge == today
+
+    check1 || check2
   end
 
   def no_token_refresh_needed(user)

@@ -10,7 +10,7 @@ let newTags = [];
 let userTags = [];
 
 document.addEventListener('click', e => {
-  const dropdown = document.querySelector('.my-dropdown-menu-autocomplete');
+  const dropdown = document.querySelector('.my-dropdown-menu-autocomplete2');
   if (dropdown && e.target.id != 'input-autocomplete') {
     dropdown.remove()
     document.querySelector('.msearch').classList.remove('top-radius')
@@ -96,14 +96,14 @@ const insertTag = (e) => {
 }
 
 const appendDropdown = (tags) => {
-  const dropdownItems = tags.map(tag => `<p class="my-dropdown-item-autocomplete py-1 pl-2">${tag}</p>`).join('');
-  let dropdown =`<div class="my-dropdown-menu-autocomplete">${dropdownItems}</div>`;
+  const dropdownItems = tags.map(tag => `<p class="my-dropdown-item-autocomplete2 py-1 pl-2">${tag}</p>`).join('');
+  let dropdown =`<div class="my-dropdown-menu-autocomplete2">${dropdownItems}</div>`;
   const searchbar = document.querySelector('.msearch');
 
   searchbar.insertAdjacentHTML('afterbegin', dropdown);
   searchbar.classList.add('top-radius')
 
-  dropdown = document.querySelector('.my-dropdown-menu-autocomplete');
+  dropdown = document.querySelector('.my-dropdown-menu-autocomplete2');
   dropdown.addEventListener('click', insertTag);
 }
 
@@ -112,13 +112,13 @@ const clearSuggestions = (tags) => {
 }
 
 const addTagToDropdown = (tag) => {
-  const dropdown = document.querySelector('.my-dropdown-menu-autocomplete');
-  dropdown.insertAdjacentHTML('afterbegin',`<p class="my-dropdown-item-autocomplete py-1 pl-2">${tag}</p>`);
+  const dropdown = document.querySelector('.my-dropdown-menu-autocomplete2');
+  dropdown.insertAdjacentHTML('afterbegin',`<p class="my-dropdown-item-autocomplete2 py-1 pl-2">${tag}</p>`);
 }
 
 const suggestTagCreation = (tag) => {
-  const dropdown = document.querySelector('.my-dropdown-menu-autocomplete');
-  dropdown.insertAdjacentHTML('afterbegin',`<p class="my-dropdown-item-autocomplete create-tag py-1 pl-2">create tag <b>${tag}</b></p>`);
+  const dropdown = document.querySelector('.my-dropdown-menu-autocomplete2');
+  dropdown.insertAdjacentHTML('afterbegin',`<p class="my-dropdown-item-autocomplete2 create-tag py-1 pl-2">create tag <b>${tag}</b></p>`);
 }
 
 const updateDropdownItems = (items, tags) => {
@@ -131,22 +131,23 @@ const updateDropdownItems = (items, tags) => {
 }
 
 const filterTags = (e) => {
+  console.log(userTags)
   const inputValue = e.currentTarget.value;
   const tags = userTags.filter(tag => tag.includes(inputValue) && !usedTags.includes(tag)).sort().slice(0, 5);
-  const dropdown = document.querySelector('.my-dropdown-menu-autocomplete');
+  const dropdown = document.querySelector('.my-dropdown-menu-autocomplete2');
 
   if (dropdown) {
-    const existingItems = Array.from(document.querySelector('.my-dropdown-menu-autocomplete').children)
+    const existingItems = Array.from(document.querySelector('.my-dropdown-menu-autocomplete2').children)
     inputValue == "" ? clearSuggestions(existingItems) : updateDropdownItems(existingItems, tags)
   } else {
     appendDropdown(tags);
   }
 }
 
-const autocomplete = () => {
-  inputAutocomplete = document.getElementById('input-autocomplete');
+const autocomplete2 = () => {
+  inputAutocomplete = document.getElementById('input-autocomplete2');
   userTags = inputAutocomplete ? hiddenTags.dataset.listTags.split(' ') : null
   if (inputAutocomplete) inputAutocomplete.addEventListener('input', filterTags);
 }
 
-export { autocomplete, resetTags, displayExistingBadges, addParamsToInput };
+export { autocomplete2 };

@@ -1,46 +1,7 @@
 class TracksController < ApplicationController
   skip_before_action :verify_authenticity_token, only: %i[add_tag remove_tag]
 
-  def add_tag
-    @id = params['track_id']
-    track = Track.find(@id)
-    @tag = params['tag']
-
-    track.add_tag(@tag, current_user) # pablior check (wtf)
-    current_user.add_tag(@tag) # this line might be useless, to check late
-
-    respond_to do |format|
-      format.html { redirect_to lior_path }
-      format.js
-    end
-  end
-
-  def remove_tag
-    @id = params['track_id']
-    track = Track.find(@id)
-    @tag = params['tag']
-
-    track.remove_tag(@tag, current_user)
-
-    respond_to do |format|
-      format.html { redirect_to lior_path }
-      format.js
-    end
-  end
-
-  def tags_suggestions
-    @id = params['track_id']
-    track = Track.find(@id)
-    tags = track.get_suggestions
-    @suggestions = tags.nil? ? "" : tags.reject { |i| track.tag_list.include?(i.downcase.capitalize) }.sample(4).join('$$')
-
-    respond_to do |format|
-      format.html { redirect_to lior_path }
-      format.js
-    end
-  end
-
-  def show_modal
+  def show_tracks_actions
     @id = params['track_id']
     track = Track.find(@id)
 

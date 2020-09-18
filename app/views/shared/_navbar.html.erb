@@ -3,7 +3,7 @@
 
   <div class="my-navbar-item" >
     <%= link_to playlists_path do %>
-      <% color = params[:controller] == 'playlists' ? 'text-mprimary' : 'inactive-color' %>
+      <% color = params[:controller] == 'playlists' ? 'text-white' : 'inactive-color' %>
       <% background =  'navbar-item-selected' if params[:controller] == 'playlists' %>
       <div class="d-flex align-items-center my-navbar-content justify-content-center <%= background %> ">
         <div style="height: 100%" class="d-flex align-items-center justify-content-center flex-column">
@@ -16,7 +16,7 @@
 
   <div class="my-navbar-item" >
     <%= link_to root_path do %>
-      <% color = params[:controller] == 'pages' && params[:action] != 'account' ? 'text-mprimary' : 'inactive-color' %>
+      <% color = params[:controller] == 'pages' && params[:action] != 'account' ? 'text-white' : 'inactive-color' %>
       <% background = 'navbar-item-selected' if params[:controller] == 'pages' && params[:action] != 'account' %>
       <div class="d-flex align-items-center my-navbar-content justify-content-center <%= background %> ">
         <div style="height: 100%" class="d-flex align-items-center justify-content-center flex-column">
@@ -29,7 +29,7 @@
 
   <div class="my-navbar-item" >
     <%= link_to sptags_path do %>
-      <% color = params[:controller] == 'sptags' ? 'text-mprimary' : 'inactive-color' %>
+      <% color = params[:controller] == 'sptags' ? 'text-white' : 'inactive-color' %>
       <% background = 'navbar-item-selected' if params[:controller] == 'sptags' %>
       <div class="d-flex align-items-center my-navbar-content justify-content-center <%= background %> ">
         <div style="height: 100%" class="d-flex align-items-center justify-content-center flex-column">
@@ -42,7 +42,7 @@
 
   <div class="my-navbar-item" >
     <%= link_to account_path do %>
-      <% color = params[:controller] == 'pages' && params[:action] == 'account' ? 'text-mprimary' : 'inactive-color' %>
+      <% color = params[:controller] == 'pages' && params[:action] == 'account' ? 'text-white' : 'inactive-color' %>
       <% background = 'navbar-item-selected' if params[:controller] == 'pages' && params[:action] == 'account' %>
       <div class="d-flex align-items-center my-navbar-content justify-content-center <%= background %> ">
         <div style="height: 100%" class="d-flex align-items-center justify-content-center flex-column">

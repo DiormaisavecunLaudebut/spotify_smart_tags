@@ -23,6 +23,17 @@
   z-index: 1;
   border-radius: 0 0 20px 20px;
 }
+.my-dropdown-menu-autocomplete2 {
+  position: absolute;
+  width: 311px;
+  top: 38px;
+  left: -1px;
+  background: $mblack;
+  border-radius: 0px;
+  border: 1px solid white;
+  z-index: 1;
+  border-radius: 0 0 20px 20px;
+}
 
 .my-dropdown-item {
   width: 100px;
@@ -35,4 +46,11 @@
   padding: 10px 0 !important;
   border-bottom: 1px solid white;
   width: 266px;
+}
+.my-dropdown-item-autocomplete2 {
+  color: white;
+  margin-left: 38px;
+  padding: 10px 0 !important;
+  border-bottom: 1px solid white;
+  width: 236px;
 }

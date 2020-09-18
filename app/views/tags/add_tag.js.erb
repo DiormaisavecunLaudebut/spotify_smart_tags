@@ -1,10 +1,12 @@
 var tagName = "<%= @tag %>"
 var trackId = "<%= @id %>"
+var challengeCompleted = "<%= @challenge_completed %>"
 var tagsContainer = document.querySelector('.tags-container');
 var tag = document.getElementById(`tag-${tagName}`);
 var rowContainer = document.querySelector(`[data-track-id='${trackId}']`);
 var badge = rowContainer.querySelector('.mtag-small');
 var row = document.getElementById('add-tag')
+var notification = "<%= @notification %>"
 
 function insertTag() {
   row.dataset.suggestions = row.dataset.suggestions.split('$$').filter(e => e != tagName).join('$$')
@@ -16,3 +18,9 @@ function insertTag() {
 }
 
 insertTag();
+
+if (challengeCompleted == 'true') {
+  displayChallengeNotification()
+} else if (points != "0") {
+  displayPointsNotification(10)
+}

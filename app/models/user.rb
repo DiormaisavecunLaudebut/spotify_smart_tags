@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :trackland_playlists
   has_many :spotify_api_calls
   has_many :filter_requests
+  has_many :daily_challenges
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
@@ -49,6 +50,10 @@ class User < ApplicationRecord
 
   def last_update(source)
     DataUpdate.where(user: self, source: source).last&.created_at&.to_date&.all_day
+  end
+
+  def last_challenge
+    DailyChallenge.where(user: self).last&.created_at&.to_date&.all_day
   end
 
   def fetch_spotify_data

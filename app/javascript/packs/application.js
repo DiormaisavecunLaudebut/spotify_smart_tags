@@ -27,6 +27,7 @@ import "bootstrap";
 
 // import { trackDropdown, updateDots } from "../components/track-dropdown";
 import { autocomplete } from "../components/autocomplete-tags"
+import { autocomplete2 } from "../components/autocomplete2"
 import { openTagTracks, unselectTrack } from '../components/open-tag-tracks'
 import { trackCard } from "../components/global-functions-trackCard"
 import { emptyStateHTML } from "../components/global-functions-emptyState"
@@ -42,6 +43,9 @@ import { listenCoverClick } from '../components/select-track'
 import { listenTagModal, closeTagModal } from '../components/tag-modal'
 import { listenAccountToggles } from '../components/account-connectors'
 import { listenOptions } from '../components/account-options'
+import { displayPointsNotification } from '../components/points-notification'
+import { displayChallengeNotification } from '../components/challenge-notification'
+
 
 autocomplete()
 // trackDropdown();
@@ -74,6 +78,10 @@ global.enableScroll = enableScroll
 global.listenCoverClick = listenCoverClick
 global.closeTagModal = closeTagModal
 global.unselectTrack = unselectTrack
+global.displayPointsNotification = displayPointsNotification
+global.autocomplete2 = autocomplete2
+global.displayChallengeNotification = displayChallengeNotification
+
 // Internal imports, e.g:
 // import { initSelect2 } from '../components/init_select2';
 

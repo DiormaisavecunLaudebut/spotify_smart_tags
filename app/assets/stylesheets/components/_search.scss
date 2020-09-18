@@ -16,6 +16,16 @@
   color: $mgray;
 }
 
+#input-autocomplete2 {
+  margin-left: 8px;
+  height: inherit;
+  flex-grow: 1;
+  border-radius: 40px;
+  background: none;
+  border: none !important;
+  color: $mgray;
+}
+
 .fa-search {
   color: $mgray;
   font-size: 18px;
