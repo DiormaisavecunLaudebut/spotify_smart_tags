@@ -11,7 +11,6 @@ class TagsController < ApplicationController
     track.add_tag(@tag, current_user) # pablior check (wtf)
     current_user.add_tag(@tag) # this line might be useless, to check late
 
-    puts "pablior => #{@notification}"
     respond_to do |format|
       format.html { redirect_to lior_path }
       format.js

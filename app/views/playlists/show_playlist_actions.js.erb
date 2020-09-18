@@ -10,19 +10,23 @@ var searchbar = `
   <i class="fas fa-search"></i>
   <input id="input-autocomplete2" autocomplete="off" type="textarea" name="tags" placeholder="Search tags">
 </div>`
+var seeAll = `
+<p class="playlist-modal-see-all-tags">See all</p>
+`
 
 var playlistCover = document.querySelector('.playlist-modal-cover')
 var playlistName = document.querySelector('.playlist-modal-name')
 var playlistDescription = document.querySelector('.playlist-modal-description')
-var tagContainer = document.querySelector('.tags-container')
+var tagContainer = document.querySelector('.badge-container')
 var openInSpotify = document.getElementById('playlist-modal-href')
-var modal = document.querySelector('.playlist-modal');
-var closeIcon = document.querySelector('.close-icon');
+var modal = document.querySelector('.playlist-modal')
+var closeIcon = document.querySelector('.close-icon')
 var addTagOption = document.getElementById('playlist-modal-add-tags')
 
 function resetPlaylistDetails() {
   var searchbar = document.querySelector('.msearch')
-  var badgeContainer = document.querySelector('.badge-container');
+  var badgeContainer = document.querySelector('.badge-container')
+  var seeAllLink = document.querySelector('.playlist-modal-see-all-tags')
 
   modal.style.transform = ""
   playlistCover.src = ""
@@ -33,6 +37,7 @@ function resetPlaylistDetails() {
   Array.from(tagContainer.children).forEach(e => e.remove())
   if (badgeContainer) Array.from(badgeContainer.children).forEach(e => e.remove())
   if (searchbar) searchbar.remove()
+  if (seeAllLink) seeAllLink.remove()
 }
 
 function closePlaylistModal () {
@@ -44,15 +49,50 @@ function closePlaylistModal () {
   // removeTagOption.removeEventListener('click', playOption)
 }
 
-function addPlaylistDetails() {
+function removeBades() {
+  var seeAllLink = document.querySelector('.playlist-modal-see-all-tags')
+  var badges = tags.slice(0, 4).map(e => `<div class="mtag-small tag-primary mr-1 mb-1">${e[0]} (${e[1]})</div>`).join('')
+
+  Array.from(tagContainer.children).forEach(e => e.remove())
+  tagContainer.insertAdjacentHTML('afterbegin', badges)
+
+  seeAllLink.innerText = "See all"
+
+  seeAllLink.removeEventListener('click', removeBades)
+  seeAllLink.addEventListener('click', appendLastBadges)
+}
+
+function appendLastBadges() {
+  var seeAllLink = document.querySelector('.playlist-modal-see-all-tags')
   var badges = tags.map(e => `<div class="mtag-small tag-primary mr-1 mb-1">${e[0]} (${e[1]})</div>`).join('')
+
+  seeAllLink.innerText = "See less"
+  Array.from(tagContainer.children).forEach(e => e.remove())
+  tagContainer.insertAdjacentHTML('afterbegin', badges)
+
+  seeAllLink.addEventListener('click', removeBades)
+  seeAllLink.removeEventListener('click', appendLastBadges)
+}
+
+function appendFirstBadges() {
+  var badges = tags.slice(0, 4).map(e => `<div class="mtag-small tag-primary mr-1 mb-1">${e[0]} (${e[1]})</div>`).join('')
+  tagContainer.insertAdjacentHTML('afterbegin', badges)
+
+  if (tags.length > 5) {
+    tagContainer.insertAdjacentHTML('afterend', seeAll)
+
+    var seeAllLink = document.querySelector('.playlist-modal-see-all-tags')
+    seeAllLink.addEventListener('click', appendLastBadges)
+  }
+}
+
+function addPlaylistDetails() {
+  appendFirstBadges()
 
   playlistCover.src = cover
   playlistName.innerText = name
   openInSpotify.href = href
   if (description != 'nil') playlistDescription.innerText = description
-
-  tagContainer.insertAdjacentHTML('afterbegin', badges)
 }
 
 

@@ -35,6 +35,25 @@ class PlaylistsController < ApplicationController
     end
   end
 
+  def bulk_tag
+    raise
+    playlist = params['playlist_id']
+    tags = params['tags'].split(',')
+
+    playlist.tracks.each do |track|
+      track.add_tags(tags, current_user)
+      current_user.add_tags(tags, current_user)
+    end
+
+    # @notification = track.is_tag
+    # @challenge_completed = update_challenge(1)
+
+    respond_to do |format|
+      format.html { redirect_to lior_path }
+      format.js
+    end
+  end
+
   def index
     @playlists = current_user.playlists
     @user_tags = current_user.sptags.map(&:name).join(' ')

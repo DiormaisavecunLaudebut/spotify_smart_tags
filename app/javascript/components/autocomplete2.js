@@ -63,16 +63,17 @@ const resetTags = () => {
 const addExistingTag = (element) => {
   badgeContainer = document.querySelector('.badge-container')
   const tag = element.innerHTML
-  const badge = `<div class="mtag tag-inactive">${tag}</div>`;
-
   usedTags.push(tag);
   newTags.push(tag);
   element.remove();
-  badgeContainer.insertAdjacentHTML('beforeend', badge);
   inputAutocomplete.focus();
   updateMtags();
-  listenBadgeClick();
-  Array.from(document.querySelectorAll('.mtag')).slice(-1)[0].click();
+
+  if (!window.location.href.match('playlist')) {
+    listenBadgeClick()
+    badgeContainer.insertAdjacentHTML('beforeend', badge);
+    Array.from(document.querySelectorAll('.mtag')).slice(-1)[0].click();
+  }
 }
 
 const createTag = (element) => {
