@@ -30,8 +30,9 @@ class PlaylistsController < ApplicationController
 
     playlist = Playlist.create_playlist(resp, current_user)
     TracklandPlaylist.create_playlist(current_user, params, playlist)
+    UpdateCoverUrlJob.perform_later(playlist.id, current_user.id)
 
-    DestroyPlaylistJob.set(wait: 10.minute).perform_later(current_user.id, playlist.id) if self_destroy == 'on'
+    DestroyPlaylistJob.set(wait: 24.hours).perform_later(current_user.id, playlist.id) if self_destroy == 'on'
 
     fill_playlist_with_tracks(playlist, uris)
 

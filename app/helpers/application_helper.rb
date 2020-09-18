@@ -30,7 +30,7 @@ module ApplicationHelper
 
   def days_ago(playlist)
     seconds = (Time.now.to_i - Time.at(playlist.created_at.to_i).to_i)
-    seconds / 606024
+    seconds / 606_024
   end
 
   def pl_cl(ratio)
