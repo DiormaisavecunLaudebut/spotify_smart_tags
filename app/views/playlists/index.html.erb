@@ -1,13 +1,19 @@
-<% @playlists.each do |playlist| %>
+<section id="my-playlists">
 
-  <%= render 'shared/playlist-row',
-    title: playlist.name,
-    subtitle: "#{playlist.track_count} tracks",
-    cover: playlist.cover_url,
-    path: playlist_path(playlist),
-    id: playlist.id,
-    actual: playlist.tracks.select(&:is_tag).count,
-    max: playlist.tracks.count
-   %>
+  <% @playlists.each do |playlist| %>
+    <%= render 'shared/playlist-row',
+      title: playlist.name,
+      subtitle: "#{playlist.track_count} tracks",
+      cover: playlist.cover_url,
+      path: playlist_path(playlist),
+      id: playlist.id,
+      actual: playlist.tracks.select(&:is_tag).count,
+      max: playlist.tracks.count
+     %>
+  <% end %>
 
-<% end %>
+</section>
+
+
+<%= render 'shared/playlist-modal' %>
+<div data-list-tags="<%= @user_tags %>" id="hidden-list-tag" class="d-none"></div>

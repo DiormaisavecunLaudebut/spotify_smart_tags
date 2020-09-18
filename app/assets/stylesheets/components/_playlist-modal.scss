@@ -1,0 +1,68 @@
+.playlist-modal {
+  background: $mblack;
+  height: 100vh;
+  transition: all 0.3s ease;
+  padding-top: 44px;
+  position: relative;
+  z-index: 100;
+}
+
+.playlist-modal-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.playlist-modal-cover {
+  width: 160px;
+}
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 70%;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.track-artist {
+  margin-bottom: 20px;
+  color: $mlightgray;
+}
+
+.playlist-modal-name {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 300px;
+}
+
+.modal-option {
+  height: 43px;
+  margin-top: 8px;
+  align-items: center;
+}
+
+#bulk-add-tags {
+  display: flex;
+  flex-direction: column;
+}
+
+.mbt {
+  border-bottom: 1px solid $mgray !important;
+}
+
+.options-container {
+  margin: 0 32px;
+}
+
+.tag-transition {
+  background: white;
+  visibility: 0;
+}
+
+.delete-tags-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}

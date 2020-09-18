@@ -1,0 +1,80 @@
+var id = "<%= @id %>"
+var tags = "<%= @tags %>"
+var name = "<%= @name %>"
+var href = "<%= @href %>"
+var cover = "<%= @cover %>"
+var description = "<%= @description %>"
+var tags = "<%= @tags %>".split('$$').map(e => e.split('**'))
+var searchbar = `
+<div style=align-self: center;" class='msearch d-flex align-items-center'>
+  <i class="fas fa-search"></i>
+  <input id="input-autocomplete2" autocomplete="off" type="textarea" name="tags" placeholder="Search tags">
+</div>`
+
+var playlistCover = document.querySelector('.playlist-modal-cover')
+var playlistName = document.querySelector('.playlist-modal-name')
+var playlistDescription = document.querySelector('.playlist-modal-description')
+var tagContainer = document.querySelector('.tags-container')
+var openInSpotify = document.getElementById('playlist-modal-href')
+var modal = document.querySelector('.playlist-modal');
+var closeIcon = document.querySelector('.close-icon');
+var addTagOption = document.getElementById('playlist-modal-add-tags')
+
+function resetPlaylistDetails() {
+  var searchbar = document.querySelector('.msearch')
+  var badgeContainer = document.querySelector('.badge-container');
+
+  modal.style.transform = ""
+  playlistCover.src = ""
+  playlistName.innerText = ""
+  openInSpotify.href = ""
+  if (description != 'nil') playlistDescription.innerText = ""
+
+  Array.from(tagContainer.children).forEach(e => e.remove())
+  if (badgeContainer) Array.from(badgeContainer.children).forEach(e => e.remove())
+  if (searchbar) searchbar.remove()
+}
+
+function closePlaylistModal () {
+  resetPlaylistDetails();
+  setTimeout(function dnone() { modal.classList.add('d-none') }, 300)
+  enableScroll();
+
+  closeIcon.removeEventListener('click', closePlaylistModal)
+  // removeTagOption.removeEventListener('click', playOption)
+}
+
+function addPlaylistDetails() {
+  var badges = tags.map(e => `<div class="mtag-small tag-primary mr-1 mb-1">${e[0]} (${e[1]})</div>`).join('')
+
+  playlistCover.src = cover
+  playlistName.innerText = name
+  openInSpotify.href = href
+  if (description != 'nil') playlistDescription.innerText = description
+
+  tagContainer.insertAdjacentHTML('afterbegin', badges)
+}
+
+
+
+function playAddTagOption() {
+  addTagOption.classList.toggle('mbt')
+
+  if (addTagOption.classList.value.includes('mbt')) {
+    document.querySelector('.msearch').remove();
+  } else {
+    addTagOption.insertAdjacentHTML('afterend', searchbar)
+    autocomplete2();
+  }
+}
+
+function displayPlaylistModal() {
+  addPlaylistDetails();
+  modal.classList.remove('d-none');
+  modal.style.transform = `translate(0, -${modal.offsetTop - window.scrollY}px`;
+  disableScroll();
+  closeIcon.addEventListener('click', closePlaylistModal)
+  addTagOption.addEventListener('click', playAddTagOption)
+}
+
+displayPlaylistModal()

@@ -13,7 +13,6 @@ const checkOptions = (e) => {
   const check2 = publicOption == true && collaborativeOption == false && target == "Collaborative"
   if (check1 || check2) {
     e.preventDefault();
-    console.log('hi')
     errorMessage.classList.remove('d-none')
   } else {
     if (errorMessage) errorMessage.classList.add('d-none');

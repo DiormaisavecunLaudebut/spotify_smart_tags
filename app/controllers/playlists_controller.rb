@@ -11,8 +11,33 @@ class PlaylistsController < ApplicationController
     @modal_tags = @sptags.first(6).map(&:first)
   end
 
+  def show_playlist_actions
+    @id = params['playlist_id']
+    playlist = Playlist.find(@id)
+    hash = {}
+
+    playlist.tracks.each do |track|
+      track.tag_list.each do |tag|
+        hash[tag].nil? ? hash[tag] = 1 : hash[tag] += 1
+      end
+    end
+
+    @tags = hash.to_a.map { |i| i.join('**') }.join('$$')
+
+    @name = playlist.name
+    @href = playlist.external_url
+    @cover = playlist.cover_url
+    @description = playlist.description
+
+    respond_to do |format|
+      format.html { redirect_to lior_path }
+      format.js
+    end
+  end
+
   def index
     @playlists = current_user.playlists
+    @user_tags = current_user.sptags.map(&:name).join(' ')
   end
 
   def create_spotify_playlist

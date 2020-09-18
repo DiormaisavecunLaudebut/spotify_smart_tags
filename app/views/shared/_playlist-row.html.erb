@@ -1,14 +1,25 @@
 <% ratio = actual.fdiv(max) * 100 %>
+
 <div class="row-container">
+
   <%= link_to playlist_path(id), class: 'link-row' do %>
+
     <div class="row-cover" style="background-image: url(<%= cover %>)"></div>
+
       <div class="row-details">
         <span class="row-title active-color line-clamp"><%= title %></span>
         <span class="row-subtitle"><%= subtitle %>, <span class=" <%= pl_cl(ratio) %> "> <%= actual %> </span>untagged</span>
+
         <div class="progress">
           <div class="progress-bar <%= pl_bk(ratio) %> " role="progressbar" style="width: <%= "#{ratio}%" %>;" aria-valuenow=" <%= actual %> " aria-valuemin="0" aria-valuemax=" <%= max %> "></div>
         </div>
     </div>
+
+    <%= link_to playlist_show_playlist_actions_path(id), remote: true do %>
+      <div class="mr-2 ellipsis-container">
+        <i class="fas fa-ellipsis-v inactive-color" style="position: relative;"></i>
+      </div>
+    <% end %>
   <% end %>
 </div>
 
