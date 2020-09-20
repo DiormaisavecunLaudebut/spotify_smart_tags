@@ -5,7 +5,6 @@ class PagesController < ApplicationController
   before_action :authenticate_user!
 
   def home
-    raise
     @max_filters = current_user.get_permissions[:max_filters]
     @url = build_spotify_code_url
     if current_user.filter_all
