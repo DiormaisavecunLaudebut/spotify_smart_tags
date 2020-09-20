@@ -12,6 +12,8 @@ class UpdateCoverUrlJob < ApplicationJob
     resp = SpotifyApiCall.get(path, token)
     cover_url = resp.match(/https:.+\d/)[0].strip
 
+    puts resp
+
     tlp.update!(cover_url: cover_url)
     playlist.update!(cover_url: cover_url)
   end

@@ -59,6 +59,22 @@ class ApplicationController < ActionController::Base
     token.update!(expires_at: expiration_date, code: resp['access_token'])
   end
 
+  def update_challenge(count)
+    challenge = current_user.daily_challenges.last
+    if challenge.completed
+      false
+    else
+      score = challenge.tracks_tagged
+      challenge.update!(tracks_tagged: score + count)
+      if challenge.tracks_tagged >= 10
+        challenge.update!(completed: true)
+        true
+      else
+        false
+      end
+    end
+  end
+
   def refresh_token
     path = 'https://accounts.spotify.com/api/token'
     token = false

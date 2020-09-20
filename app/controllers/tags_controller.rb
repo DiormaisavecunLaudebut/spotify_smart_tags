@@ -1,15 +1,18 @@
 class TagsController < ApplicationController
-
   def add_tag
     @id = params['track_id']
     track = Track.find(@id)
-    @tag = params['tag']
+    @tag = helpers.standardize_tags(params['tag'])
     @notification = track.is_tag
 
+    @points = 10
+    @status_changed = current_user.status_changed?(@points)
     @challenge_completed = update_challenge(1)
+    current_user.add_points(@points)
+    @status = current_user.status
 
-    track.add_tag(@tag, current_user) # pablior check (wtf)
-    current_user.add_tag(@tag) # this line might be useless, to check late
+    track.add_tag(@tag, current_user) # pablior
+    current_user.add_tag(@tag) # pablior
 
     respond_to do |format|
       format.html { redirect_to lior_path }
@@ -20,7 +23,7 @@ class TagsController < ApplicationController
   def remove_tag
     @id = params['track_id']
     track = Track.find(@id)
-    @tag = params['tag']
+    @tag = helpers.standardize_tags(params['tag'])
 
     track.remove_tag(@tag, current_user)
 
@@ -33,8 +36,8 @@ class TagsController < ApplicationController
   def tags_suggestions
     @id = params['track_id']
     track = Track.find(@id)
-    tags = track.get_suggestions
-    @suggestions = tags.nil? ? "" : tags.reject { |i| track.tag_list.include?(i.downcase.capitalize) }.sample(4).join('$$')
+    tags = helpers.standardize_tags(track.get_suggestions)
+    @suggestions = tags.nil? ? "" : tags.reject { |i| track.tag_list.include?(i.downcase) }.sample(4).join('$$')
 
     respond_to do |format|
       format.html { redirect_to lior_path }
@@ -44,11 +47,14 @@ class TagsController < ApplicationController
 
   def bulk_add_tags
     @ids = params['track-ids'].split(',').join('$$')
-    tags = params['tags'].split(',')
+    tags = helpers.standardize_tags(params['tags'].split(','))
     tracks = params['track-ids'].split(',').map { |i| Track.find(i) }
 
     @points = tracks.select { |i| i.is_tag == false }.count * 10
+    @status_changed = current_user.status_changed?(@points)
     @challenge_completed = update_challenge(tracks.count)
+    current_user.add_points(@points)
+    @status = current_user.status
 
     tracks.each do |track|
       track.add_tags(tags, current_user)
@@ -60,22 +66,4 @@ class TagsController < ApplicationController
       format.js
     end
   end
-
-  private
-
-  def update_challenge(count)
-    challenge = current_user.daily_challenges.last
-    score = challenge.tracks_tagged
-    challenge.update!(tracks_tagged: score + count)
-
-    if challenge.tracks_tagged >= 10
-      challenge.update!(completed: true)
-      true
-    else
-      false
-    end
-  end
-
 end
-
-

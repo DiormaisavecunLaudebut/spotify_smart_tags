@@ -41,6 +41,4 @@ class TracksController < ApplicationController
       format.js
     end
   end
-
-  def create_tag; end
 end

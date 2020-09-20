@@ -1,0 +1,35 @@
+<div class="user-status-modal d-none">
+  <img src="https://image.flaticon.com/icons/png/512/61/61155.png" class="close-icon"></img>
+  <h1 class="big-title text-white">Earn points by tagging tracks to <span class="text-mprimary sont-weight-bold">unlock special features</span></h1>
+  <ul>
+    <li style="color: white; font-size: 30px">
+      <h3 class="small-title text-white">Create playlist containing up to
+        <span class="text-mprimary"> <%= permissions[:max_tracks] %> tracks</span>
+      </h3>
+      <% if current_user.status != 'music geek' %>
+        <p style="margin-top: -8px; font-size: 14px"class="text-mgray">next level: <%= next_permissions(current_user.status)[:max_tracks] %></p>
+      <% end %>
+    </li>
+    <li style="color: white; font-size: 30px">
+      <h3 class="small-title text-white">Filter tracks using up to
+        <span class="text-mprimary"> <%= permissions[:max_filters] %> tags</span>
+        <% if current_user.status != 'music geek' %>
+          <p style="font-size: 14px"class="text-mgray">next level: <%= next_permissions(current_user.status)[:max_filters] %></p>
+        <% end %>
+      </h3>
+    </li>
+    <li style="color: white; font-size: 30px">
+      <h3 class="small-title text-white">Lightens your music library by automatically destroying playlists generated from Trackland
+        <span class="text-mprimary"> <%= permissions[:self_destroy] ? "Enabled" : "Disabled" %> </span>
+      </h3>
+    </li>
+    <li style="color: white; font-size: 30px">
+      <h3 class="small-title text-white">Maximum number of external app that can be connected:
+        <span class="text-mprimary"> <%= permissions[:max_connectors] %> </span>
+        <% if current_user.status != 'music geek' %>
+         <p style="font-size: 14px"class="text-mgray">next level: <%= next_permissions(current_user.status)[:max_connectors] %></p>
+        <% end %>
+      </h3>
+    </li>
+  </ul>
+</div>

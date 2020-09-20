@@ -4,8 +4,10 @@ var checkBox = document.getElementById('filter-all-checkbox');
 
 
 function styleCheckbox() {
-  iconCheck.classList.toggle('font0')
-  checkBox.classList.toggle('opacity0')
+  if (window.location.href.match('account')) {
+    iconCheck.classList.toggle('font0')
+    checkBox.classList.toggle('opacity0')
+  }
 }
 
 styleCheckbox();

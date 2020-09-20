@@ -131,7 +131,7 @@ const updateDropdownItems = (items, tags) => {
 }
 
 const filterTags = (e) => {
-  const inputValue = e.currentTarget.value;
+  const inputValue = e.currentTarget.value.toLowerCase();
   const tags = userTags.filter(tag => tag.includes(inputValue) && !usedTags.includes(tag)).sort().slice(0, 5);
   const dropdown = document.querySelector('.my-dropdown-menu-autocomplete');
 

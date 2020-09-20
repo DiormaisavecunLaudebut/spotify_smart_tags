@@ -38,7 +38,7 @@ Rails.application.routes.draw do
 
   resources :playlists, only: [:show, :index] do
     post 'create_tag', to: 'tracks#create_tag', as: :create_tag
-    get 'bulk-tag', to: 'playlists#bulk_tag', as: :bulk_tag
+    post 'add-tag', to: 'playlists#add_tag', as: :bulk_tag
     get 'modal', to: 'playlists#show_playlist_actions', as: :show_playlist_actions
   end
 end

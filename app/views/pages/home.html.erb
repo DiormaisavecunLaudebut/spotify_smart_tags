@@ -1,37 +1,48 @@
 <a href="/playlists/10/bulk-tag" method="post" name="tasoeur" remote="false"></a>
 
-<div id="open-create-playlist" class="primary-btn btn-fixed d-none" style="z-index:1;">Create Playlist</div>
+<div data-user-status="<%= current_user.status %>" id="open-create-playlist" class="primary-btn btn-fixed d-none" style="z-index:1;">Create Playlist</div>
 
 <div class='container mt-3'>
-  <h1 class="big-title text-white">What do you want to listen ?</h1>
-  <%= form_with(url: '/filter/tracks', method: 'get', local: false, class: 'd-flex align-items-center flex-column') do %>
-    <%= hidden_field_tag(:tracks, nil, id: 'hidden-input-tags', name: "filter-tags") %>
-    <div class="mt-2 badge-container">
-      <% current_user.sptags.sort_by(&:track_count).reverse.map(&:name).first(6).each do |tag_name| %>
-          <div class="mtag tag-inactive"><%= tag_name %></div>
-      <% end %>
+  <% if @user_tags == "" && current_user.filter_all == false %>
+  <h1 class="big-title text-white">You haven't <span class="text-mprimary">tagged tracks</span> yet, so you cannot search among your tracks. However, you can use <span class="text-mprimary">other people's tracks.</span></h1>
+  <%= form_with(url: '/filter-all', method: 'post', local: true, class: 'd-flex mb-3', id: 1) do %>
+      <%= submit_tag("Use other users' tracks", class: "primary-btn btn-fixed") %>
     </div>
-
-    <%= render 'shared/searchbar' %>
-
-    <%= submit_tag("Find tracks", class: 'btn-submit-filter mt-3 secondary-btn', id: 'btn-submit-filter') %>
-
   <% end %>
+    <% else %>
+      <h1 class="big-title text-white">What do you want to listen ?</h1>
+      <%= form_with(url: '/filter/tracks', method: 'get', local: false, class: 'd-flex align-items-center flex-column') do %>
+        <%= hidden_field_tag(:tracks, nil, id: 'hidden-input-tags', name: "filter-tags") %>
+        <div class="mt-2 badge-container">
+          <% @tags.each do |tag_name| %>
+              <div class="mtag tag-inactive"><%= tag_name %></div>
+          <% end %>
+        </div>
 
-  <section id="my-playlists">
-    <h1 class="big-title text-white mt-3">Recent Playlists</h1>
-    <div class="trackland-playlists d-flex">
-      <% @trackland_playlists.each do |playlist| %>
+        <%= render 'shared/searchbar' %>
 
-      <div class="trackland-playlists-details">
-        <img class="tpl_cover"src=" <%= playlist.cover_url %> " alt="">
-        <p style="font-size: 14px;" class="line-clamp text-white mt-1"> <%= playlist.name %></p>
-        <p style="font-size: 14px;" class="line-clamp inactive-color"> Created <%= days_ago(playlist) %> days ago</p>
-      </div>
+        <%= submit_tag("Find tracks", class: 'btn-submit-filter mt-3 secondary-btn', id: 'btn-submit-filter') %>
+
       <% end %>
-    </div>
-  </section>
+  <% end %>
+  <% if @trackland_playlists.count > 0  %>
+    <section id="my-playlists">
+      <h1 class="big-title text-white mt-3">Recent Playlists</h1>
+      <div class="trackland-playlists d-flex">
+        <% @trackland_playlists.each do |playlist| %>
+
+        <div class="trackland-playlists-details">
+          <img class="tpl_cover"src=" <%= playlist.cover_url %> " alt="">
+          <p style="font-size: 14px;" class="line-clamp text-white mt-1"> <%= playlist.name %></p>
+          <p style="font-size: 14px;" class="line-clamp inactive-color"> Created <%= days_ago(playlist) %> days ago</p>
+        </div>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
 </div>
 
 <div data-list-tags="<%= @user_tags %>" id="hidden-list-tag" class="d-none"></div>
 <%= render 'shared/create-playlist-modal' %>
+<div id="user-status" data-user-status="<%= current_user.status %>"></div>
+<div id="user-max-filters" data-user-max-filters="<%= @max_filters %>"></div>

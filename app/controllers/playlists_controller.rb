@@ -35,18 +35,21 @@ class PlaylistsController < ApplicationController
     end
   end
 
-  def bulk_tag
-    raise
-    playlist = params['playlist_id']
-    tags = params['tags'].split(',')
+  def add_tag
+    playlist = Playlist.find(params['playlist_id'])
+    @tag = params['tag']
+    @count = playlist.tracks.count
+
+    @points = playlist.tracks.select { |i| i.is_tag == false }.count * 10
+    @status_changed = current_user.status_changed?(@points)
+    @challenge_completed = update_challenge(tracks.count)
+    current_user.add_points(@points)
+    @status = current_user.status
 
     playlist.tracks.each do |track|
-      track.add_tags(tags, current_user)
-      current_user.add_tags(tags, current_user)
+      track.add_tag(@tag, current_user)
+      current_user.add_tag(@tag)
     end
-
-    # @notification = track.is_tag
-    # @challenge_completed = update_challenge(1)
 
     respond_to do |format|
       format.html { redirect_to lior_path }
@@ -62,7 +65,14 @@ class PlaylistsController < ApplicationController
   def create_spotify_playlist
     path = "https://api.spotify.com/v1/users/#{current_user.spotify_client}/playlists"
     content_type = 'application/json'
-    uris = params['track-uris'].split('$$')
+    max_tracks = current_user.get_permissions[:max_tracks]
+
+    if max_tracks == 'unlimited'
+      uris = params['track-uris'].split('$$')
+    else
+      uris = params['track-uris'].split('$$').sample(max_tracks)
+    end
+
     self_destroy = params['Self-destroy']
 
     resp = SpotifyApiCall.post(
@@ -74,16 +84,13 @@ class PlaylistsController < ApplicationController
 
     playlist = Playlist.create_playlist(resp, current_user)
     TracklandPlaylist.create_playlist(current_user, params, playlist)
-    UpdateCoverUrlJob.perform_later(playlist.id, current_user.id)
+    UpdateCoverUrlJob.set(wait: 2.minutes).perform_later(playlist.id, current_user.id)
 
     DestroyPlaylistJob.set(wait: 24.hours).perform_later(current_user.id, playlist.id) if self_destroy == 'on'
 
     fill_playlist_with_tracks(playlist, uris)
 
     @playlist_url = playlist.external_url
-
-    # pablior
-    # create a job to set the cover_url
   end
 
   private

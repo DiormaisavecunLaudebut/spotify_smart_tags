@@ -8,7 +8,7 @@ var tags = "<%= @tags %>".split('$$').map(e => e.split('**'))
 var searchbar = `
 <div style=align-self: center;" class='msearch d-flex align-items-center'>
   <i class="fas fa-search"></i>
-  <input id="input-autocomplete2" autocomplete="off" type="textarea" name="tags" placeholder="Search tags">
+  <input id="input-autocomplete2" data-playlist-id="" autocomplete="off" type="textarea" name="tags" placeholder="Search tags">
 </div>`
 var seeAll = `
 <p class="playlist-modal-see-all-tags">See all</p>
@@ -33,6 +33,7 @@ function resetPlaylistDetails() {
   playlistName.innerText = ""
   openInSpotify.href = ""
   if (description != 'nil') playlistDescription.innerText = ""
+  if (!addTagOption.classList.value.includes('mbt')) addTagOption.classList.add('mbt')
 
   Array.from(tagContainer.children).forEach(e => e.remove())
   if (badgeContainer) Array.from(badgeContainer.children).forEach(e => e.remove())
@@ -46,7 +47,8 @@ function closePlaylistModal () {
   enableScroll();
 
   closeIcon.removeEventListener('click', closePlaylistModal)
-  // removeTagOption.removeEventListener('click', playOption)
+  addTagOption.removeEventListener('click', playAddTagOption)
+  resetVariables()
 }
 
 function removeBades() {
@@ -99,11 +101,13 @@ function addPlaylistDetails() {
 
 function playAddTagOption() {
   addTagOption.classList.toggle('mbt')
-
+  console.log('hi')
   if (addTagOption.classList.value.includes('mbt')) {
     document.querySelector('.msearch').remove();
   } else {
     addTagOption.insertAdjacentHTML('afterend', searchbar)
+    var search = document.getElementById('input-autocomplete2')
+    search.dataset.playlistId = id
     autocomplete2();
   }
 }

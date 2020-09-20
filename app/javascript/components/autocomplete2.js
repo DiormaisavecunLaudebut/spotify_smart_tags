@@ -12,7 +12,7 @@ let userTags = [];
 document.addEventListener('click', e => {
   const dropdown = document.querySelector('.my-dropdown-menu-autocomplete2');
   if (dropdown && e.target.id != 'input-autocomplete') {
-    dropdown.remove()
+    if (!window.location.href.match('playlist')) dropdown.remove()
     document.querySelector('.msearch').classList.remove('top-radius')
   }
 })
@@ -24,6 +24,11 @@ const insertNewBadges = (rowContainer) => {
     const badge = `<span class="badge m-1 badge-pill badge-light">${tag}</span>`
     badgesCollapse.insertAdjacentHTML('beforeend', badge)
   })
+}
+
+const pushNewTag = (tag) => {
+  usedTags.push(tag)
+  newTags.push(tag)
 }
 
 const updateDataAttributes = (e) => {
@@ -58,6 +63,16 @@ const resetTags = () => {
     newTags = []
     Array.from(badgeContainer.children).forEach(e => e.remove());
   }
+}
+
+const addTagToUserTags = (tag) => {
+  userTags.push(tag)
+}
+
+const resetVariables = () => {
+  usedTags = []
+  newTags = []
+  userTags = []
 }
 
 const addExistingTag = (element) => {
@@ -96,8 +111,32 @@ const insertTag = (e) => {
   item.classList.value.includes('create-tag') ? createTag(item) : addExistingTag(item)
 }
 
+const buildPath = () => {
+  let path = ""
+  if (window.location.href.match(/playlists\/.+/)) {
+    const trackId = document.querySelector('.track-modal').dataset.trackId
+    path = `/tracks/${trackId}/tag`
+  } else {
+    const playlistId = inputAutocomplete.dataset.playlistId
+    path = `/playlists/${playlistId}/add-tag`
+  }
+  return path
+}
+
 const appendDropdown = (tags) => {
-  const dropdownItems = tags.map(tag => `<p class="my-dropdown-item-autocomplete2 py-1 pl-2">${tag}</p>`).join('');
+  let dropdownItems = ""
+  let path = ""
+  if (window.location.href.match('playlist')) {
+    const path = buildPath()
+    dropdownItems = tags.map(tag => `
+      <form action="${path}" accept-charset="UTF-8" data-remote="true" method="post">
+        <input type="hidden" name="tag" value="${tag}" id="tag-${tag}">
+        <input type="submit" value="${tag}" class="my-dropdown-item-autocomplete2 submit-item">
+      </form>
+      `).join('')
+  } else {
+    dropdownItems = tags.map(tag => `<p class="my-dropdown-item-autocomplete2 py-1 pl-2">${tag}</p>`).join('');
+  }
   let dropdown =`<div class="my-dropdown-menu-autocomplete2">${dropdownItems}</div>`;
   const searchbar = document.querySelector('.msearch');
 
@@ -105,7 +144,7 @@ const appendDropdown = (tags) => {
   searchbar.classList.add('top-radius')
 
   dropdown = document.querySelector('.my-dropdown-menu-autocomplete2');
-  dropdown.addEventListener('click', insertTag);
+  if (!window.location.href.match('playlist')) dropdown.addEventListener('click', insertTag);
 }
 
 const clearSuggestions = (tags) => {
@@ -114,16 +153,35 @@ const clearSuggestions = (tags) => {
 
 const addTagToDropdown = (tag) => {
   const dropdown = document.querySelector('.my-dropdown-menu-autocomplete2');
-  dropdown.insertAdjacentHTML('afterbegin',`<p class="my-dropdown-item-autocomplete2 py-1 pl-2">${tag}</p>`);
+  const playlistId = inputAutocomplete.dataset.playlistId
+
+  if (window.location.href.match('playlist')) {
+    const path = buildPath()
+    dropdown.insertAdjacentHTML('afterbegin', `
+      <form action="${path}" accept-charset="UTF-8" data-remote="true" method="post">
+        <input type="hidden" name="tag" value="${tag}" id="tag-${tag}">
+        <input type="submit" value="${tag}" class="my-dropdown-item-autocomplete2 submit-item">
+      </form>
+      `)
+  } else {
+    dropdown.insertAdjacentHTML('afterbegin',`<p class="my-dropdown-item-autocomplete2 py-1 pl-2">${tag}</p>`);
+  }
 }
 
 const suggestTagCreation = (tag) => {
   const dropdown = document.querySelector('.my-dropdown-menu-autocomplete2');
-  dropdown.insertAdjacentHTML('afterbegin',`<p class="my-dropdown-item-autocomplete2 create-tag py-1 pl-2">create tag <b>${tag}</b></p>`);
+  const playlistId = inputAutocomplete.dataset.playlistId
+  const path = buildPath()
+
+  dropdown.insertAdjacentHTML('afterbegin',
+    `<form action="/playlists/${path}/add-tag" accept-charset="UTF-8" data-remote="true" method="post">
+      <input type="hidden" name="tag" value="${tag}" id="tag-${tag}">
+      <input type="submit" value="create tag: ${tag}" class="my-dropdown-item-autocomplete2 create-tag py-1 pl-2 submit-item">
+    </form>`)
 }
 
 const updateDropdownItems = (items, tags) => {
-  clearSuggestions(items);
+  clearSuggestions(items)
   if (tags.length == 0 && window.location.href.match(/playlist|sptags/)) {
     suggestTagCreation(inputAutocomplete.value)
   } else {
@@ -132,7 +190,7 @@ const updateDropdownItems = (items, tags) => {
 }
 
 const filterTags = (e) => {
-  const inputValue = e.currentTarget.value;
+  const inputValue = e.currentTarget.value.toLowerCase();
   const tags = userTags.filter(tag => tag.includes(inputValue) && !usedTags.includes(tag)).sort().slice(0, 5);
   const dropdown = document.querySelector('.my-dropdown-menu-autocomplete2');
 
@@ -150,4 +208,4 @@ const autocomplete2 = () => {
   if (inputAutocomplete) inputAutocomplete.addEventListener('input', filterTags);
 }
 
-export { autocomplete2 };
+export { autocomplete2, pushNewTag, resetVariables, addTagToUserTags };

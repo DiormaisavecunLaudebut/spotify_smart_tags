@@ -1,6 +1,6 @@
 <% ratio = actual.fdiv(max) * 100 %>
 
-<div class="row-container">
+<div class="row-container" data-playlist-id="<%= id %>">
 
   <%= link_to playlist_path(id), class: 'link-row' do %>
 
@@ -8,7 +8,15 @@
 
       <div class="row-details">
         <span class="row-title active-color line-clamp"><%= title %></span>
-        <span class="row-subtitle"><%= subtitle %>, <span class=" <%= pl_cl(ratio) %> "> <%= actual %> </span>untagged</span>
+        <span class="row-subtitle"><%= subtitle %>,
+          <% if actual == max && max != 0 %>
+            <span class=" <%= pl_cl(ratio) %> "> <%= encouragement %> </span>
+          <% else %>
+          <span class=" <%= pl_cl(ratio) %> "> <%= max - actual %></span> untagged
+
+          <% end %>
+
+        </span>
 
         <div class="progress">
           <div class="progress-bar <%= pl_bk(ratio) %> " role="progressbar" style="width: <%= "#{ratio}%" %>;" aria-valuenow=" <%= actual %> " aria-valuemin="0" aria-valuemax=" <%= max %> "></div>

@@ -18,6 +18,22 @@ module ApplicationHelper
     )
   end
 
+  def encouragement
+    ['All good!',
+     'You rock',
+     'Zone cleared',
+     "Don't change",
+     'Good boy!',
+     "You're the best",
+     "France love you"
+
+   ].sample
+  end
+
+  def standardize_tags(tags)
+    tags.class == String ? tags.downcase : tags.map(&:downcase)
+  end
+
   def pl_bk(ratio)
     if ratio == 100
       "background-linear-success"

@@ -7,10 +7,6 @@ var tracks = tracksString.split('$$').map(e => e.split('**'))
 var subtags = subTagsString.split('$$').map(e => e.split('**'))
 var hiddenSubfilters = document.getElementById('hidden-subfilters')
 
-String.prototype.capitalize = function() {
-    return this.charAt(0).toUpperCase() + this.slice(1);
-}
-
 function filterTracks(subfilters) {
   var appliedFilters = []
 
@@ -35,7 +31,7 @@ function cleanZone() {
 }
 
 function applyFilter(e) {
-  var tagName = e.currentTarget.innerText.split(' ')[0].toLowerCase().capitalize()
+  var tagName = e.currentTarget.innerText.split(' ')[0].toLowerCase()
 
   if (e.currentTarget.classList.value.includes('tag-primary')) {
     var subfiltersString = hiddenSubfilters.dataset.subfilters

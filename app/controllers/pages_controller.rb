@@ -5,8 +5,15 @@ class PagesController < ApplicationController
   before_action :authenticate_user!
 
   def home
+    @max_filters = current_user.get_permissions[:max_filters]
     @url = build_spotify_code_url
-    @user_tags = current_user.sptags.map(&:name).join(' ')
+    if current_user.filter_all
+      @user_tags = User.all.map { |i| i.sptags.map(&:name) }.join(' ')
+      @tags = Sptag.all.sort_by(&:track_count).reverse.map(&:name).first(6)
+    else
+      @user_tags = current_user.sptags.map(&:name).join(' ')
+      @tags = current_user.sptags.sort_by(&:track_count).reverse.map(&:name).first(6)
+    end
     @trackland_playlists = current_user.trackland_playlists
   end
 

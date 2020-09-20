@@ -1,5 +1,10 @@
 var tagName = "<%= @tag %>"
 var trackId = "<%= @id %>"
+var points = "<%= @points %>"
+var challenge = "<%= @challenge_completed %>"
+var status = "<%= @status %>"
+var statusChanged = "<%= @status_changed %>"
+
 var challengeCompleted = "<%= @challenge_completed %>"
 var tagsContainer = document.querySelector('.tags-container');
 var tag = document.getElementById(`tag-${tagName}`);
@@ -17,10 +22,6 @@ function insertTag() {
   tag.remove();
 }
 
-insertTag();
+displayAchievementNotification(status, statusChanged, challenge, points)
 
-if (challengeCompleted == 'true') {
-  displayChallengeNotification()
-} else if (points != "0") {
-  displayPointsNotification(10)
-}
+insertTag()

@@ -22,6 +22,14 @@ function switchClass(e) {
 }
 
 function openCreatePlaylistModal(e) {
+  const status = e.currentTarget.dataset.userStatus
+  if (status != 'music geek') {
+    const max = status == 'amateur' ? 12 : 25
+    const icon = ""
+    const background = "background-linear-info"
+    const text = `Playlist will be generated with ${max} tracks. <b>Earn points by tagging tracks</b> if you want more, bitch!`
+    setTimeout(function hell() { displayNotification(icon, background, text)}, 500)
+  }
   var covers = document.querySelectorAll('.track-select-background')
   covers.forEach(cover => cover.style.zIndex = 0)
 

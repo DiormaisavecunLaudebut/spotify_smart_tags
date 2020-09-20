@@ -26,6 +26,11 @@ class User < ApplicationRecord
     end
   end
 
+  def status_changed?(exp)
+    update_status(exp)
+    points + exp >= get_permissions[:max_points]
+  end
+
   def add_points(value)
     update!(points: points + value)
     update_status(points)
@@ -62,14 +67,12 @@ class User < ApplicationRecord
   end
 
   def add_tag(tag)
-    tag = tag.downcase.capitalize
+    tag = tag
     sptag = Sptag.where(name: tag).take
     Sptag.create(name: tag, user: self) unless sptag
   end
 
   def add_tags(tags)
-    tags = tags.map { |tag| tag.downcase.capitalize }
-
     tags.each do |tag|
       sptag = Sptag.where(name: tag).take
       Sptag.create(name: tag, user: self) unless sptag
@@ -170,6 +173,7 @@ class User < ApplicationRecord
     ids = tracks.map(&:spotify_id)
     path = 'https://api.spotify.com/v1/audio-features'
     resp = SpotifyApiCall.get(path, token, { ids: ids.join(',') })
+    return if resp['audio_features'][0].nil?
 
     resp['audio_features'].each do |result|
       track = Track.where(user: self, spotify_id: result['id']).take

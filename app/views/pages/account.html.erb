@@ -1,7 +1,19 @@
+<% permissions = current_user.get_permissions %>
+<% max_points =  permissions[:max_points] %>
+<% ratio = current_user.points.fdiv(max_points) * 100 %>
+
 <div class="account-container">
   <img class="user-profile-pic" src=" <%= pretty_images.sample %> " alt="">
   <h1 class="big-title mt-3 mb-0 text-white"> <%= current_user.username.capitalize %> </h1>
-  <p class="" style="color: #c7c7c7;">Member since <%= current_user.created_at.strftime("%B %d, %Y") %> </p>
+  <div class="user-status-info">
+    <p class="mb-1" style="color: #c7c7c7;"><%= "#{current_user.status}" %>
+      <span style="font-size: 12px;color: #c7c7c7;"> <%= "(#{max_points - current_user.points}points left to reach next level)"%> </span>
+    </p>
+    <div class="progress">
+      <div class="progress-bar background-linear-primary" role="progressbar" style="width: <%= ratio %>%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <i class="far fa-question-circle tooltip-option1"></i>
+  </div>
 </div>
 
 <div class="account-container2 mbt">
@@ -65,3 +77,5 @@
     <h3 class="small-title text-white ml-2 mb-0">Sign out</h3>
   </div>
 <% end %>
+
+<%= render 'shared/info-status-modal', permissions: permissions %>

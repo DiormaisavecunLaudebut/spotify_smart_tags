@@ -1,7 +1,7 @@
 let mtags = document.querySelectorAll('.mtag');
 const inputTags = document.getElementById('hidden-input-tags');
 const submitBtn = document.getElementById('btn-submit-filter');
-
+const maxFilters = document.getElementById('user-max-filters')
 
 const updateMtags = () => {
   mtags = document.querySelectorAll('.mtag');
@@ -14,18 +14,32 @@ const toggleSubmitClass = () => {
 
 const applyStyle = (e) => {
   const tag = e.currentTarget;
+  const max = maxFilters.dataset.userMaxFilters
+  const actual = inputTags.value.split(',').length
 
-  if (tag.classList.value.includes('tag-inactive')) {
-    tag.classList.remove('tag-inactive');
-    inputTags.value += tag.innerText + ','
-    if (!submitBtn.classList.value.includes('primary')) toggleSubmitClass()
+  if (!tag.classList.value.includes('tag-inactive')) {
 
-  } else {
     tag.classList.add('tag-inactive');
     const regex = new RegExp(`${tag.innerText},`);
     inputTags.value = inputTags.value.replace(regex, '')
     if (inputTags.value == "") toggleSubmitClass();
+
+  } else if (actual > max) {
+
+    const icon = ""
+    const background = "background-linear-info"
+    const text = "<b>Tag tracks</b> to use more tags, bitch!"
+
+    displayNotification(icon, background, text)
+
+  } else {
+
+      tag.classList.remove('tag-inactive');
+      inputTags.value += tag.innerText + ','
+      if (!submitBtn.classList.value.includes('primary')) toggleSubmitClass()
+
   }
+
 }
 
 
