@@ -32,15 +32,6 @@ ActiveRecord::Schema.define(version: 2020_09_17_235938) do
     t.index ["user_id"], name: "index_data_updates_on_user_id"
   end
 
-  create_table "filter_requests", force: :cascade do |t|
-    t.boolean "launched", default: false
-    t.string "tags", default: [], array: true
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "user_id", null: false
-    t.index ["user_id"], name: "index_filter_requests_on_user_id"
-  end
-
   create_table "playlist_tracks", force: :cascade do |t|
     t.bigint "playlist_id", null: false
     t.bigint "track_id", null: false
@@ -169,7 +160,6 @@ ActiveRecord::Schema.define(version: 2020_09_17_235938) do
     t.integer "points", default: 0, null: false
     t.string "status", default: "amateur", null: false
     t.string "connectors", default: [], array: true
-    t.string "request_tags", default: [], array: true
     t.boolean "filter_all", default: false
     t.index ["provider"], name: "index_users_on_provider"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -178,7 +168,6 @@ ActiveRecord::Schema.define(version: 2020_09_17_235938) do
 
   add_foreign_key "daily_challenges", "users"
   add_foreign_key "data_updates", "users"
-  add_foreign_key "filter_requests", "users"
   add_foreign_key "playlist_tracks", "playlists"
   add_foreign_key "playlist_tracks", "tracks"
   add_foreign_key "playlists", "users"

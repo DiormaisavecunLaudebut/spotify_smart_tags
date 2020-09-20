@@ -1,4 +1,4 @@
-require 'Base64'
+require 'base64'
 
 module ApplicationHelper
   def pluralise(string, count)

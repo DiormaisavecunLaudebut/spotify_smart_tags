@@ -1,4 +1,4 @@
-require 'Base64'
+require 'base64'
 require 'httparty'
 
 class SpotifyController < ApplicationController
