@@ -25,7 +25,7 @@ class PagesController < ApplicationController
   end
 
   def build_spotify_code_url
-    redirect_uri = Rails.env.development? ? "http://localhost:3000/auth/spotify/callback" : "https://trackland.herokuapp.com/auth/spotify/callback"
+    redirect_uri = "https://trackland.herokuapp.com/auth/spotify/callback"
     scope = %w[
       playlist-read-private
       playlist-read-collaborative
