@@ -22,12 +22,6 @@ class ApplicationController < ActionController::Base
     DailyChallenge.create(user: current_user)
   end
 
-  def reset_filter_tags
-    return if current_user&.request_tags&.empty? || %w[filter_tracks select_tag].include?(action_name)
-
-    current_user&.update!(request_tags: [])
-  end
-
   def refresh_data!
     return if helpers.no_data_refresh_needed(current_user)
 
