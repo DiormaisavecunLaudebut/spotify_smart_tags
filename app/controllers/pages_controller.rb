@@ -5,6 +5,7 @@ class PagesController < ApplicationController
   before_action :authenticate_user!
 
   def home
+    raise
     @max_filters = current_user.get_permissions[:max_filters]
     @url = build_spotify_code_url
     if current_user.filter_all
@@ -25,6 +26,7 @@ class PagesController < ApplicationController
   end
 
   def build_spotify_code_url
+    redirect_uri = Rails.env.development? ? "http://localhost:3000/auth/spotify/callback" : "https://trackland.herokuapp.com/auth/spotify/callback"
     scope = %w[
       playlist-read-private
       playlist-read-collaborative
@@ -39,7 +41,7 @@ class PagesController < ApplicationController
     options = {
       client_id: ENV['SPOTIFY_CLIENT'],
       response_type: 'code',
-      redirect_uri: 'http://localhost:3000/auth/spotify/callback',
+      redirect_uri: redirect_uri,
       scope: scope,
       show_dialog: false
     }
