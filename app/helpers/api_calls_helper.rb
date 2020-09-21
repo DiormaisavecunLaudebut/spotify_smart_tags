@@ -3,7 +3,7 @@ module ApiCallsHelper
     {
       grant_type: 'authorization_code',
       code: code,
-      redirect_uri: "http://localhost:3000/auth/spotify/callback",
+      redirect_uri: "https://trackland.herokuapp.com/auth/spotify/callback",
       client_id: ENV['SPOTIFY_CLIENT'],
       client_secret: ENV['SPOTIFY_SECRET']
     }
