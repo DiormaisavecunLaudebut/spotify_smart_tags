@@ -51,4 +51,4 @@ const listenBadgeClick = () => {
   if (mtags) mtags.forEach(tag => tag.addEventListener('click', applyStyle))
 }
 
-export { listenBadgeClick, updateMtags }
+// export { listenBadgeClick, updateMtags }

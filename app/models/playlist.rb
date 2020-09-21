@@ -14,7 +14,6 @@ class Playlist < ApplicationRecord
 
   def self.create_playlist(sp, user)
     cover_url = ApplicationController.helpers.set_cover_url(sp['images'])
-
     Playlist.create(
       user: user,
       name: sp['name'],

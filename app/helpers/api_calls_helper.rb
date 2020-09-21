@@ -19,7 +19,7 @@ module ApiCallsHelper
 
   def create_playlist_body(params)
     {
-      name: params['name'],
+      name: params['name'].gsub('$$', ', '),
       description: params['description'],
       public: to_boolean(params['Public']),
       collaborative: to_boolean(params['Collaborative'])

@@ -25,9 +25,6 @@
 // // External imports
 import "bootstrap";
 
-// import { trackDropdown, updateDots } from "../components/track-dropdown";
-// import { autocomplete } from "../components/autocomplete-tags"
-// import { autocomplete2, pushNewTag, resetVariables, addTagToUserTags } from "../components/autocomplete2"
 import { openTagTracks, unselectTrack } from '../components/open-tag-tracks'
 import { trackCard } from "../components/global-functions-trackCard"
 import { emptyStateHTML } from "../components/global-functions-emptyState"
@@ -35,7 +32,6 @@ import { listenCreatePlaylistModal, positionModal } from "../components/global-f
 import { managePlaylistCreationOptions } from "../components/manage-playlist-creation-options"
 import { listenPlaylistCreation } from '../components/close-modal-after-create'
 import { connectorPage } from '../components/connectors-page'
-import { listenBadgeClick, updateMtags } from '../components/style-tags'
 import { listenSearchFocus } from '../components/searchbar'
 import { listenEllipsis } from '../components/track-modal'
 import { disableScroll, enableScroll } from '../components/manage-scroll'
@@ -46,14 +42,15 @@ import { listenOptions } from '../components/account-options'
 import { listenStatusModal } from '../components/user-infos-status-modal'
 import { displayAchievementNotification, displayNotification } from '../components/global-functions-manage-achievement-notifications'
 import { inputAutocomplete  } from '../components/input-autocomplete'
+import { styleTag } from '../components/style-tag'
+import { alignFixedBtn } from '../components/align-fixed-btn'
+import { today } from '../components/get-today-date'
 
-// autocomplete()
-// trackDropdown();
 openTagTracks()
 managePlaylistCreationOptions()
 listenPlaylistCreation()
 connectorPage()
-listenBadgeClick()
+// listenBadgeClick()
 listenSearchFocus()
 listenEllipsis()
 listenTagModal()
@@ -71,20 +68,17 @@ global.trackCard = trackCard;
 global.emptyStateHTML = emptyStateHTML
 global.listenCreatePlaylistModal = listenCreatePlaylistModal
 global.positionModal = positionModal
-global.listenBadgeClick = listenBadgeClick
-global.updateMtags = updateMtags
 global.disableScroll = disableScroll
 global.enableScroll = enableScroll
 global.listenCoverClick = listenCoverClick
 global.closeTagModal = closeTagModal
 global.unselectTrack = unselectTrack
-// global.autocomplete2 = autocomplete2
 global.displayAchievementNotification = displayAchievementNotification
-// global.pushNewTag = pushNewTag
-// global.resetVariables = resetVariables
-// global.addTagToUserTags = addTagToUserTags
 global.displayNotification = displayNotification
 global.inputAutocomplete = inputAutocomplete
+global.styleTag = styleTag
+global.alignFixedBtn = alignFixedBtn
+global.today = today
 
 // Internal imports, e.g:
 // import { initSelect2 } from '../components/init_select2';

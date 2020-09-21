@@ -1,5 +1,6 @@
 class PlaylistsController < ApplicationController
   skip_before_action :authenticate_user!
+  skip_before_action :verify_authenticity_token, only: :add_tag
   before_action :refresh_user_token!, only: :create_spotify_playlist
 
   def show
@@ -28,6 +29,8 @@ class PlaylistsController < ApplicationController
     @href = playlist.external_url
     @cover = playlist.cover_url
     @description = playlist.description
+    @user_tags = current_user.sptags.map(&:name).join('$$')
+    @used_tags = ""
 
     respond_to do |format|
       format.html { redirect_to lior_path }

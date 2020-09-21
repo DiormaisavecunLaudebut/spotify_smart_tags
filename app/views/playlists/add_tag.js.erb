@@ -1,19 +1,20 @@
 var tag = "<%= @tag %>"
 var count = "<%= @count %>"
-var form = document.querySelector(`input[value='${tag}']`).closest('form')
+var dropdownItem = document.querySelector(`input[value='${tag}']`).closest('.my-dropdown-item-autocomplete')
 var badgeContainer = document.querySelector('.badge-container');
 var points = "<%= @points %>"
 var challenge = "<%= @challenge_completed %>"
 var status = "<%= @status %>"
 var statusChanged = "<%= @status_changed %>"
+var input = document.getElementById('input-autocomplete')
 
 
 function updateDropdown() {
   var badge = `<div class="mtag-small tag-primary mr-1 mb-1">${tag} (${count})</div>`
-  form.remove()
+  input.dataset.usedTags += `$$${tag}`
+  dropdownItem.remove()
+
   badgeContainer.insertAdjacentHTML('beforeend', badge)
-  pushNewTag(tag)
-  addTagToUserTags(tag)
 }
 
 displayAchievementNotification(status, statusChanged, challenge, points)

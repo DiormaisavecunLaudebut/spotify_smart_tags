@@ -15,11 +15,6 @@ class Autocomplete {
   }
 }
 
-const addBadgeToAutocomplete = (badge) => {
-  autocomplete.usedTags.push(badge)
-  console.log(autocomplete.usedTags)
-}
-
 // --------------------------- Variables ---------------------------------
 
 let autocomplete = new Autocomplete()
@@ -85,7 +80,7 @@ const buildBadges = (tags, boolean) => {
 
       const form = document.createElement('form')
       form.setAttribute('action', autocomplete.formPath)
-      form.setAttribute('remote', 'true')
+      form.setAttribute('data-remote', 'true')
       form.setAttribute('method', 'post')
 
       const hiddenInput = document.createElement('input')
@@ -117,8 +112,10 @@ const insertBadge = (name) => {
 
   div.className = bigTags ? "mtag tag-inactive" : "mtag-small"
   div.innerText = name
+  div.onclick = styleTag
 
   badgeContainer.appendChild(div)
+  div.click()
 }
 
 const insertBadgeToContainer = () => {
@@ -127,7 +124,6 @@ const insertBadgeToContainer = () => {
 
   closeDropdownMenu()
   insertBadge(badgeName)
-  listenBadgeClick()
 }
 
 
@@ -143,7 +139,6 @@ const appendDropdownItems = (tags, boolean) => {
 
 const displayAutocomplete = () => {
   const tags = autocomplete.filterTags(input.value)
-  console.log(autocomplete.usedTags)
 
   if (tags.length == 0 && autocomplete.createTag) { appendDropdownItems([input.value], true) }
   else if (input.value == "") { closeDropdownMenu()}
@@ -158,4 +153,4 @@ const inputAutocomplete = (path, canCreate) => {
 
 }
 
-export { inputAutocomplete, closeDropdownMenu, addBadgeToAutocomplete }
+export { inputAutocomplete, closeDropdownMenu }

@@ -10,9 +10,10 @@ class User < ApplicationRecord
   has_many :daily_challenges
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable
 
   validates :username, presence: true, uniqueness: true
+  validates :email, uniqueness: false
 
   def email_required?
     false
@@ -72,7 +73,7 @@ class User < ApplicationRecord
   end
 
   def add_fetched_data(sp_data)
-    update(
+    update!(
       country: sp_data['country'],
       spotify_client: sp_data['id'],
       email: sp_data['email'],

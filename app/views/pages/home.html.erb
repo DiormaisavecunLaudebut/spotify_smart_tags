@@ -11,10 +11,10 @@
     <% else %>
       <h1 class="big-title text-white">What do you want to listen ?</h1>
       <%= form_with(url: '/filter/tracks', method: 'get', local: false, class: 'd-flex align-items-center flex-column') do %>
-        <%= hidden_field_tag(:tracks, nil, id: 'hidden-input-tags', name: "filter-tags") %>
-        <div class="mt-2 badge-container big-tags">
+        <%= hidden_field_tag(:tracks, nil, id: 'hidden-input-tags', name: "filter-tags", value: "") %>
+        <div class="mt-2 badge-container big-tags" for="">
           <% @tags.each do |tag_name| %>
-              <div class="mtag tag-inactive"><%= tag_name %></div>
+              <div class="mtag tag-inactive" onclick="styleTag()"><%= tag_name %></div>
           <% end %>
         </div>
 

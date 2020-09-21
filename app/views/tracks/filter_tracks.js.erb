@@ -1,4 +1,4 @@
-var tags = "<%= @tags %>".split(',')
+var tags = "<%= @tags %>".split('$$')
 var spotifyUris = "<%= @uris %>";
 var untaggedTracks = "<%= @untagged_tracks %>"
 var tracksString = "<%= @tracks %>"
@@ -15,33 +15,24 @@ var createPlaylistBtn = document.getElementById('open-create-playlist');
 var playlistSection = document.getElementById('my-playlists');
 
 function fillInputsWithFilter() {
-  var today = new Date();
-  var dd = today.getDate();
-  var mm = today.getMonth()+1;
-  var yyyy = today.getFullYear();
-  var usedTags = badgesName.join(', ')
-  today = `${dd}/${mm}/${yyyy}`
+  var usedTags = badgesName.join('$$')
 
   hiddenInputTracks.value = spotifyUris
   hiddenInputName.value = usedTags
-  inputName.value = usedTags
-  inputDescription.value = `Playlist generated from Trackland the ${today} with the following tags: ${usedTags}`
+  inputName.value = usedTags.replace('$$', ', ')
+  inputDescription.value = `Playlist generated from Trackland the ${today()} with the following tags: ${usedTags}`
 }
 
 function appendTracks() {
   createPlaylistBtn.classList.remove('d-none');
 
-  var windowHeight = window.innerHeight
-  var width = window.innerWidth * 0.1 / 2
   var btn = document.querySelector('.primary-btn.btn-fixed');
-  btn.style.top = (windowHeight - 120 + "px")
-  btn.style.left = width + "px"
+  alignFixedBtn(btn)
 
   const sectionHeader = `
-<div style="padding: 0 16px">
-  <h3 class="active-color m-0">${tracks.length} tracks</h3>
-</div>
-`
+    <div style="padding: 0 16px">
+      <h3 class="active-color m-0">${tracks.length} tracks</h3>
+    </div>`
 
   trackCards += sectionHeader
   tracks.forEach(track => { trackCards += trackCard(track) })
@@ -50,7 +41,6 @@ function appendTracks() {
   positionModal();
 
   fillInputsWithFilter();
-  // updateDots();
   listenCreatePlaylistModal();
 }
 
@@ -63,14 +53,6 @@ function cleanZone() {
   if (playlistSection) playlistSection.remove();
 }
 
-function changeBadgesColor() {
-  const appliedBadges = badgesElement.filter(e => badgesName.includes(e.innerText))
-  appliedBadges.forEach(badge => {
-    badge.classList.remove('badge-primary');
-    badge.classList.add('badge-success');
-  })
-}
-
 function appendEmptyState() {
   const emptyState = emptyStateHTML(
     'No track found',
@@ -80,8 +62,6 @@ function appendEmptyState() {
   container.insertAdjacentHTML('afterend', emptyState)
 }
 
-
-changeBadgesColor();
 cleanZone();
 
 tracksString == "" ? appendEmptyState() : appendTracks()

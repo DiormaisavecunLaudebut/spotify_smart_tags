@@ -1,6 +1,13 @@
 # Additional translations at https://github.com/heartcombo/devise/wiki/I18n
 
 fr:
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: "Fuck off"
   devise:
     confirmations:
       confirmed: "Votre adresse e-mail a été confirmée avec succès."

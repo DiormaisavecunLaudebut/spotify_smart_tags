@@ -4,15 +4,29 @@ var name = "<%= @name %>"
 var href = "<%= @href %>"
 var cover = "<%= @cover %>"
 var description = "<%= @description %>"
+var userTags = "<%= @user_tags %>"
 var tags = "<%= @tags %>".split('$$').map(e => e.split('**'))
+var path = `/playlists/${id}/add-tag`
+var usedTags = "<%= @used_tags %>"
+
 var searchbar = `
 <div style=align-self: center;" class='msearch d-flex align-items-center'>
+  <div class="my-dropdown-menu-autocomplete d-none"></div>
   <i class="fas fa-search"></i>
-  <input id="input-autocomplete2" data-playlist-id="" autocomplete="off" type="textarea" name="tags" placeholder="Search tags">
+  <input
+    id="input-autocomplete"
+    data-playlist-id=""
+    data-used-tags="${usedTags}"
+    onclick="inputAutocomplete('${path}', true)"
+    data-user-tags="${userTags}"
+    autocomplete="off"
+    type="textarea"
+    name="tags"
+    placeholder="Search tags"
+  >
 </div>`
-var seeAll = `
-<p class="playlist-modal-see-all-tags">See all</p>
-`
+
+var seeAll = `<p class="playlist-modal-see-all-tags">See all</p>`
 
 var playlistCover = document.querySelector('.playlist-modal-cover')
 var playlistName = document.querySelector('.playlist-modal-name')
@@ -105,9 +119,8 @@ function playAddTagOption() {
     document.querySelector('.msearch').remove();
   } else {
     addTagOption.insertAdjacentHTML('afterend', searchbar)
-    var search = document.getElementById('input-autocomplete2')
+    var search = document.getElementById('input-autocomplete')
     search.dataset.playlistId = id
-    autocomplete2();
   }
 }
 
