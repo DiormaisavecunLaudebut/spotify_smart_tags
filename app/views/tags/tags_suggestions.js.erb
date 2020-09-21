@@ -1,10 +1,23 @@
 var id = "<%= @id %>"
 var suggestions = "<%= j @suggestions %>"
 var row = document.getElementById('add-tag')
+var userTags = "<%= @user_tags %>"
+var usedTags = "<%= @used_tags %>"
 var searchbar = `
 <div style=align-self: center;" class='msearch d-flex align-items-center'>
+  <div class="my-dropdown-menu-autocomplete d-none"></div>
   <i class="fas fa-search"></i>
-  <input id="input-autocomplete" data-playlist-id="" autocomplete="off" type="textarea" name="tags" placeholder="Search tags">
+  <input
+    id="input-autocomplete"
+    data-user-tags="${userTags}"
+    data-used-tags="${usedTags}"
+    data-playlist-id=""
+    autocomplete="off"
+    type="textarea"
+    name="tags"
+    placeholder="Search tags"
+    onclick="inputAutocomplete('/tracks/${id}/tag', true)"
+  >
 </div>`
 var closeIcon = document.querySelector('.close-icon');
 

@@ -41,7 +41,7 @@ import { listenAccountToggles } from '../components/account-connectors'
 import { listenOptions } from '../components/account-options'
 import { listenStatusModal } from '../components/user-infos-status-modal'
 import { displayAchievementNotification, displayNotification } from '../components/global-functions-manage-achievement-notifications'
-import { inputAutocomplete  } from '../components/input-autocomplete'
+import { inputAutocomplete, closeDropdownMenu  } from '../components/input-autocomplete'
 import { styleTag } from '../components/style-tag'
 import { alignFixedBtn } from '../components/align-fixed-btn'
 import { today } from '../components/get-today-date'
@@ -79,6 +79,7 @@ global.inputAutocomplete = inputAutocomplete
 global.styleTag = styleTag
 global.alignFixedBtn = alignFixedBtn
 global.today = today
+global.closeDropdownMenu = closeDropdownMenu
 
 // Internal imports, e.g:
 // import { initSelect2 } from '../components/init_select2';

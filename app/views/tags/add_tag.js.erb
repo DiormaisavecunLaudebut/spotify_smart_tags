@@ -7,18 +7,26 @@ var statusChanged = "<%= @status_changed %>"
 
 var challengeCompleted = "<%= @challenge_completed %>"
 var tagsContainer = document.querySelector('.tags-container');
-var tag = document.getElementById(`tag-${tagName}`);
+var tag = document.getElementById(`tag-${tagName}`)
 var rowContainer = document.querySelector(`[data-track-id='${trackId}']`);
 var badge = rowContainer.querySelector('.mtag-small');
 var row = document.getElementById('add-tag')
 var notification = "<%= @notification %>"
+var input = document.getElementById('input-autocomplete')
+var dropdownMenu = document.querySelector('.my-dropdown-menu-autocomplete')
 
 function insertTag() {
+  input.dataset.usedTags += `$$${tagName}`
+
+  if (dropdownMenu.children.length > 0) {
+    closeDropdownMenu()
+
+  }
   row.dataset.suggestions = row.dataset.suggestions.split('$$').filter(e => e != tagName).join('$$')
   var tagCount = parseInt(badge.innerText.split(' ')[0]) + 1
   badge.innerText = `${tagCount} TAGS`
-  tag.classList.add('tag-transition')
   tagsContainer.insertAdjacentHTML('beforeend', `<div class="mtag-small tag-primary mr-1 mb-1">${tagName}</div>`)
+  console.log(tag)
   tag.remove();
 }
 

@@ -1,8 +1,8 @@
 // ------------------------------- Class Autocomplete -------------------------------
 
 class Autocomplete {
-  constructor(uerTags, usedTags, formPath, createTag) {
-    this.uerTags = uerTags
+  constructor(userTags, usedTags, formPath, createTag) {
+    this.userTags = userTags
     this.usedTags = usedTags
     this.formPath = formPath
     this.createTag = createTag
@@ -28,7 +28,7 @@ const initializeAutocomplete = (autocomplete, input, path, canCreate) => {
   autocomplete.formPath = path
   autocomplete.userTags = input.dataset.userTags.split('$$')
   autocomplete.usedTags = input.dataset.usedTags.split('$$')
-  autocomplete.createTag = canCreate == "true" ? true : false
+  autocomplete.createTag = canCreate
 }
 
 
@@ -92,6 +92,7 @@ const buildBadges = (tags, boolean) => {
       const value = autocomplete.createTag && boolean ? `create tag: ${tag}` : tag
       submitInput.setAttribute('type', 'submit')
       submitInput.setAttribute('value', value)
+      submitInput.id = `tag-${tag}`
       submitInput.className = "submit-item"
 
       form.appendChild(hiddenInput)
@@ -148,6 +149,7 @@ const displayAutocomplete = () => {
 const inputAutocomplete = (path, canCreate) => {
   initializeVariables(event.currentTarget)
   initializeAutocomplete(autocomplete, event.currentTarget, path, canCreate)
+  console.log(autocomplete)
 
   input.addEventListener('input', displayAutocomplete)
 

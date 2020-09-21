@@ -11,8 +11,11 @@
   %>
 <% end %>
 
-<%= render 'shared/track-modal'%>
-<%= render 'shared/bulk-tag-modal', tags: @modal_tags %>
+<%= render 'shared/track-modal' %>
+<%= render 'shared/bulk-tag-modal',
+  tags: @modal_tags,
+  user_tags: @user_tags,
+  used_tags: @used_tags %>
 
 <div data-list-tags="<%= @user_tags %>" id="hidden-list-tag" class="d-none"></div>
 

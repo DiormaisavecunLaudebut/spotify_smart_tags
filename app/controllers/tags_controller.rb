@@ -37,6 +37,8 @@ class TagsController < ApplicationController
     track = Track.find(@id)
     tags = helpers.standardize_tags(track.get_suggestions)
     @suggestions = tags.nil? ? "" : tags.reject { |i| track.tag_list.include?(i.downcase) }.sample(4).join('$$')
+    @user_tags = current_user.sptags.map(&:name).reject { |i| track.tag_list.include?(i) }.join('$$')
+    @used_tags = track.tag_list.join('$$')
 
     respond_to do |format|
       format.html { redirect_to lior_path }
