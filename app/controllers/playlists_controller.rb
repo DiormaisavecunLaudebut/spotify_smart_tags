@@ -37,8 +37,9 @@ class PlaylistsController < ApplicationController
 
   def add_tag
     playlist = Playlist.find(params['playlist_id'])
+    tracks = playlist.tracks
     @tag = params['tag']
-    @count = playlist.tracks.count
+    @count = tracks.count
 
     @points = playlist.tracks.select { |i| i.is_tag == false }.count * 10
     @status_changed = current_user.status_changed?(@points)
@@ -46,10 +47,7 @@ class PlaylistsController < ApplicationController
     current_user.add_points(@points)
     @status = current_user.status
 
-    playlist.tracks.each do |track|
-      track.add_tag(@tag, current_user)
-      current_user.add_tag(@tag)
-    end
+    playlist.tracks.each { |track| track.add_tag(@tag, current_user) }
 
     respond_to do |format|
       format.html { redirect_to lior_path }

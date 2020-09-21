@@ -11,8 +11,7 @@ class TagsController < ApplicationController
     current_user.add_points(@points)
     @status = current_user.status
 
-    track.add_tag(@tag, current_user) # pablior
-    current_user.add_tag(@tag) # pablior
+    track.add_tag(@tag, current_user)
 
     respond_to do |format|
       format.html { redirect_to lior_path }
@@ -56,10 +55,7 @@ class TagsController < ApplicationController
     current_user.add_points(@points)
     @status = current_user.status
 
-    tracks.each do |track|
-      track.add_tags(tags, current_user)
-      current_user.add_tags(tags)
-    end
+    tracks.each { |track| track.add_tags(tags, current_user) }
 
     respond_to do |format|
       format.html { redirect_to lior_path }

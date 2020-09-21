@@ -174,7 +174,7 @@ const suggestTagCreation = (tag) => {
   const path = buildPath()
 
   dropdown.insertAdjacentHTML('afterbegin',
-    `<form action="/playlists/${path}/add-tag" accept-charset="UTF-8" data-remote="true" method="post">
+    `<form action="${path}" accept-charset="UTF-8" data-remote="true" method="post">
       <input type="hidden" name="tag" value="${tag}" id="tag-${tag}">
       <input type="submit" value="create tag: ${tag}" class="my-dropdown-item-autocomplete2 create-tag py-1 pl-2 submit-item">
     </form>`)

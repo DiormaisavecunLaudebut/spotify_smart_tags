@@ -32,14 +32,14 @@ class Track < ApplicationRecord
     self.is_tag = true
     tag_list.add(tag)
     sptag = user.sptags.where(name: tag).take
-    sptag ? sptag.update!(track_count: sptag.track_count += 1) : Sptag.create(name: tag, track_count: 1)
+    sptag ? sptag.update!(track_count: sptag.track_count += 1) : Sptag.create(name: tag, track_count: 1, user: user)
     save
   end
 
   def add_tags(tags, user)
     tags.each do |tag|
       sptag = user.sptags.where(name: tag).take
-      sptag ? sptag.update!(track_count: sptag.track_count += 1) : Sptag.create(name: tag, track_count: 1)
+      sptag ? sptag.update!(track_count: sptag.track_count += 1) : Sptag.create(name: tag, track_count: 1, user: user)
     end
 
     tags = tags.join(', ')

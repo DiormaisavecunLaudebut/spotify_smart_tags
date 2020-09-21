@@ -78,6 +78,7 @@ const addExistingTag = (element) => {
 const createTag = (element) => {
   const tag = element.childNodes[1].innerHTML
   const badge = `<div class="mtag tag-inactive">${tag}</div>`;
+  badgeContainer = document.querySelector('.badge-container')
 
   usedTags.push(tag);
   newTags.push(tag);
@@ -86,6 +87,8 @@ const createTag = (element) => {
   element.remove();
   badgeContainer.insertAdjacentHTML('beforeend', badge);
   inputAutocomplete.focus();
+  updateMtags();
+  listenBadgeClick();
 }
 
 const insertTag = (e) => {

@@ -14,8 +14,12 @@ const toggleSubmitClass = () => {
 
 const applyStyle = (e) => {
   const tag = e.currentTarget;
-  const max = maxFilters.dataset.userMaxFilters
-  const actual = inputTags.value.split(',').length
+  let max = ""
+  let actual = ""
+  if (!window.location.href.match(/playlist|sptags/)) {
+    max = maxFilters.dataset.userMaxFilters
+    actual = inputTags.value.split(',').length
+  }
 
   if (!tag.classList.value.includes('tag-inactive')) {
 
@@ -24,7 +28,7 @@ const applyStyle = (e) => {
     inputTags.value = inputTags.value.replace(regex, '')
     if (inputTags.value == "") toggleSubmitClass();
 
-  } else if (actual > max) {
+  } else if (!window.location.href.match('playlist') && actual > max) {
 
     const icon = ""
     const background = "background-linear-info"
@@ -44,6 +48,7 @@ const applyStyle = (e) => {
 
 
 const listenBadgeClick = () => {
+  console.log(mtags)
   if (mtags) mtags.forEach(tag => tag.addEventListener('click', applyStyle))
 }
 
