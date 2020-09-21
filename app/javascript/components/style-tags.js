@@ -48,7 +48,6 @@ const applyStyle = (e) => {
 
 
 const listenBadgeClick = () => {
-  console.log(mtags)
   if (mtags) mtags.forEach(tag => tag.addEventListener('click', applyStyle))
 }
 

@@ -1,10 +1,10 @@
 module ApiCallsHelper
   def token_body(code)
-    redirect_uri = Rails.env.production? ? "https://trackland.herokuapp.com/auth/spotify/callback" : "http://localhost:3000/auth/spotify/callback"
+    redirect_uri ="http://localhost:3000/auth/spotify/callback"
     {
       grant_type: 'authorization_code',
       code: code,
-      redirect_uri: "https://trackland.herokuapp.com/auth/spotify/callback",
+      redirect_uri: redirect_uri,
       client_id: ENV['SPOTIFY_CLIENT'],
       client_secret: ENV['SPOTIFY_SECRET']
     }

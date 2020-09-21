@@ -1,9 +1,9 @@
 class SptagsController < ApplicationController
   def index
     @sptags = current_user.sptags.map { |sptag| [sptag.name, sptag.track_count] }.sort_by(&:last).reverse
-    @modal_tags = @sptags.first(6).map(&:first)
+    @used_tags = @sptags.first(6).map(&:first).join('$$')
     @untagged_tracks_count = current_user.tracks.where(is_tag: false).count
-    @user_tags = current_user.sptags.map(&:name).join(' ')
+    @user_tags = current_user.sptags.map(&:name).join('$$')
   end
 
   def show_tracks

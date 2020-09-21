@@ -1,4 +1,13 @@
 <div class='msearch d-flex align-items-center mt-3'>
+  <div class="my-dropdown-menu-autocomplete d-none"></div>
   <i class="fas fa-search"></i>
-  <input id="input-autocomplete" autocomplete="off" type="textarea" name="tags" placeholder="Search tags">
+  <input
+  data-user-tags="<%= user_tags %>"
+  data-used-tags="<%= used_tags %>"
+  onclick='inputAutocomplete("<%= path %>", "<%= create_tag %>")'
+  id="input-autocomplete"
+  autocomplete="off"
+  type="textarea"
+  name="tags"
+  placeholder="Search tags">
 </div>

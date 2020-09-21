@@ -63,6 +63,7 @@ class User < ApplicationRecord
 
   def fetch_spotify_data
     update_user_data
+    update_user_library
     update_user_playlists_and_tracks
   end
 
@@ -126,6 +127,39 @@ class User < ApplicationRecord
 
     offset = ApplicationController.helpers.new_offset(offset, limit, resp['total'])
     offset ? update_user_playlists_and_tracks(offset, my_playlists) : delete_remaining_playlists(my_playlists)
+  end
+
+  def update_user_library(offset = 0, my_tracks = [])
+    playlist = Playlist.where(user: self, name: "Liked songs").take
+    playlist = Playlist.create(user: self, name: "Liked songs", track_count: 0) if playlist.nil?
+
+    path = 'https://api.spotify.com/v1/me/tracks'
+    my_tracks = playlist.tracks.map(&:id) if my_tracks.empty?
+    limit = 50
+    options = { limit: limit, offset: offset }
+
+    resp = SpotifyApiCall.get(path, token, options)
+    tracks = resp['items']
+    new_tracks = []
+
+    tracks.each do |tr|
+      track = Track.find_track(tr['track']['id'], self)
+      if track && playlist.tracks.select { |i| i.id == track.id }
+        my_tracks.delete(track.id)
+      elsif track
+        PlaylistTrack.create_plt(playlist, track)
+        my_tracks.delete(track.id)
+      else
+        new_tracks << Track.create_track(tr['track'], self)
+        PlaylistTrack.create_plt(playlist, new_tracks.last)
+      end
+    end
+
+    fetch_spotify_tracks_metadata(new_tracks)
+    offset = ApplicationController.helpers.new_offset(offset, limit, resp['total'])
+    update_user_library(offset, my_tracks) if offset
+
+    delete_remaining_tracks(my_tracks)
   end
 
   def fetch_playlist_tracks(playlist, offset = 0, my_tracks = [])

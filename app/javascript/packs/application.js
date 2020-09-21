@@ -26,8 +26,8 @@
 import "bootstrap";
 
 // import { trackDropdown, updateDots } from "../components/track-dropdown";
-import { autocomplete } from "../components/autocomplete-tags"
-import { autocomplete2, pushNewTag, resetVariables, addTagToUserTags } from "../components/autocomplete2"
+// import { autocomplete } from "../components/autocomplete-tags"
+// import { autocomplete2, pushNewTag, resetVariables, addTagToUserTags } from "../components/autocomplete2"
 import { openTagTracks, unselectTrack } from '../components/open-tag-tracks'
 import { trackCard } from "../components/global-functions-trackCard"
 import { emptyStateHTML } from "../components/global-functions-emptyState"
@@ -45,8 +45,9 @@ import { listenAccountToggles } from '../components/account-connectors'
 import { listenOptions } from '../components/account-options'
 import { listenStatusModal } from '../components/user-infos-status-modal'
 import { displayAchievementNotification, displayNotification } from '../components/global-functions-manage-achievement-notifications'
+import { inputAutocomplete  } from '../components/input-autocomplete'
 
-autocomplete()
+// autocomplete()
 // trackDropdown();
 openTagTracks()
 managePlaylistCreationOptions()
@@ -77,12 +78,13 @@ global.enableScroll = enableScroll
 global.listenCoverClick = listenCoverClick
 global.closeTagModal = closeTagModal
 global.unselectTrack = unselectTrack
-global.autocomplete2 = autocomplete2
+// global.autocomplete2 = autocomplete2
 global.displayAchievementNotification = displayAchievementNotification
-global.pushNewTag = pushNewTag
-global.resetVariables = resetVariables
-global.addTagToUserTags = addTagToUserTags
+// global.pushNewTag = pushNewTag
+// global.resetVariables = resetVariables
+// global.addTagToUserTags = addTagToUserTags
 global.displayNotification = displayNotification
+global.inputAutocomplete = inputAutocomplete
 
 // Internal imports, e.g:
 // import { initSelect2 } from '../components/init_select2';

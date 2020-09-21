@@ -18,13 +18,13 @@ def assign_random_tags(track, tags, user)
 end
 
 tags = %w[chill dark bright techno house minimalist joyful club afrika jazzy vocal remix sad motivational smooth]
-user = User.where(username: 'pablior').take
-
-user.tracks.each do |track|
-  reset_track_tags(track)
-  user.sptags.each(&:destroy)
-end
+user = User.where(username: 'test2').take
 
 # user.tracks.each do |track|
-#   assign_random_tags(track, tags, user)
+#   reset_track_tags(track)
+#   user.sptags.each(&:destroy)
 # end
+
+user.tracks.each do |track|
+  assign_random_tags(track, tags, user)
+end

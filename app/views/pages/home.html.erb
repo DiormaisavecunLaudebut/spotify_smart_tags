@@ -12,13 +12,17 @@
       <h1 class="big-title text-white">What do you want to listen ?</h1>
       <%= form_with(url: '/filter/tracks', method: 'get', local: false, class: 'd-flex align-items-center flex-column') do %>
         <%= hidden_field_tag(:tracks, nil, id: 'hidden-input-tags', name: "filter-tags") %>
-        <div class="mt-2 badge-container">
+        <div class="mt-2 badge-container big-tags">
           <% @tags.each do |tag_name| %>
               <div class="mtag tag-inactive"><%= tag_name %></div>
           <% end %>
         </div>
 
-        <%= render 'shared/searchbar' %>
+        <%= render 'shared/searchbar',
+        user_tags: @user_tags,
+        path: "",
+        create_tag: false,
+        used_tags: @used_tags %>
 
         <%= submit_tag("Find tracks", class: 'btn-submit-filter mt-3 secondary-btn', id: 'btn-submit-filter') %>
 
@@ -41,7 +45,6 @@
   <% end %>
 </div>
 
-<div data-list-tags="<%= @user_tags %>" id="hidden-list-tag" class="d-none"></div>
 <%= render 'shared/create-playlist-modal' %>
 <div id="user-status" data-user-status="<%= current_user.status %>"></div>
 <div id="user-max-filters" data-user-max-filters="<%= @max_filters %>"></div>

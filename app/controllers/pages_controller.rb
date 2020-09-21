@@ -8,12 +8,13 @@ class PagesController < ApplicationController
     @max_filters = current_user.get_permissions[:max_filters]
     @url = build_spotify_code_url
     if current_user.filter_all
-      @user_tags = User.all.map { |i| i.sptags.map(&:name) }.join(' ')
+      @user_tags = User.all.map { |i| i.sptags.map(&:name) }.join('$$')
       @tags = Sptag.all.sort_by(&:track_count).reverse.map(&:name).first(6)
     else
-      @user_tags = current_user.sptags.map(&:name).join(' ')
+      @user_tags = current_user.sptags.map(&:name).join('$$')
       @tags = current_user.sptags.sort_by(&:track_count).reverse.map(&:name).first(6)
     end
+    @used_tags = @tags.join('$$')
     @trackland_playlists = current_user.trackland_playlists
   end
 
@@ -25,7 +26,7 @@ class PagesController < ApplicationController
   end
 
   def build_spotify_code_url
-    redirect_uri = Rails.env.production? ? "https://trackland.herokuapp.com/auth/spotify/callback" : "http://localhost:3000/auth/spotify/callback"
+    redirect_uri = "http://localhost:3000/auth/spotify/callback"
     scope = %w[
       playlist-read-private
       playlist-read-collaborative

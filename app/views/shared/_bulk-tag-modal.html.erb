@@ -4,9 +4,14 @@
     <i class="fas fa-tags"></i>
     <h1 class="big-title ml-2 text-white">Tag my tracks</h1>
   </div>
-  <%= render 'shared/searchbar' %>
-  <div class="mt-2 badge-container">
-    <% tags.each do |tag| %>
+  <%= render 'shared/searchbar',
+    user_tags: user_tags,
+    path: "",
+    create_tag: false,
+    used_tags: used_tags
+   %>
+  <div class="mt-2 badge-container big-tags">
+    <% used_tags.split('$$').each do |tag| %>
       <div class="mtag tag-inactive"> <%= tag %> </div>
     <% end %>
   </div>

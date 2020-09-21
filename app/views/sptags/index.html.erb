@@ -15,15 +15,18 @@
 
   <% @sptags.each_with_index do |sptag, index| %>
     <%= render'shared/collapse',
-    tag_name: sptag[0],
-    count: sptag[1],
-    id: sptag[0],
-    path: sptag_showtracks_path(sptag) %>
+    tag_name:     sptag[0],
+    count:        sptag[1],
+    id:           sptag[0],
+    path:         sptag_showtracks_path(sptag) %>
   <% end %>
 
 </div>
 
-<%= render 'shared/bulk-tag-modal', tags: @modal_tags %>
+<%= render 'shared/bulk-tag-modal',
+  user_tags:    @user_tags,
+  used_tags:    @used_tags
+%>
 
 <div data-list-tags="<%= @user_tags %>" id="hidden-list-tag" class="d-none"></div>
 <div data-subfilters="" id="hidden-subfilters" class="d-none"></div>

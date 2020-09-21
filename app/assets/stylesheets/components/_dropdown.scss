@@ -14,25 +14,16 @@
 
 .my-dropdown-menu-autocomplete {
   position: absolute;
-  width: 345px;
+  width: inherit;
   top: 38px;
-  left: -1px;
   background: $mblack;
   border-radius: 0px;
   border: 1px solid white;
   z-index: 1;
   border-radius: 0 0 20px 20px;
-}
-.my-dropdown-menu-autocomplete2 {
-  position: absolute;
-  width: 311px;
-  top: 38px;
-  left: -1px;
-  background: $mblack;
-  border-radius: 0px;
-  border: 1px solid white;
-  z-index: 1;
-  border-radius: 0 0 20px 20px;
+  max-height: 145px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .my-dropdown-item {
@@ -42,10 +33,9 @@
 
 .my-dropdown-item-autocomplete {
   color: white;
-  margin-left: 38px;
+  margin: 0 38px;
   padding: 10px 0 !important;
   border-bottom: 1px solid white;
-  width: 266px;
 }
 .my-dropdown-item-autocomplete2 {
   color: white;
@@ -59,4 +49,5 @@
   background: none;
   border-top: none;border-left: none;border-right: none;
   text-align: left;
+  color: white;
 }
