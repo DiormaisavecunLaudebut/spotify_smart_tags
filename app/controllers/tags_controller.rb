@@ -1,4 +1,6 @@
 class TagsController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: :add_tag
+
   def add_tag
     @id = params['track_id']
     track = Track.find(@id)
@@ -48,7 +50,7 @@ class TagsController < ApplicationController
 
   def bulk_add_tags
     @ids = params['track-ids'].split(',').join('$$')
-    tags = helpers.standardize_tags(params['tags'].split(','))
+    tags = helpers.standardize_tags(params['tags'].split('$$'))
     tracks = params['track-ids'].split(',').map { |i| Track.find(i) }
 
     @points = tracks.select { |i| i.is_tag == false }.count * 10

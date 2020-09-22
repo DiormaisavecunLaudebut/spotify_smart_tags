@@ -1,5 +1,7 @@
 import { removeNotification } from '../components/account-connectors'
 
+// --------------------------- Build notification function --------------------------------
+
 const displayNotification = (icon, background, text) => {
   const notification = `
     <div class="mnotification ${background}">
@@ -16,6 +18,7 @@ const displayNotification = (icon, background, text) => {
   setTimeout(removeNotification, 5000)
 }
 
+// -------------------------- Specific functions ------------------------------
 
 const displayStatusNotification = (status) => {
   const icon = 'fas fa-medal challenge-icon'
@@ -41,6 +44,16 @@ const displayChallengeNotification = () => {
   displayNotification(icon, background, text)
 }
 
+const displayConfirmationNotification = () => {
+  const icon = "fas fa-check-circle"
+  const background = "background-linear-success"
+  const text = `Tags added !`
+
+  displayNotification(icon, background, text)
+}
+
+// ---------------------------- General function ------------------------------------
+
 const displayAchievementNotification = (status, statusChanged, challenge, points) => {
   if (statusChanged == 'true') {
     displayStatusNotification(status)
@@ -48,6 +61,8 @@ const displayAchievementNotification = (status, statusChanged, challenge, points
     displayChallengeNotification()
   } else if (points != "0") {
     displayPointsNotification(points)
+  } else {
+    displayConfirmationNotification()
   }
 }
 

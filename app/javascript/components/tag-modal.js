@@ -22,6 +22,7 @@ const closeTagModal = () => {
 }
 
 const displayTagModal = () => {
+  console.log('hi')
   disableScroll();
 
   btn.classList.add('d-none')

@@ -12,7 +12,7 @@
    %>
   <div class="mt-2 badge-container big-tags">
     <% used_tags.split('$$').each do |tag| %>
-      <div class="mtag tag-inactive"> <%= tag %> </div>
+      <div class="mtag tag-inactive" onclick="styleTag()"> <%= tag %> </div>
     <% end %>
   </div>
 
