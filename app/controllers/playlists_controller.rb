@@ -45,11 +45,7 @@ class PlaylistsController < ApplicationController
     @tag = params['tag']
     @count = tracks.count
 
-    @points = playlist.tracks.select { |i| i.is_tag == false }.count * 10
-    @status_changed = current_user.status_changed?(@points)
-    @challenge_completed = update_challenge(tracks.count)
-    current_user.add_points(@points)
-    @status = current_user.status
+    manage_achievements(playlist.tracks)
 
     playlist.tracks.each { |track| track.add_tag(@tag, current_user) }
 

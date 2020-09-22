@@ -7,11 +7,7 @@ class TagsController < ApplicationController
     @tag = helpers.standardize_tags(params['tag'])
     @notification = track.is_tag
 
-    @points = 10
-    @status_changed = current_user.status_changed?(@points)
-    @challenge_completed = update_challenge(1)
-    current_user.add_points(@points)
-    @status = current_user.status
+    manage_achievements([track])
 
     track.add_tag(@tag, current_user)
 
@@ -53,11 +49,7 @@ class TagsController < ApplicationController
     tags = helpers.standardize_tags(params['tags'].split('$$'))
     tracks = params['track-ids'].split(',').map { |i| Track.find(i) }
 
-    @points = tracks.select { |i| i.is_tag == false }.count * 10
-    @status_changed = current_user.status_changed?(@points)
-    @challenge_completed = update_challenge(tracks.count)
-    current_user.add_points(@points)
-    @status = current_user.status
+    manage_achievements(tracks)
 
     tracks.each { |track| track.add_tags(tags, current_user) }
 

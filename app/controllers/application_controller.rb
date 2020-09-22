@@ -15,6 +15,15 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [:username])
   end
 
+  def manage_achievements(tracks)
+    untagged_tracks = tracks.select { |i| i.is_tag == false }.count
+    @points = untagged_tracks * 10
+    @status_changed = current_user.status_changed?(@points)
+    @challenge_completed = update_challenge(untagged_tracks)
+    current_user.add_points(@points)
+    @status = current_user.status
+  end
+
   def new_daily_challenge
     return if helpers.no_new_challenge_needed(current_user)
 
