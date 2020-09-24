@@ -28,7 +28,7 @@ const initializeAutocomplete = (autocomplete, input, path, canCreate) => {
   autocomplete.formPath = path
   autocomplete.userTags = input.dataset.userTags.split('$$')
   autocomplete.usedTags = input.dataset.usedTags.split('$$')
-  autocomplete.createTag = canCreate
+  autocomplete.createTag = canCreate.toString() == "true"
 }
 
 
@@ -120,7 +120,7 @@ const insertBadge = (name) => {
 }
 
 const insertBadgeToContainer = () => {
-  const badgeName = event.currentTarget.innerText
+  const badgeName = event.currentTarget.innerText.replace('create tag: ', '')
   input.dataset.usedTags += `$$${badgeName}`
 
   closeDropdownMenu()
@@ -149,8 +149,6 @@ const displayAutocomplete = () => {
 const inputAutocomplete = (path, canCreate) => {
   initializeVariables(event.currentTarget)
   initializeAutocomplete(autocomplete, event.currentTarget, path, canCreate)
-  console.log(autocomplete)
-
   input.addEventListener('input', displayAutocomplete)
 
 }
