@@ -20,13 +20,14 @@ class SpotifyController < ApplicationController
     end
   end
 
-  def gather_user_data_from_spotify
-    spotify_token
-    DataUpdate.create(user: current_user, source: 'spotify')
+  def data
     current_user.fetch_spotify_data
 
-    redirect_to playlists_path
-    # pablior
-    # need ajax: display loading then display confirmation message
+    redirect_to root_path
+  end
+
+  def gather_user_data_from_spotify
+    spotify_token
+    redirect_to lior_path
   end
 end

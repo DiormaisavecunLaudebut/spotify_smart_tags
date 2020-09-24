@@ -56,7 +56,7 @@ class TagsController < ApplicationController
 
   def tags_suggestions
     @id = params['track_id']
-    track = Track.find(@id)
+    track = UserTrack.find(@id).track
     tags = helpers.standardize_tags(track.get_suggestions)
     user_track = track.user_tracks.where(track: track, user: current_user).take
 

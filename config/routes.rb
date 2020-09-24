@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get 'filter-user-tracks', to: 'user_tracks#filter', as: :filter
   get 'utaggedtracks', to: 'sptags#show_untagged_tracks', as: :show_untagged_tracks
   get 'tag/select', to: 'tags#select_tag', as: :select_tag
+  get 'data', to: 'spotify#data', as: :data
   post 'add-tags', to: 'tags#bulk_add_tags', as: :add_tags
 
   resources :sptags, only: [:index] do

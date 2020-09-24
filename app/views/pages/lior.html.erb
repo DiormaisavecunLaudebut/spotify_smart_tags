@@ -1,42 +1,16 @@
 <div class="container mt-2">
 
-  <h1 class="active-color mb-3">Spotify Smart Tags</h1>
+  <h1 class="big-title text-white mb-3 text-center mt-5" style="font-size: 40px;"><span class="text-mprimary">Track</span>land</h1>
+  <h3 class="small-title text-white">Click on the button below to retrieve the tracks you have on Spotify</h3>
 
-  <% if !current_user %>
-    <%= link_to new_user_registration_path do %>
-      <div class="btn-full-page btn-sign-up mt-5">
-        <h1 class="active-color mb-0">Sign up</h1>
-      </div>
-    <% end %>
-
-  <%= link_to new_user_session_path do %>
-    <div class="btn-full-page btn-log-in mt-5">
-      <h1 class="active-color mb-0">Log in</h1>
-    </div>
-  <% end %>
-
-  <% else %>
-
-    <%= link_to destroy_user_session_path, method: :delete do %>
-      <div class="btn-full-page btn-sign-out mt-5">
-        <h1 class="active-color mb-0">Sign out</h1>
-      </div>
-    <% end %>
-  <% end %>
-
-  <% if current_user && !current_user.valid_token? %>
-    <%= link_to @url do %>
-      <div class="btn-full-page btn-sign-in-spotify mt-5">
-        <h1 class="active-color mb-0">Connect Spotify</h1>
-      </div>
-    <% end %>
-  <% end %>
-
-  <% if current_user && current_user.valid_token? %>
-    <%= link_to fetch_spotify_data_path, method: :post do  %>
+  <div class="d-flex flex-column justify-content-center align-items-center" id="hello-container">
+      <% if current_user && current_user.valid_token? %>
+    <%= link_to data_path, method: :post do  %>
       <div class="btn-full-page btn-fetch-data mt-5">
-        <h1 class="mb-0">Gather Data</h1>
+        <h1 class="mb-0 big-title">Let's go</h1>
       </div>
     <% end %>
+      <h1 class="mb-0 small-title no-thanks inactive-color mt-3">No thanks</h1>
   <% end %>
+  </div>
 </div>

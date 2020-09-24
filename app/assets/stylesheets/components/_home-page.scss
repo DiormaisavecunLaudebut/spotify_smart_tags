@@ -29,10 +29,19 @@
 }
 
 .btn-fetch-data {
-  background: orange;
-  color: $mblack;
+  background: $mprimary;
+  color: white;
+  width: 85vw;
+  height: 60px;
 }
 
 .my-form-container {
   margin: 0 10px;
+}
+
+.btn-no-thanks {
+  background: pink;
+  color: black;
+  width: 75vw;
+  height: 40px;
 }

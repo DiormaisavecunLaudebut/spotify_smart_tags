@@ -67,6 +67,7 @@ class User < ApplicationRecord
   end
 
   def fetch_spotify_data
+    DataUpdate.create(user: self, source: 'spotify')
     update_user_data
     update_user_library
     update_user_playlists_and_tracks
@@ -248,7 +249,7 @@ class User < ApplicationRecord
   def delete_remaining_playlists(playlists)
     playlists.map { |i| Playlist.find(i) }.each do |playlist|
       playlist.destroy
-      playlist.tracks.each { |track| track.destroy if track.playlist_tracks.empty? }
+      playlist.user_playlist_tracks.each(&:destroy)
     end
   end
 end

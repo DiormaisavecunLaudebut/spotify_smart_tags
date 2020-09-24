@@ -24,7 +24,11 @@ function insertTag() {
   }
   row.dataset.suggestions = row.dataset.suggestions.split('$$').filter(e => e != tagName).join('$$')
   var tagCount = parseInt(badge.innerText.split(' ')[0]) + 1
-  badge.innerText = `${tagCount} TAGS`
+  if (badge.innerText == "AUCUN TAG") {
+    badge.innerText = "1 TAG"
+  } else {
+    badge.innerText = `${tagCount} TAGS`
+  }
   tagsContainer.insertAdjacentHTML('beforeend', `<div class="mtag-small tag-primary mr-1 mb-1">${tagName}</div>`)
   console.log(tag)
   tag.remove();

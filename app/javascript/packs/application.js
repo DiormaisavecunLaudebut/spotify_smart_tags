@@ -45,18 +45,19 @@ import { inputAutocomplete, closeDropdownMenu  } from '../components/input-autoc
 import { styleTag } from '../components/style-tag'
 import { alignFixedBtn } from '../components/align-fixed-btn'
 import { today } from '../components/get-today-date'
+import { sayHello } from '../components/hello'
 
 openTagTracks()
 managePlaylistCreationOptions()
 listenPlaylistCreation()
 connectorPage()
-// listenBadgeClick()
 listenSearchFocus()
 listenEllipsis()
 listenTagModal()
 listenAccountToggles()
 listenOptions()
 listenStatusModal()
+sayHello()
 
 if (window.location.href.match(/playlists\/\d+/)) {
   const closeIcon = document.querySelector('.close-icon.tag-modal-icon')
