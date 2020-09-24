@@ -15,12 +15,10 @@ var createPlaylistBtn = document.getElementById('open-create-playlist');
 var playlistSection = document.getElementById('my-playlists');
 
 function fillInputsWithFilter() {
-  var usedTags = badgesName.join('$$')
-
   hiddenInputTracks.value = spotifyUris
-  hiddenInputName.value = usedTags
-  inputName.value = usedTags.replace('$$', ', ')
-  inputDescription.value = `Playlist generated from Trackland the ${today()} with the following tags: ${usedTags}`
+  hiddenInputName.value = badgesName.join('$$')
+  inputName.value = badgesName.join(', ')
+  inputDescription.value = `Playlist generated from Trackland the ${today()} with the following tags: ${badgesName.join(', ')}`
 }
 
 function appendTracks() {

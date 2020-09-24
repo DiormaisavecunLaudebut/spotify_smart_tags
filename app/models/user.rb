@@ -1,13 +1,17 @@
 class User < ApplicationRecord
   has_one :spotify_token
   has_many :playlists, dependent: :destroy
-  has_many :tracks
-  has_many :sptags, dependent: :destroy
   has_many :data_updates
   has_many :trackland_playlists
   has_many :spotify_api_calls
-  has_many :filter_requests
   has_many :daily_challenges
+
+  has_many :user_tracks
+  has_many :tracks, through: :user_tracks
+  has_many :user_track_tags, through: :user_tracks
+
+  has_many :user_tags
+  has_many :tags, through: :user_tags
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable
@@ -68,10 +72,6 @@ class User < ApplicationRecord
     update_user_playlists_and_tracks
   end
 
-  def tracks_tagged_with(tags)
-    Track.tagged_with(tags).where(user: self)
-  end
-
   def add_fetched_data(sp_data)
     update!(
       country: sp_data['country'],
@@ -117,7 +117,7 @@ class User < ApplicationRecord
     playlists = resp['items'].select { |i| i['owner']['id'] == spotify_client }
 
     playlists.each do |sp|
-      playlist = Playlist.find_playlist(sp['id'], self)
+      playlist = Playlist.where(spotify_id: sp['id'], user: self).take
       if playlist
         my_playlists.delete(playlist.id)
       else
@@ -130,65 +130,63 @@ class User < ApplicationRecord
     offset ? update_user_playlists_and_tracks(offset, my_playlists) : delete_remaining_playlists(my_playlists)
   end
 
-  def update_user_library(offset = 0, my_tracks = [])
+  def update_user_library(offset = 0, user_playlist_track_ids = [])
     playlist = Playlist.where(user: self, name: "Liked songs").take
     playlist = Playlist.create(user: self, name: "Liked songs", track_count: 0) if playlist.nil?
 
     path = 'https://api.spotify.com/v1/me/tracks'
-    my_tracks = playlist.tracks.map(&:id) if my_tracks.empty?
     limit = 50
     options = { limit: limit, offset: offset }
 
+    user_playlist_track_ids = playlist.user_playlist_tracks.map(&:id) if user_playlist_track_ids.empty?
+
     resp = SpotifyApiCall.get(path, token, options)
     tracks = resp['items']
-    new_tracks = []
 
     tracks.each do |tr|
-      track = Track.find_track(tr['track']['id'], self)
-      if track && playlist.tracks.select { |i| i.id == track.id }
-        my_tracks.delete(track.id)
-      elsif track
-        PlaylistTrack.create_plt(playlist, track)
-        my_tracks.delete(track.id)
+      track = Track.find_or_create(tr)
+      user_track = UserTrack.find_or_create(self, track)
+      user_playlist_track = UserPlaylistTrack.where(playlist: playlist, user_track: user_track).take
+
+      if user_playlist_track.nil?
+        UserPlaylistTrack.create(user_track: user_track, playlist: playlist)
       else
-        new_tracks << Track.create_track(tr['track'], self)
-        PlaylistTrack.create_plt(playlist, new_tracks.last)
+        user_playlist_track_ids.delete(user_playlist_track.id)
       end
     end
 
-    fetch_spotify_tracks_metadata(new_tracks)
     offset = ApplicationController.helpers.new_offset(offset, limit, resp['total'])
-    update_user_library(offset, my_tracks) if offset
+    update_user_library(offset, user_playlist_track_ids) if offset
 
-    delete_remaining_tracks(my_tracks)
+    delete_remaining_user_playlist_tracks(user_playlist_track_ids)
   end
 
-  def fetch_playlist_tracks(playlist, offset = 0, my_tracks = [])
+  def fetch_playlist_tracks(playlist, offset = 0, user_playlist_track_ids = [])
     path = "https://api.spotify.com/v1/playlists/#{playlist.spotify_id}/tracks"
-    my_tracks = playlist.tracks.map(&:id) if my_tracks.empty?
     limit = 100
     options = { limit: limit, offset: offset }
 
+    user_playlist_track_ids = playlist.user_playlist_tracks.map(&:id) if user_playlist_track_ids.empty?
+
     resp = SpotifyApiCall.get(path, token, options)
     tracks = resp['items']
-    new_tracks = []
 
     tracks.each do |tr|
-      track = Track.find_track(tr['track']['id'], self)
-      if track
-        my_tracks.delete(track.id)
+      track = Track.find_or_create(tr)
+      user_track = UserTrack.find_or_create(self, track)
+      user_playlist_track = UserPlaylistTrack.where(playlist: playlist, user_track: user_track).take
+
+      if user_playlist_track.nil?
+        UserPlaylistTrack.create(user_track: user_track, playlist: playlist)
       else
-        new_tracks << Track.create_track(tr['track'], self)
-        PlaylistTrack.create_plt(playlist, new_tracks.last)
+        user_playlist_track_ids.delete(user_playlist_track.id)
       end
     end
 
-    fetch_spotify_tracks_metadata(new_tracks)
-
     offset = ApplicationController.helpers.new_offset(offset, limit, resp['total'])
-    fetch_playlist_tracks(playlist, offset, my_tracks) if offset
+    fetch_playlist_tracks(playlist, offset, user_playlist_track_ids) if offset
 
-    delete_remaining_tracks(my_tracks)
+    delete_remaining_user_playlist_tracks(user_playlist_track_ids)
   end
 
   def fetch_spotify_tracks_metadata(tracks)
@@ -198,7 +196,7 @@ class User < ApplicationRecord
     return if resp['audio_features'][0].nil?
 
     resp['audio_features'].each do |result|
-      track = Track.where(user: self, spotify_id: result['id']).take
+      track = Track.where(spotify_id: result['id']).take
 
       evaluate_danceability(track, result['danceability'])
       evaluate_instrumentalness(track, result['instrumentalness'])
@@ -243,8 +241,8 @@ class User < ApplicationRecord
     track.spotify_tags << 'acoustic' if value >= 0.75
   end
 
-  def delete_remaining_tracks(tracks)
-    tracks.map { |i| Track.find(i) }.each(&:destroy)
+  def delete_remaining_user_playlist_tracks(user_playlist_track_ids)
+    user_playlist_track_ids.each { |id| UserPlaylistTrack.find(id).destroy }
   end
 
   def delete_remaining_playlists(playlists)

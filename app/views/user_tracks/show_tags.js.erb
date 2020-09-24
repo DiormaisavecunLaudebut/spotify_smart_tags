@@ -1,6 +1,6 @@
 var tags = "<%= @tags %>".split('$$')
-var trackId = "<%= @id %>"
-var rowContainer = document.querySelector(`[data-track-id='${trackId}']`)
+var userTrackId = "<%= @id %>"
+var rowContainer = document.querySelector(`[data-user-track-id='${userTrackId}']`)
 var rowDetails = rowContainer.querySelector('.row-details')
 
 function appendTags() {

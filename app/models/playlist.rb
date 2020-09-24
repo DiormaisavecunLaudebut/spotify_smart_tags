@@ -1,12 +1,8 @@
 class Playlist < ApplicationRecord
-  has_many :playlist_tracks, dependent: :destroy
-  has_many :tracks, through: :playlist_tracks
+  has_many :user_playlist_tracks
+  has_many :user_tracks, through: :user_playlist_tracks, dependent: :destroy
   has_one :trackland_playlist
   belongs_to :user
-
-  def self.find_playlist(spotify_id, user)
-    Playlist.where(spotify_id: spotify_id, user: user).take
-  end
 
   def update_track_count(total)
     update!(track_count: total) if track_count != total

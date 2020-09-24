@@ -1,9 +1,11 @@
-var trackId = "<%= @id %>"
+var userTrackId = "<%= @id %>"
 var name = "<%= @name %>"
 var artist = "<%= @artist %>"
 var href = "<%= @href %>"
 var coverUrl = "<%= @cover %>"
 var tags = "<%= @tags %>".split('$$')
+
+console.log(coverUrl)
 
 var addTagOption = document.getElementById('add-tag');
 var removeTagOption = document.getElementById('remove-tag');
@@ -23,7 +25,7 @@ function displayDeleteTags() {
   deleteTagsContainer.classList.add('mbt')
 
   var badges = Array.from(tagsContainer.children).map(e => `
-    <form action="/tracks/${trackId}/remove-tag" method="post" data-remote="true" id="tag-${e.innerText}">
+    <form action="/user_tracks/${userTrackId}/remove-tag" method="post" data-remote="true" id="tag-${e.innerText}">
       <input type="hidden" name="tag" id="${e.innerText}" value="${e.innerText}">
       <button type="submit" class="mtag">${e.innerText.toLowerCase()}</button>
     </form>
@@ -67,7 +69,7 @@ function resetModalDetails() {
   trackArtist.innerText = ""
   trackCover.src = ""
   trackHref.href = ""
-  modal.dataset.trackId = ""
+  modal.dataset.userTrackId = ""
 
   Array.from(deleteTagsContainer.children).forEach(e => e.remove())
   Array.from(tagsContainer.children).forEach(e => e.remove())
@@ -88,8 +90,8 @@ function addTrackDetails() {
   var badges = tags.map(e => `<div class="mtag-small tag-primary mr-1 mb-1">${e}</div>`).join('')
 
   if (!window.location.href.match('playlist')) covers.forEach(cover => cover.style.zIndex = 0)
-  modal.dataset.trackId = trackId
-  addTagOption.href = `/tracks/${trackId}/napster`
+  modal.dataset.userTrackId = userTrackId
+  addTagOption.href = `/tracks/${userTrackId}/napster`
   trackName.innerText = name
   trackArtist.innerText = artist
   trackCover.src = coverUrl

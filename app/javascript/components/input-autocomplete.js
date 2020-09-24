@@ -67,7 +67,7 @@ const buildBadges = (tags, boolean) => {
     return tags.map((tag) => {
       const p = document.createElement('p')
       p.className = "my-dropdown-item-autocomplete py-1 pl-2"
-      p.innerText = autocomplete.createTag && boolean ? `create tag: ${tag}` : tag
+      p.innerText = autocomplete.createTag  && boolean ? `create tag: ${tag}` : tag
       p.onclick = insertBadgeToContainer
 
       return p

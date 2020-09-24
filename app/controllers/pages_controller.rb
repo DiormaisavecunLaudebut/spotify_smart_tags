@@ -8,13 +8,13 @@ class PagesController < ApplicationController
     @max_filters = current_user.get_permissions[:max_filters]
     @url = build_spotify_code_url
     if current_user.filter_all
-      @user_tags = User.all.map { |i| i.sptags.map(&:name) }.join('$$')
-      @tags = Sptag.all.sort_by(&:track_count).reverse.map(&:name).first(6)
+      @user_tags = Tag.all.map(&:name)
+      @tags = Tag.all.sort_by(&:track_count).reverse.map(&:name).first(6)
     else
-      @user_tags = current_user.sptags.map(&:name).join('$$')
-      @tags = current_user.sptags.sort_by(&:track_count).reverse.map(&:name).first(6)
+      @user_tags = current_user.tags.map(&:name)
+      @tags = current_user.tags.sort_by(&:track_count).reverse.map(&:name).first(6)
     end
-    @used_tags = @tags.join('$$')
+    @used_tags = @tags
     @trackland_playlists = current_user.trackland_playlists
   end
 

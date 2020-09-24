@@ -2,8 +2,8 @@
   <div class="my-dropdown-menu-autocomplete d-none"></div>
   <i class="fas fa-search"></i>
   <input
-  data-user-tags="<%= user_tags %>"
-  data-used-tags="<%= used_tags %>"
+  data-user-tags="<%= user_tags.join('$$') %>"
+  data-used-tags="<%= used_tags.join('$$') %>"
   onclick='inputAutocomplete("<%= path %>", "<%= create_tag %>")'
   id="input-autocomplete"
   autocomplete="off"

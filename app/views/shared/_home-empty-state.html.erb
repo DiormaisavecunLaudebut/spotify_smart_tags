@@ -1,0 +1,8 @@
+<h1 class="big-title text-white">You haven't
+  <span class="text-mprimary">tagged tracks</span> yet, so you cannot search among your tracks. However, you can use
+  <span class="text-mprimary">other people's tracks.</span>
+</h1>
+<%= form_with(url: '/filter-all', method: 'post', local: true, class: 'd-flex mb-3', id: 1) do %>
+  <%= submit_tag("Use other users' tracks", class: "primary-btn btn-fixed") %>
+<% end %>
+</div>

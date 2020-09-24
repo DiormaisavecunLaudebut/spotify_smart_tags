@@ -3,23 +3,27 @@ class PlaylistsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :add_tag
   before_action :refresh_user_token!, only: :create_spotify_playlist
 
-  def show
-    playlist = Playlist.find(params['id'])
-    @tracks = playlist.tracks
-    @user_tags = current_user.sptags.map(&:name).join('$$')
-    @used_tags = current_user.sptags.first(6).map(&:name).join('$$')
-
-    @sptags = current_user.sptags.map { |sptag| [sptag.name, sptag.track_count] }.sort_by(&:last).reverse
-    @modal_tags = @sptags.first(6).map(&:first)
+  def index # cleared
+    @playlists = current_user.playlists
+    @user_tags = current_user.tags
   end
 
-  def show_playlist_actions
+  def show # cleared
+    playlist = Playlist.find(params['id'])
+
+    @user_tracks = playlist.user_tracks
+    @user_tags = current_user.tags.map(&:name)
+    @used_tags = current_user.tags.sort_by(&:track_count).map(&:name).reverse.first(6)
+    @modal_tags = current_user.tags.first(6).map(&:name)
+  end
+
+  def modal # cleared
     @id = params['playlist_id']
     playlist = Playlist.find(@id)
     hash = {}
 
-    playlist.tracks.each do |track|
-      track.tag_list.each do |tag|
+    playlist.user_tracks.each do |user_track|
+      user_track.tag_list.each do |tag|
         hash[tag].nil? ? hash[tag] = 1 : hash[tag] += 1
       end
     end
@@ -30,7 +34,7 @@ class PlaylistsController < ApplicationController
     @href = playlist.external_url
     @cover = playlist.cover_url
     @description = playlist.description
-    @user_tags = current_user.sptags.map(&:name).join('$$')
+    @user_tags = current_user.tags.map(&:name).join('$$')
     @used_tags = ""
 
     respond_to do |format|
@@ -39,15 +43,15 @@ class PlaylistsController < ApplicationController
     end
   end
 
-  def add_tag
+  def add_tag # cleared
     playlist = Playlist.find(params['playlist_id'])
-    tracks = playlist.tracks
     @tag = params['tag']
-    @count = tracks.count
+    user_tracks = playlist.user_tracks
+    @count = user_tracks.count
 
-    manage_achievements(playlist.tracks)
+    manage_achievements(user_tracks)
 
-    playlist.tracks.each { |track| track.add_tag(@tag, current_user) }
+    user_tracks.each { |user_track| user_track.add_tags(@tag, current_user) }
 
     respond_to do |format|
       format.html { redirect_to lior_path }
@@ -55,23 +59,18 @@ class PlaylistsController < ApplicationController
     end
   end
 
-  def index
-    @playlists = current_user.playlists
-    @user_tags = current_user.sptags.map(&:name).join(' ')
-  end
-
-  def create_spotify_playlist
+  def create_spotify_playlist # cleared
     path = "https://api.spotify.com/v1/users/#{current_user.spotify_client}/playlists"
     content_type = 'application/json'
+
     max_tracks = current_user.get_permissions[:max_tracks]
+    self_destroy = params['Self-destroy']
 
     if max_tracks == 'unlimited'
       uris = params['track-uris'].split('$$')
     else
       uris = params['track-uris'].split('$$').sample(max_tracks)
     end
-
-    self_destroy = params['Self-destroy']
 
     resp = SpotifyApiCall.post(
       path,
@@ -84,7 +83,7 @@ class PlaylistsController < ApplicationController
     TracklandPlaylist.create_playlist(current_user, params, playlist)
     UpdateCoverUrlJob.set(wait: 2.minutes).perform_later(playlist.id, current_user.id)
 
-    DestroyPlaylistJob.set(wait: 24.hours).perform_later(current_user.id, playlist.id) if self_destroy == 'on'
+    DestroyPlaylistJob.set(wait: 24.hours).perform_later(current_user.id, playlist.id) if self_destroy
 
     fill_playlist_with_tracks(playlist, uris)
 
@@ -93,9 +92,8 @@ class PlaylistsController < ApplicationController
 
   private
 
-  def fill_playlist_with_tracks(playlist, uris)
-    playlist_id = playlist.spotify_id
-    path = "https://api.spotify.com/v1/playlists/#{playlist_id}/tracks"
+  def fill_playlist_with_tracks(playlist, uris) # cleared
+    path = "https://api.spotify.com/v1/playlists/#{playlist.spotify_id}/tracks"
     content_type = 'application/json'
     spotify_ids = uris.map { |i| i.gsub('spotify:track:', '') }
     limit = 100
@@ -108,8 +106,12 @@ class PlaylistsController < ApplicationController
       content_type
     )
 
-    tracks = spotify_ids.map { |i| Track.where(user: current_user, spotify_id: i).take }
-    tracks.each { |track| PlaylistTrack.create_plt(playlist, track) }
+    tracks = spotify_ids.map { |id| Track.where(spotify_id: id).take }
+
+    tracks.each do |track|
+      user_track = UserTrack.create(user: current_user, track: track)
+      UserPlaylistTrack.create(playlist: playlist, user_track: user_track)
+    end
 
     fill_playlist_with_tracks(playlist, uris) unless uris.empty?
   end
