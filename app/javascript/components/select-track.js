@@ -1,6 +1,6 @@
 var trackSelectedCount = 0
 const bulkAction = document.getElementById('bulk-tag')
-const hiddenInput = document.getElementById('hidden-input-tracks-ids')
+const hiddenInput = document.getElementById('hidden-input-user-tracks-ids')
 
 function displayBulkAction() {
   const windowHeight = window.innerHeight
@@ -17,10 +17,10 @@ function removeBulkAction() {
 
 function selectTrack(bk) {
   var iconCheck = bk.firstElementChild
-  const trackId = bk.closest('.row-container').dataset.trackId
+  const userTrackId = bk.closest('.row-container').dataset.userTrackId
 
   bk.classList.toggle('track-selected');
-  hiddenInput.value += trackId + ','
+  hiddenInput.value += userTrackId + ','
 
   if (trackSelectedCount == 0) displayBulkAction()
 
@@ -33,8 +33,8 @@ function selectTrack(bk) {
 
 function unselectTrack(bk) {
   var iconCheck = bk.firstElementChild
-  const trackId = bk.closest('.row-container').dataset.trackId
-  const regex = new RegExp(`${trackId},`);
+  const userTrackId = bk.closest('.row-container').dataset.userTrackId
+  const regex = new RegExp(`${userTrackId},`);
 
   bk.classList.toggle('track-selected');
   hiddenInput.value = hiddenInput.value.replace(regex, '')

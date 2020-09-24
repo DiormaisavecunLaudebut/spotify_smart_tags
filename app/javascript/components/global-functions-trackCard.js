@@ -19,10 +19,10 @@ function trackCard(track) {
         badges          =     tagList.map(e => `<span class="badge badge-pill mr-1 badge-light">${e}</span>`).join('')
   const subtitle = tags == '' ? 'No tag' : pluralise('tag', tagList.length)
   const card = `
-<div class="row-container" style="padding: 0;" data-track-id="${id}">
+<div class="row-container" style="padding: 0;" data-user-track-id="${id}">
 <img class="row-cover" src="${cover_url}" alt="">
 <div class="track-select-background"><i class="fas fa-check"></i></div>
-  <a class="link-row" data-remote="true" href="/tracks/${id}/track/tags?locale=fr">
+  <a class="link-row" data-remote="true" href="/user_tracks/${id}/show-tags">
     <div class="row-details">
       <span class="row-title active-color line-clamp">${name}</span>
       <span class="row-subtitle">${artist}</span>

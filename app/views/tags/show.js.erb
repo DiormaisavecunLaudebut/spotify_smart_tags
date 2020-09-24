@@ -85,6 +85,7 @@ function appendFirstTags() {
 function appendTracks() {
   cleanZone()
   appendFirstTags()
+
   tracks.forEach(track => { trackCards += trackCard(track) })
   cardBody.insertAdjacentHTML('beforeend', trackCards)
 

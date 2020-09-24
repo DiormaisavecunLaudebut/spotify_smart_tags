@@ -7,18 +7,18 @@
   <%= render 'shared/searchbar',
     user_tags: user_tags,
     path: "",
-    create_tag: false,
+    create_tag: true,
     used_tags: used_tags
    %>
   <div class="mt-2 badge-container big-tags">
-    <% used_tags.split('$$').each do |tag| %>
+    <% used_tags.each do |tag| %>
       <div class="mtag tag-inactive" onclick="styleTag()"> <%= tag %> </div>
     <% end %>
   </div>
 
   <%= form_with(url: '/add-tags', method: 'post', local: false) do %>
 
-    <%= hidden_field_tag(:tags, nil, id: 'hidden-input-tracks-ids', name: 'track-ids') %>
+    <%= hidden_field_tag(:tags, nil, id: 'hidden-input-user-tracks-ids', name: 'user-track-ids') %>
     <%= hidden_field_tag(:tags, nil, id: 'hidden-input-tags', name: 'tags') %>
 
     <%= submit_tag 'Add tags', class: 'mt-3 secondary-btn bulk-tag-submit', id: 'btn-submit-filter' %>

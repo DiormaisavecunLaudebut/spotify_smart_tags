@@ -5,5 +5,15 @@ var tag = document.getElementById(`tag-${tagName.toUpperCase()}`)
 var tagsContainer = document.querySelector('.tags-container')
 var otherTag = Array.from(tagsContainer.children).filter(e => e.innerText == tagName.toUpperCase())[0]
 
+var rowTag = document.querySelector(`[data-user-track-id='${id}'] .mtag-small`)
+var actualCount = parseInt(rowTag.innerText.split(' ')[0])
+var newCount = actualCount - 1
+
+if (actualCount == 1) {
+  rowTag.innerText = "AUCUN TAG"
+} else {
+  rowTag.innerText = `${newCount} TAGS`
+}
+
 otherTag.remove();
 tag.remove();

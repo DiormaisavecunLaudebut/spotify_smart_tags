@@ -1,11 +1,11 @@
-var trackIds = "<%= @ids %>".split('$$')
+var userTrackIds = "<%= @ids %>".split('$$')
 var points = "<%= @points %>"
 var challenge = "<%= @challenge_completed %>"
 var status = "<%= @status %>"
 var statusChanged = "<%= @status_changed %>"
 
 function updateTagCount(id) {
-  var track = document.querySelector(`[data-track-id='${id}'`)
+  var track = document.querySelector(`[data-user-track-id='${id}'`)
   var badge = track.querySelector('.mtag-small')
   var tagCount = parseInt(badge.innerText.split(' ')[0]) + 1
 
@@ -13,12 +13,12 @@ function updateTagCount(id) {
 }
 
 function removeTracks(id) {
-  var track = document.querySelector(`[data-track-id='${id}'`)
+  var track = document.querySelector(`[data-user-track-id='${id}'`)
   track.remove()
 }
 
 function resetSelection() {
-  trackIds.forEach(id => updateTagCount(id))
+  userTrackIds.forEach(id => updateTagCount(id))
 
   var tracksSelected = document.querySelectorAll('.track-selected')
 
@@ -28,14 +28,14 @@ function resetSelection() {
 
 function resetAndClose() {
   if (window.location.href.match('sptags')) {
-    var track = document.querySelector(`[data-track-id='${trackIds[0]}'`)
+    var track = document.querySelector(`[data-user-track-id='${userTrackIds[0]}'`)
     if (track.closest('.card').querySelector('button').innerText.match('Untagged')) {
-      trackIds.forEach(id => removeTracks(id))
+      userTrackIds.forEach(id => removeTracks(id))
       closeTagModal()
       var title = document.querySelector('.big-title.text-white')
       var subtitle = document.querySelector('.not-bold')
       var count = parseInt(title.innerText.match(/\d+/))
-      var newCount = (count - trackIds.length)
+      var newCount = (count - userTrackIds.length)
       title.innerText = title.innerText.replace(/\d+/, newCount)
       subtitle.innerText = subtitle.innerText.replace(/\d+/, newCount)
     } else {

@@ -1,13 +1,14 @@
 <div id="bulk-tag" class="primary-btn btn-fixed d-none" style="z-index: 100"></div>
 
-<% @tracks.each do |track| %>
+<% @user_tracks.each do |user_track| %>
+  <% track = user_track.track %>
   <%= render 'shared/row',
     title: track.name,
     subtitle: "#{track.artist}",
     cover: track.cover_url,
     path: track.external_url,
-    tag_list: track.tag_list,
-    track_id: track.id
+    tag_list: user_track.tags.map(&:name),
+    user_track_id: user_track.id
   %>
 <% end %>
 

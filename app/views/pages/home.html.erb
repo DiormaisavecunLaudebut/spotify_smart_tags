@@ -3,31 +3,30 @@
 
 <div class='container mt-3'>
   <% if @user_tags == "" && current_user.filter_all == false %>
-  <h1 class="big-title text-white">You haven't <span class="text-mprimary">tagged tracks</span> yet, so you cannot search among your tracks. However, you can use <span class="text-mprimary">other people's tracks.</span></h1>
-  <%= form_with(url: '/filter-all', method: 'post', local: true, class: 'd-flex mb-3', id: 1) do %>
-      <%= submit_tag("Use other users' tracks", class: "primary-btn btn-fixed") %>
-    </div>
+    <%= render 'shared/home-empty-state' %>
+
+  <% else %>
+    <h1 class="big-title text-white">What do you want to listen ?</h1>
+    <%= form_with(url: '/filter-user-tracks', method: 'get', local: false, class: 'd-flex align-items-center flex-column') do %>
+      <%= hidden_field_tag(:tracks, nil, id: 'hidden-input-tags', name: "filter-tags", value: "") %>
+
+      <div class="mt-2 badge-container big-tags" for="">
+        <% @tags.each do |tag_name| %>
+          <div class="mtag tag-inactive" onclick="styleTag()"><%= tag_name %></div>
+        <% end %>
+      </div>
+
+      <%= render 'shared/searchbar',
+      user_tags: @user_tags,
+      path: "",
+      create_tag: false,
+      used_tags: @used_tags %>
+
+      <%= submit_tag("Find tracks", class: 'btn-submit-filter mt-3 secondary-btn', id: 'btn-submit-filter') %>
+
+    <% end %>
   <% end %>
-    <% else %>
-      <h1 class="big-title text-white">What do you want to listen ?</h1>
-      <%= form_with(url: '/filter/tracks', method: 'get', local: false, class: 'd-flex align-items-center flex-column') do %>
-        <%= hidden_field_tag(:tracks, nil, id: 'hidden-input-tags', name: "filter-tags", value: "") %>
-        <div class="mt-2 badge-container big-tags" for="">
-          <% @tags.each do |tag_name| %>
-              <div class="mtag tag-inactive" onclick="styleTag()"><%= tag_name %></div>
-          <% end %>
-        </div>
 
-        <%= render 'shared/searchbar',
-        user_tags: @user_tags,
-        path: "",
-        create_tag: false,
-        used_tags: @used_tags %>
-
-        <%= submit_tag("Find tracks", class: 'btn-submit-filter mt-3 secondary-btn', id: 'btn-submit-filter') %>
-
-      <% end %>
-  <% end %>
   <% if @trackland_playlists.count > 0  %>
     <section id="my-playlists">
       <h1 class="big-title text-white mt-3">Recent Playlists</h1>

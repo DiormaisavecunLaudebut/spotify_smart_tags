@@ -16,7 +16,7 @@ var searchbar = `
     type="textarea"
     name="tags"
     placeholder="Search tags"
-    onclick="inputAutocomplete('/tracks/${id}/tag', true)"
+    onclick="inputAutocomplete('/user_tracks/${id}/tag', true)"
   >
 </div>`
 var closeIcon = document.querySelector('.close-icon');
@@ -53,7 +53,7 @@ function removeListener() {
 function appendTags() {
   var suggestionsSerialized = row.dataset.suggestions.split('$$')
   var tags = suggestionsSerialized.map(e => `
-    <form action="/tracks/${id}/tag" method="post" data-remote="true" id="tag-${e}">
+    <form action="/user_tracks/${id}/tag" method="post" data-remote="true" id="tag-${e}">
       <input type="hidden" name="tag" id="${e}" value="${e}">
       <button type="submit" class="mtag">${e}</button>
     </form>

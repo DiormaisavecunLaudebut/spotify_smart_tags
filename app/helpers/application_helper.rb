@@ -103,8 +103,9 @@ module ApplicationHelper
     %w[on true].include?(string)
   end
 
-  def serialize_track_info(track, tag_name = nil)
-    tags = track.tag_list
+  def serialize_track_info(user_track, tag_name = nil)
+    track = user_track.track
+    tags = user_track.tag_list
     tags.delete(tag_name) if tag_name
     [
       track.name,
