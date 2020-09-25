@@ -19,17 +19,15 @@ class TagsController < ApplicationController
   def show
     tags = {}
     @tag_name = params['id'].match(/(.*)\//)[1]
-    track_scope = current_user.filter_all ? UserTrack.all : current_user.user_tracks
+    tag = Tag.where(name: @tag_name)
 
-    user_tracks_object = track_scope.select do |user_track|
-      user_track.tagged_with(@tag_name)
-    end
+    user_tracks_object = UserTrackTag.where(tag: tag).map(&:user_track).select {|i| i.user == current_user }
 
     @tracks = user_tracks_object.map { |i| helpers.serialize_track_info(i) }.join('$$')
 
     user_tracks_object.each do |user_track|
-      user_track.tag_list.each do |tag|
-        tags[tag].nil? ? tags[tag] = 1 : tags[tag] += 1
+      user_track.tag_list.each do |utag|
+        tags[utag].nil? ? tags[utag] = 1 : tags[utag] += 1
       end
     end
 
