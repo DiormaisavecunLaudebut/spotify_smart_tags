@@ -119,7 +119,6 @@ function playAddTagOption() {
   } else {
     addTagOption.insertAdjacentHTML('afterend', searchbar)
     var search = document.getElementById('input-autocomplete')
-    listenKeyboardOnInput()
     search.dataset.playlistId = id
   }
 }

@@ -46,7 +46,8 @@ import { styleTag } from '../components/style-tag'
 import { alignFixedBtn } from '../components/align-fixed-btn'
 import { today } from '../components/get-today-date'
 import { sayHello } from '../components/hello'
-import { listenKeyboardOnInput } from '../components/keyboard-opening'
+import { listenRemoveTagClick } from '../components/delete-tags'
+import { listenAddTagClick } from '../components/add-tags'
 
 openTagTracks()
 managePlaylistCreationOptions()
@@ -59,7 +60,8 @@ listenAccountToggles()
 listenOptions()
 listenStatusModal()
 sayHello()
-listenKeyboardOnInput()
+listenRemoveTagClick()
+listenAddTagClick()
 
 if (window.location.href.match(/playlists\/\d+/)) {
   const closeIcon = document.querySelector('.close-icon.tag-modal-icon')
@@ -83,7 +85,6 @@ global.styleTag = styleTag
 global.alignFixedBtn = alignFixedBtn
 global.today = today
 global.closeDropdownMenu = closeDropdownMenu
-global.listenKeyboardOnInput = listenKeyboardOnInput
 
 // Internal imports, e.g:
 // import { initSelect2 } from '../components/init_select2';

@@ -44,7 +44,7 @@ class TagsController < ApplicationController
   def remove_tag
     @id = params['user_track_id']
     user_track = UserTrack.find(@id)
-    @tag = helpers.standardize_tags(params['tag'])
+    @tag = helpers.standardize_tags(params['commit'])
 
     user_track.remove_tags(@tag, current_user)
 

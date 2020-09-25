@@ -36,7 +36,6 @@ function reopenRow() {
   row.classList.remove('mbt')
   appendTags();
   row.insertAdjacentHTML('afterend', searchbar);
-  listenKeyboardOnInput()
 }
 
 function manageTags() {
@@ -73,7 +72,6 @@ function ntm() {
   row.href = ""
   if (suggestions[0] != "") appendTags();
   row.insertAdjacentHTML('afterend', searchbar)
-  listenKeyboardOnInput()
   document.getElementById('input-autocomplete').dataset.playlistId = id
   row.addEventListener('click', manageTags)
 }

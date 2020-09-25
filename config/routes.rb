@@ -28,13 +28,11 @@ Rails.application.routes.draw do
 
   resources :user_tracks do
     get 'show-tags', to: 'user_tracks#show_tags', as: :show_tags
-    get 'modal', to: 'user_tracks#modal', as: :modal
     post 'tag', to: 'tags#add_tag', as: :add_tag
     post 'remove-tag', to: 'tags#remove_tag', as: :remove_tag
   end
   resources :tracks, only: [:show] do
     delete 'untag', to: 'tracks#remove_tags_to_track', as: :untag
-    get 'napster', to: 'tags#tags_suggestions', as: :tags_suggestions
   end
 
   resources :tags, only: [:index, :show]
@@ -42,6 +40,6 @@ Rails.application.routes.draw do
   resources :playlists, only: [:show, :index] do
     post 'create_tag', to: 'tracks#create_tag', as: :create_tag
     post 'add-tag', to: 'playlists#add_tag', as: :bulk_tag
-    get 'modal', to: 'playlists#modal', as: :modal
+    # get 'modal', to: 'playlists#modal', as: :modal
   end
 end

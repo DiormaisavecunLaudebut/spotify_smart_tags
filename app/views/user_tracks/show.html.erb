@@ -1,0 +1,59 @@
+<div class="track-modal" data-track-id="<%= @id %>">
+
+  <%= link_to request.referer do %>
+    <i class="fas fa-angle-left text-white back-icon"></i>
+  <% end %>
+
+  <div class="track-details">
+    <img class="track-cover" src="<%= @cover_url %>">
+    <h1 class="big-title text-white track-name" style="margin-top:20px"><%= @name %></h1>
+    <p class="track-artist"><%= @artist %></p>
+
+    <div class="tags-container">
+      <% @tags.each do |tag| %>
+        <div id="tag-<%= tag.name %>" class="mtag-small tag-primary mr-1 mb-1"><%= tag.name %></div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="options-container">
+
+    <div class="modal-option mbt" id="add-tags">
+      <div class="d-flex">
+        <i class="fas fa-tags text-mgray" style="margin-right: 20px"></i>
+        <h2 class="small-title text-white">Add tag(s)</h2>
+      </div>
+    </div>
+
+    <div class="d-none" id="searchbar">
+      <%= render 'shared/searchbar',
+        user_tags: @user_tags,
+        path: "/user_tracks/#{@id}/tag",
+        create_tag: true,
+        used_tags: @used_tags %>
+    </div>
+
+    <div class="d-flex modal-option mbt flex-column justify-content-center align-items-start" id="remove-tag">
+      <div class="d-flex">
+        <i class="far fa-trash-alt text-mgray" style="margin-right: 20px"></i>
+        <h2 class="small-title text-white">Delete tag(s)</h2>
+      </div>
+    </div>
+
+    <div class="delete-tags-container d-none">
+      <% @tags.each do |tag| %>
+        <%= form_with(url: "/user_tracks/#{@id}/remove-tag", method: 'post', local: false)  do %>
+          <%= submit_tag "#{tag.name}", class: 'mtag' %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <a href="<%= @href %>" target="_blank" id="tag-href">
+      <div class="d-flex modal-option mbt">
+        <i class="fab fa-spotify text-mgray" style="margin-right: 20px"></i>
+        <h2 class="small-title text-white">Open in Spotify</h2>
+      </div>
+    </a>
+  </div>
+</div>
+

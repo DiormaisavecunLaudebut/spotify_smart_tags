@@ -39,6 +39,9 @@ html, body {
 .btn:focus {
   box-shadow: none;
 }
+input[type="submit" i] {
+  background: none;
+}
 
 button {
   background: none;

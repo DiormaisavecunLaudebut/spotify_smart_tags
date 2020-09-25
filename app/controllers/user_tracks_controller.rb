@@ -8,6 +8,20 @@ class UserTracksController < ApplicationController
     end
   end
 
+  def show
+    @id = params['id']
+    user_track = UserTrack.find(@id)
+    track = user_track.track
+
+    @cover_url = track.cover_url
+    @name = track.name
+    @artist = track.artist
+    @tags = user_track.tags
+    @href = track.external_url
+    @user_tags = current_user.tags.map(&:name)
+    @used_tags = user_track.tag_list
+  end
+
   def modal
     @name = @track.name
     @artist = @track.artist
