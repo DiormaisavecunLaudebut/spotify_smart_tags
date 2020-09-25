@@ -53,3 +53,13 @@
 <%= render 'shared/create-playlist-modal' %>
 <div id="user-status" data-user-status="<%= current_user.status %>"></div>
 <div id="user-max-filters" data-user-max-filters="<%= @max_filters %>"></div>
+
+<div
+  class="d-none"
+  data-challenge-completed="<%= @challenge_completed %>"
+  data-user-points="<%= @points %>"
+  data-user-status="<%= @status %>"
+  data-status-changed="<%= @status_changed %>"
+  id="manage_achievements"
+  >
+</div>

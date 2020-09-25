@@ -6,7 +6,8 @@ class TagsController < ApplicationController
     user_track = UserTrack.find(@id)
     @tag = helpers.standardize_tags(params['tag'])
 
-    manage_achievements([user_track])
+    @points = user_track.is_tag ? 0 : 10
+    manage_achievements(@points, 1)
 
     user_track.add_tags(@tag, current_user)
 
@@ -14,6 +15,13 @@ class TagsController < ApplicationController
       format.html { redirect_to lior_path }
       format.js
     end
+  end
+
+  def bulk_modal
+    @user_track_ids = params['user-track-ids']
+    @user_tags = current_user.tags.map(&:name)
+    @playlist_id = params['playlist-id']
+    @used_tags = current_user.tags.sort_by(&:track_count).last(6).map(&:name)
   end
 
   def show
@@ -69,18 +77,16 @@ class TagsController < ApplicationController
   end
 
   def bulk_add_tags
+    playlist_id = params['playlist-id']
     @ids = params['user-track-ids'].split(',').join('$$')
     tags = helpers.standardize_tags(params['tags'].split('$$'))
     user_tracks = params['user-track-ids'].split(',').map { |i| UserTrack.find(i) }
 
-    manage_achievements(user_tracks)
+    untagged_tracks = user_tracks.reject(&:is_tag).count
+    @points = untagged_tracks * 10
 
     user_tracks.each { |user_track| user_track.add_tags(tags, current_user) }
 
-    respond_to do |format|
-      format.html { redirect_to lior_path }
-      format.js
-    end
+    redirect_to playlist_path(playlist_id, points: @points)
   end
 end
-

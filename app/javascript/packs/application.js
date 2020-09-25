@@ -47,6 +47,7 @@ import { today } from '../components/get-today-date'
 import { sayHello } from '../components/hello'
 import { listenRemoveTagClick } from '../components/delete-tags'
 import { listenAddTagClick } from '../components/add-tags'
+import { displayAchievementNotificationPostForm } from '../components/achievement-no-ajax'
 
 openTagTracks()
 managePlaylistCreationOptions()
@@ -61,12 +62,8 @@ listenStatusModal()
 sayHello()
 listenRemoveTagClick()
 listenAddTagClick()
-
-// if (window.location.href.match(/playlists\/\d+/)) {
-//   const closeIcon = document.querySelector('.close-icon.tag-modal-icon')
-//   listenCoverClick()
-//   closeIcon.addEventListener('click', closeTagModal)
-// }
+listenCoverClick()
+displayAchievementNotificationPostForm()
 
 global.trackCard = trackCard;
 global.emptyStateHTML = emptyStateHTML

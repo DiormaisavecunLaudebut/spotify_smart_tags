@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   post 'user/gather-data', to: 'spotify#gather_user_data_from_spotify', as: :fetch_spotify_data
   post 'create/playlist', to: 'playlists#create_spotify_playlist', as: :create_spotify_playlist
   get 'tag/index', to: 'tags#index', as: :tag_index
+  get 'bulk-modal', to: 'tags#bulk_modal', as: :bulk_modal
   get 'filter-user-tracks', to: 'user_tracks#filter', as: :filter
   get 'utaggedtracks', to: 'sptags#show_untagged_tracks', as: :show_untagged_tracks
   get 'tag/select', to: 'tags#select_tag', as: :select_tag

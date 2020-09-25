@@ -1,7 +1,6 @@
-<div id="bulk-tag" class="primary-btn btn-fixed d-none" style="z-index: 100"></div>
-
 <% @user_tracks.each do |user_track| %>
   <% track = user_track.track %>
+
   <%= render 'shared/row',
     title: track.name,
     subtitle: "#{track.artist}",
@@ -13,10 +12,22 @@
 <% end %>
 
 <%= render 'shared/track-modal' %>
-<%= render 'shared/bulk-tag-modal',
-  tags: @modal_tags,
-  user_tags: @user_tags,
-  used_tags: @used_tags %>
 
 <div data-list-tags="<%= @user_tags %>" id="hidden-list-tag" class="d-none"></div>
+<!-- <div id="bulk-tag" class="primary-btn btn-fixed d-none" style="z-index: 100"></div> -->
 
+<%= form_with(url: '/bulk-modal', method: 'get', local: true, class: '', id: 1) do %>
+  <%= hidden_field_tag(:tracks, nil, id: 'hidden-input-user-tracks-ids', name: "user-track-ids", value: '') %>
+  <%= hidden_field_tag(:tracks, nil, id: 'hidden-input-playlist-id', name: "playlist-id", value: @id) %>
+  <%= submit_tag("Use other users' tracks", class: 'primary-btn btn-fixed d-none', id: 'bulk-tag') %>
+<% end %>
+
+<div
+  class="d-none"
+  data-challenge-completed="<%= @challenge_completed %>"
+  data-user-points="<%= @points %>"
+  data-user-status="<%= @status %>"
+  data-status-changed="<%= @status_changed %>"
+  id="manage_achievements"
+  >
+</div>

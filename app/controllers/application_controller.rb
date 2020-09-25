@@ -15,12 +15,10 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [:username])
   end
 
-  def manage_achievements(user_tracks)
-    untagged_tracks = user_tracks.reject(&:is_tag).count
-    @points = untagged_tracks * 10
-    @status_changed = current_user.status_changed?(@points)
-    @challenge_completed = update_challenge(untagged_tracks)
-    current_user.add_points(@points)
+  def manage_achievements(points, track_tagged_count)
+    @status_changed = current_user.status_changed?(points)
+    @challenge_completed = update_challenge(track_tagged_count)
+    current_user.add_points(points)
     @status = current_user.status
   end
 
