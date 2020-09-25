@@ -35,17 +35,22 @@ class UserTracksController < ApplicationController
   end
 
   def filter
-    @tags = params['filter-tags']
+    @tags = params['tags']
     tag_list = @tags.split('$$')
-    track_scope = current_user.filter_all ? UserTrack.all : current_user.user_tracks
+    tag_objects = tag_list.map { |i| Tag.where(name: i).take }
+    user_track_tags = UserTrackTag.where(tag: tag_objects.first)
 
-    user_tracks = track_scope.select do |user_track|
-      user_track.tagged_with(tag_list)
+    if current_user.filter_all
+      user_tracks = user_track_tags.map(&:user_track)
+    else
+      user_tracks = user_track_tags.map(&:user_track).select { |i| i.user == current_user }
     end
+
+    user_tracks = user_tracks.select { |i| i.tagged_with(tag_list) }
 
     tracks_object = user_tracks.map(&:track)
     @tracks = user_tracks.map { |i| helpers.serialize_track_info(i, @tag_name) }.join('$$')
-    @uris = tracks_object.map { |i| "spotify:track:#{i.spotify_id}" }.join('$$')
+    @track_ids = user_tracks.map { |i| i.track.id }.join('$$')
 
     @untagged_tracks = current_user.user_tracks.where(is_tag: false).count
 

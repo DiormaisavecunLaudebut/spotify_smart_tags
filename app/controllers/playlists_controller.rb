@@ -61,11 +61,9 @@ class PlaylistsController < ApplicationController
     max_tracks = current_user.get_permissions[:max_tracks]
     self_destroy = params['Self-destroy']
 
-    if max_tracks == 'unlimited'
-      uris = params['track-uris'].split('$$')
-    else
-      uris = params['track-uris'].split('$$').sample(max_tracks)
-    end
+    uris = params['track-uris'].split('$$').map { |i| "spotify:track:#{i}" }
+
+    uris = uris.sample(max_tracks) unless max_tracks == 'unlimited'
 
     resp = SpotifyApiCall.post(
       path,

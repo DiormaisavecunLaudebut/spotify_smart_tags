@@ -28,7 +28,6 @@ import "bootstrap";
 import { openTagTracks, unselectTrack } from '../components/open-tag-tracks'
 import { trackCard } from "../components/global-functions-trackCard"
 import { emptyStateHTML } from "../components/global-functions-emptyState"
-import { listenCreatePlaylistModal, positionModal } from "../components/global-functions-create-playlist-modal"
 import { managePlaylistCreationOptions } from "../components/manage-playlist-creation-options"
 import { listenPlaylistCreation } from '../components/close-modal-after-create'
 import { connectorPage } from '../components/connectors-page'
@@ -71,8 +70,6 @@ listenAddTagClick()
 
 global.trackCard = trackCard;
 global.emptyStateHTML = emptyStateHTML
-global.listenCreatePlaylistModal = listenCreatePlaylistModal
-global.positionModal = positionModal
 global.disableScroll = disableScroll
 global.enableScroll = enableScroll
 global.listenCoverClick = listenCoverClick

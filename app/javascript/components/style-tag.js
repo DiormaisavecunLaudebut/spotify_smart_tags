@@ -7,11 +7,11 @@ let submitInput = ""
 
 // ---------------------------------- Initializer ---------------------------------
 
-const initializeTagVariables = (el) => {
+const initializeTagVariables = (el, submitId) => {
   badge = el
   badgeContainer = badge.closest('.badge-container')
+  submitInput = document.getElementById(submitId)
   hiddenInput = document.getElementById('hidden-input-tags')
-  submitInput = document.getElementById('btn-submit-filter')
 }
 
 // --------------------------------- Utilitaries functions -----------------------
@@ -31,6 +31,7 @@ const activateTag = () => {
 
 const activateSubmitInput = () => {
   if (hiddenInput.value != "" ) {
+    submitInput.classList.remove('d-none')
     submitInput.classList.remove('secondary-btn')
     submitInput.classList.add('primary-btn')
   } else {
@@ -42,8 +43,8 @@ const activateSubmitInput = () => {
 // ------------------------------------- Main function -------------------------------
 
 
-const styleTag = () => {
-  initializeTagVariables(event.currentTarget)
+const styleTag = (submitId) => {
+  initializeTagVariables(event.currentTarget, submitId)
   const badgeActive = badge.classList.value.includes('tag-inactive')
 
   badgeActive ? activateTag() : deactivateTag()

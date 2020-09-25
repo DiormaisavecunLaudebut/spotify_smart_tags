@@ -18,6 +18,13 @@ class PagesController < ApplicationController
     @trackland_playlists = current_user.trackland_playlists
   end
 
+  def create_playlist_modal
+    tracks = params['track-ids'].split('$$').map { |i| Track.find(i) }
+    @name = params['tags']
+    @description = "Playlist generated from Trackland the #{Date.today} with the following tags: #{@input_name}"
+    @ids = tracks.map(&:spotify_id).join('$$')
+  end
+
   def account
   end
 
