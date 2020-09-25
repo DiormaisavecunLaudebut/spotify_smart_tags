@@ -9,7 +9,7 @@ class PlaylistsController < ApplicationController
   end
 
   def show
-    playlist = Playlist.find(params['playlist_id'])
+    playlist = Playlist.find(params['id'])
 
     @user_tracks = playlist.user_tracks
     @user_tags = current_user.tags.map(&:name)
