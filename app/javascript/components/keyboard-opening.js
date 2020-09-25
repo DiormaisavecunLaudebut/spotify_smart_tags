@@ -1,4 +1,4 @@
-const inputAutocomplete = document.getElementById('input-autocomplete');
+let inputAutocomplete = ""
 let height_old = 0
 let height_new = 0
 let scroll_old = 0
@@ -21,11 +21,14 @@ function xresize() {
   }
 }
 function xblur() {
+  console.log(scroll_old)
+  console.log(window.scrollY)
   window.scrollY = scroll_old
   window.removeEventListener('resize', xresize);
 }
 
 const listenKeyboardOnInput = () => {
+  inputAutocomplete = document.getElementById('input-autocomplete');
   if (inputAutocomplete) {
     inputAutocomplete.addEventListener('click', xfocus)
     inputAutocomplete.addEventListener('blur', xblur)

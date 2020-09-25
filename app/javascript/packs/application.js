@@ -83,6 +83,7 @@ global.styleTag = styleTag
 global.alignFixedBtn = alignFixedBtn
 global.today = today
 global.closeDropdownMenu = closeDropdownMenu
+global.listenKeyboardOnInput = listenKeyboardOnInput
 
 // Internal imports, e.g:
 // import { initSelect2 } from '../components/init_select2';
