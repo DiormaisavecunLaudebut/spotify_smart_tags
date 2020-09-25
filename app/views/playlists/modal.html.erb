@@ -1,0 +1,46 @@
+<div class="playlist-modal" data-track-id="">
+
+  <%= link_to request.referer do %>
+    <i class="fas fa-angle-left text-white back-icon"></i>
+  <% end %>
+
+  <div class="playlist-modal-details">
+    <img class="playlist-modal-cover" src="<%= @cover %>">
+    <h1 class="big-title text-white playlist-modal-name" style="margin-top:20px"><%= @name %></h1>
+    <p class="playlist-modal-description d-none text-center inactive-color mx-3"><%= @description %></p>
+
+    <div style="max-width: 90%" class="badge-container mb-0">
+      <% @tags.each do |tag| %>
+        <div class="mtag-small tag-primary mr-1 mb-1"><%= "#{tag[0]} (#{tag[1]})" %></div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="options-container mt-4">
+
+    <div style="height: fit-content" class="modal-option mbt" id="add-tags">
+      <div class="d-flex flex-column">
+        <div class="d-flex">
+          <i class="fas fa-tags text-mgray" style="margin-right: 20px"></i>
+          <h2 class="small-title text-white">Add tag(s)</h2>
+        </div>
+        <p style="font-size: 14px;" class="inactive-color mb-2">Attention: tag(s) will be added to every single track belonging to this playlist</p>
+      </div>
+    </div>
+
+    <div class="d-none" id="searchbar">
+      <%= render 'shared/searchbar',
+        user_tags: @user_tags,
+        path: "/playlists/#{@id}/add-tag",
+        create_tag: true,
+        used_tags: @used_tags %>
+    </div>
+
+    <a href="<%= @href %>" target="_blank" id="playlist-modal-href">
+      <div class="d-flex modal-option">
+        <i class="fab fa-spotify text-mgray" style="margin-right: 20px"></i>
+        <h2 class="small-title text-white mb-0">Open in Spotify</h2>
+      </div>
+    </a>
+  </div>
+</div>

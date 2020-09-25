@@ -5,6 +5,8 @@ const inputAutocomplete = document.getElementById('input-autocomplete')
 const toggleSearch = () => {
   addTagOption.classList.toggle('mbt')
   searchbar.classList.toggle('d-none')
+  inputAutocomplete.click()
+  inputAutocomplete.focus()
   closeDropdownMenu()
 }
 

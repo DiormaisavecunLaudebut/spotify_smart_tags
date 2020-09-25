@@ -63,11 +63,11 @@ sayHello()
 listenRemoveTagClick()
 listenAddTagClick()
 
-if (window.location.href.match(/playlists\/\d+/)) {
-  const closeIcon = document.querySelector('.close-icon.tag-modal-icon')
-  listenCoverClick()
-  closeIcon.addEventListener('click', closeTagModal)
-}
+// if (window.location.href.match(/playlists\/\d+/)) {
+//   const closeIcon = document.querySelector('.close-icon.tag-modal-icon')
+//   listenCoverClick()
+//   closeIcon.addEventListener('click', closeTagModal)
+// }
 
 global.trackCard = trackCard;
 global.emptyStateHTML = emptyStateHTML

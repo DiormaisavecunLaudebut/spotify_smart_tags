@@ -3,13 +3,13 @@ class PlaylistsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :add_tag
   before_action :refresh_user_token!, only: :create_spotify_playlist
 
-  def index # cleared
+  def index
     @playlists = current_user.playlists
     @user_tags = current_user.tags
   end
 
-  def show # cleared
-    playlist = Playlist.find(params['id'])
+  def show
+    playlist = Playlist.find(params['playlist_id'])
 
     @user_tracks = playlist.user_tracks
     @user_tags = current_user.tags.map(&:name)
@@ -17,7 +17,7 @@ class PlaylistsController < ApplicationController
     @modal_tags = current_user.tags.first(6).map(&:name)
   end
 
-  def modal # cleared
+  def modal
     @id = params['playlist_id']
     playlist = Playlist.find(@id)
     hash = {}
@@ -28,22 +28,17 @@ class PlaylistsController < ApplicationController
       end
     end
 
-    @tags = hash.to_a.map { |i| i.join('**') }.join('$$')
+    @tags = hash.to_a
 
     @name = playlist.name
     @href = playlist.external_url
     @cover = playlist.cover_url
     @description = playlist.description
-    @user_tags = current_user.tags.map(&:name).join('$$')
-    @used_tags = ""
-
-    respond_to do |format|
-      format.html { redirect_to lior_path }
-      format.js
-    end
+    @user_tags = current_user.tags.map(&:name)
+    @used_tags = []
   end
 
-  def add_tag # cleared
+  def add_tag
     playlist = Playlist.find(params['playlist_id'])
     @tag = params['tag']
     user_tracks = playlist.user_tracks
@@ -59,7 +54,7 @@ class PlaylistsController < ApplicationController
     end
   end
 
-  def create_spotify_playlist # cleared
+  def create_spotify_playlist
     path = "https://api.spotify.com/v1/users/#{current_user.spotify_client}/playlists"
     content_type = 'application/json'
 
@@ -92,7 +87,7 @@ class PlaylistsController < ApplicationController
 
   private
 
-  def fill_playlist_with_tracks(playlist, uris) # cleared
+  def fill_playlist_with_tracks(playlist, uris)
     path = "https://api.spotify.com/v1/playlists/#{playlist.spotify_id}/tracks"
     content_type = 'application/json'
     spotify_ids = uris.map { |i| i.gsub('spotify:track:', '') }
