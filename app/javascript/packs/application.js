@@ -46,6 +46,7 @@ import { styleTag } from '../components/style-tag'
 import { alignFixedBtn } from '../components/align-fixed-btn'
 import { today } from '../components/get-today-date'
 import { sayHello } from '../components/hello'
+import { listenKeyboardOnInput } from '../components/keyboard-opening'
 
 openTagTracks()
 managePlaylistCreationOptions()
@@ -58,6 +59,7 @@ listenAccountToggles()
 listenOptions()
 listenStatusModal()
 sayHello()
+listenKeyboardOnInput()
 
 if (window.location.href.match(/playlists\/\d+/)) {
   const closeIcon = document.querySelector('.close-icon.tag-modal-icon')
