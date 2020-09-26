@@ -25,7 +25,7 @@ class SpotifyController < ApplicationController
   def data
     current_user.fetch_spotify_data
 
-    redirect_to root
+    redirect_to root_path
   end
 
   def gather_user_data_from_spotify

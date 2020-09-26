@@ -53,7 +53,6 @@ function manageSelection(e) {
 
   bk.classList.value.includes('track-selected') ?  unselectTrack(bk) : selectTrack(bk)
 
-  console.log(bulkAction)
   bulkAction.value = trackSelectedCount >= 2 ? `Tag ${trackSelectedCount} tracks` : "Tag 1 track"
 }
 

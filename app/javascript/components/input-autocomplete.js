@@ -141,7 +141,7 @@ const appendDropdownItems = (tags, boolean) => {
 const displayAutocomplete = () => {
   const tags = autocomplete.filterTags(input.value)
 
-  if (tags.length == 0 && autocomplete.createTag) { appendDropdownItems([input.value], true) }
+  if (tags.length == 0 && autocomplete.createTag && input.value != "") { appendDropdownItems([input.value], true) }
   else if (input.value == "") { closeDropdownMenu()}
   else { appendDropdownItems(tags, false) }
 }

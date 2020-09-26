@@ -44,6 +44,7 @@ const activateSubmitInput = () => {
 
 
 const styleTag = (submitId) => {
+  if (typeof(submitId) == 'object') submitId = 'btn-submit-filter'
   initializeTagVariables(event.currentTarget, submitId)
   const badgeActive = badge.classList.value.includes('tag-inactive')
 

@@ -14,11 +14,11 @@ def assign_random_tags(user_track, user)
   user_track.add_tags(new_tags, user)
 end
 
-user = User.where(username: 'pablior').take
+# user = User.where(username: 'pablior').take
 
-user.user_tracks.each do |user_track|
-  assign_random_tags(user_track, user)
-end
+# user.user_tracks.each do |user_track|
+#   assign_random_tags(user_track, user)
+# end
 
 # user.user_tracks.each do |user_track|
 #   reset_tags(user_track, user)
