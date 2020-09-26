@@ -1,7 +1,7 @@
 desc 'evaluate the differente APIs in order to see which one is the more relevant to use'
 
 task :evaluate_apis do
-  user = User.where(username: 'pablior').take
+  user = User.last
   total = user.tracks.count
   apis = {
     discogs: { tracks: 0, tags: 0 },
@@ -26,6 +26,8 @@ task :evaluate_apis do
     # lastfm_path = "http://ws.audioscrobbler.com/2.0/?method=track.getInfo&track=#{track.name}&artist=#{track.artist}&api_key=#{ENV['LASTFM_CLIENT']}&format=json"
     # lastfm_resp = HTTParty.get(URI.escape(lastfm_path)).parsed_response
     # if !lastfm_resp['error'] && !lastfm_resp['track']['toptags'].nil? && lastfm_resp['track']['toptags']
+    #   puts "Track => #{track.name} by #{track.artist}"
+    #   puts "tags => #{lastfm_resp['track']['toptags']['tag']}"
     #   apis[:lastfm][:tags] += lastfm_resp['track']['toptags']['tag'].count
     #   apis[:lastfm][:tracks] += 1
     # end
@@ -51,13 +53,24 @@ task :evaluate_apis do
     puts "Calling Napster"
     napster_path = "https://api.napster.com/v2.2/search?query=#{track.name}&type=track&artist=#{track.artist}"
     napster_resp = HTTParty.get(URI.escape(napster_path), headers: { "apikey" => ENV['NAPSTER_CLIENT']}).parsed_response
-    if napster_resp['meta']['returnedCount'] > 0
-      apis[:napster][:tags] += napster_resp['search']['data']['tracks'][0]['links']['tags']['ids'].count
-      apis[:napster][:tags] += napster_resp['search']['data']['tracks'][0]['links']['genres']['ids'].count
-      apis[:napster][:tracks] += 1
-    end
 
+    if napster_resp['meta']['returnedCount'] > 0
+      puts "Track => #{track.name} by #{track.artist}"
+      tag_ids = napster_resp['search']['data']['tracks'][0]['links']['tags']['ids']
+      genre_ids = napster_resp['search']['data']['tracks'][0]['links']['genres']['ids']
+      apis[:napster][:tags] += tag_ids.count
+      apis[:napster][:tags] += genre_ids.count
+      apis[:napster][:tracks] += 1
+
+      [["tags", tag_ids], ["genres", genre_ids]].each do |ids|
+        next if ids[1].count.zero?
+
+        path = "https://api.napster.com/v2.2/#{ids[0]}/" + ids[1].join(',')
+        resp = HTTParty.get(URI.escape(path), headers: { "apikey" => ENV['NAPSTER_CLIENT']}).parsed_response
+        puts "#{ids[0]} => #{resp[ids[0]].map { |i| i['name'] }}"
+      end
+    end
     puts "\n\n"
   end
-  puts apis
+  # puts apis
 end
