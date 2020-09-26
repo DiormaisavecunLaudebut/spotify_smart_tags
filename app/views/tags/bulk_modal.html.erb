@@ -1,0 +1,30 @@
+<div class="bulk-tag-modal">
+
+  <%= link_to request.referer do %>
+    <i style="top: 44px" class="fas fa-angle-left text-white back-icon"></i>
+  <% end %>
+
+  <div class="d-flex align-items-center mb-3">
+    <h1 style="margin-left: 40px;" class="big-title text-white">Tag my tracks</h1>
+  </div>
+  <%= render 'shared/searchbar',
+    user_tags: @user_tags,
+    path: "",
+    create_tag: true,
+    used_tags: @used_tags
+   %>
+  <div class="mt-2 badge-container big-tags">
+    <% @used_tags.each do |tag| %>
+      <div class="mtag tag-inactive" onclick="styleTag('btn-submit-filter')"> <%= tag %> </div>
+    <% end %>
+  </div>
+
+  <%= form_with(url: '/add-tags', method: 'post', local: true) do %>
+
+    <%= hidden_field_tag(:tags, nil, id: 'hidden-input-user-tracks-ids', name: 'user-track-ids', value: @user_track_ids) %>
+    <%= hidden_field_tag(:tags, nil, id: 'hidden-input-tags', name: 'tags') %>
+    <%= hidden_field_tag(:tracks, nil, id: 'hidden-input-playlist-id', name: "playlist-id", value: @playlist_id) %>
+
+    <%= submit_tag 'Add tags', class: 'mt-3 secondary-btn bulk-tag-submit', id: 'btn-submit-filter' %>
+  <% end %>
+</div>

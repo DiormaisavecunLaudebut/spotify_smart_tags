@@ -87,6 +87,10 @@ class TagsController < ApplicationController
 
     user_tracks.each { |user_track| user_track.add_tags(tags, current_user) }
 
-    redirect_to playlist_path(playlist_id, points: @points)
+    if playlist_id != ""
+      redirect_to playlist_path(playlist_id, points: @points)
+    else
+      redirect_to sptags_path(points: @points)
+    end
   end
 end

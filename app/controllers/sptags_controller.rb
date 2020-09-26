@@ -1,5 +1,10 @@
 class SptagsController < ApplicationController
   def index
+    @points = params['points']
+    track_tagged_count = @points.to_i / 10
+
+    manage_achievements(@points.to_i, track_tagged_count) if @points
+
     @tags = current_user.user_tags.map { |i| [i.tag.name, i.track_count] }
     @used_tags = @tags.first(6).map(&:first)
     @untagged_tracks_count = current_user.user_tracks.where(is_tag: false).count

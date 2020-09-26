@@ -3,8 +3,6 @@
   <span class="big-title text-mprimary"> let's tag them! </span>
 </h1>
 
-<div id="bulk-tag" class="primary-btn btn-fixed d-none" style="z-index: 100"></div>
-
 <div class="accordion" id="accordionExample">
 
   <%= render 'shared/collapse',
@@ -24,4 +22,21 @@
 </div>
 
 <div data-list-tags="<%= @user_tags %>" id="hidden-list-tag" class="d-none"></div>
+
 <div data-subfilters="" id="hidden-subfilters" class="d-none"></div>
+
+<%= form_with(url: '/bulk-modal', method: 'get', local: true, class: '', id: 1) do %>
+  <%= hidden_field_tag(:tracks, nil, id: 'hidden-input-user-tracks-ids', name: "user-track-ids", value: '') %>
+  <%= hidden_field_tag(:tracks, nil, id: 'hidden-input-playlist-id', name: "playlist-id", value: @id) %>
+  <%= submit_tag("", class: 'primary-btn btn-fixed d-none', id: 'bulk-tag') %>
+<% end %>
+
+<div
+  class="d-none"
+  data-challenge-completed="<%= @challenge_completed %>"
+  data-user-points="<%= @points %>"
+  data-user-status="<%= @status %>"
+  data-status-changed="<%= @status_changed %>"
+  id="manage_achievements"
+  >
+</div>
