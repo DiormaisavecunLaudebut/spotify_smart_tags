@@ -4,12 +4,13 @@
     <i class="fas fa-angle-left text-white back-icon"></i>
   <% end %>
 
-  <div class="track-details">
-    <img class="track-cover" src="<%= @cover_url %>">
-    <h1 class="big-title text-white track-name" style="margin-top:20px"><%= @name %></h1>
-    <p class="track-artist"><%= @artist %></p>
+  <div class="track-details mt-4">
+    <!-- <img class="track-cover" src="<%= @cover_url %>"> -->
+    <iframe src="https://open.spotify.com/embed/track/<%= @track_id %>" width="320" height="120" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+<!--     <h1 class="big-title text-white track-name" style="margin-top:20px"><%= @name %></h1>
+    <p class="track-artist"><%= @artist %></p> -->
 
-    <div class="tags-container">
+    <div class="tags-container mt-3">
       <% @tags.each do |tag| %>
         <div id="tag-<%= tag.name %>" class="mtag-small tag-primary mr-1 mb-1"><%= tag.name %></div>
       <% end %>

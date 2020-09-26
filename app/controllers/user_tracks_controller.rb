@@ -13,6 +13,7 @@ class UserTracksController < ApplicationController
     user_track = UserTrack.find(@id)
     track = user_track.track
 
+    @track_id = track.spotify_id
     @cover_url = track.cover_url
     @name = track.name
     @artist = track.artist
