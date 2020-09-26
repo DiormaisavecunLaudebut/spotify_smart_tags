@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
+  mount ActionCable.server => "/cable"
+
   devise_for :users, controllers: { registrations: "registrations" }
 
   post 'filter-all', to: 'users#filter_all_option', as: :filter_all
