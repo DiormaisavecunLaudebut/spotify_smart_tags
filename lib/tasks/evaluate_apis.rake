@@ -11,7 +11,8 @@ task :evaluate_apis do
     napster: { tracks: 0, tags: 0 }
   }
 
-  user.tracks.each_with_index do |track, index|
+  playlist = Playlist.find(70)
+  playlist.user_tracks.map(&:track).each_with_index do |track, index|
     puts "------- Track #{index}/#{total} -------\n"
 
     # puts "Calling Jamendo"
@@ -22,15 +23,15 @@ task :evaluate_apis do
     #   apis[:jamendo][:tracks] += 1
     # end
 
-    # puts "Calling LastFm"
-    # lastfm_path = "http://ws.audioscrobbler.com/2.0/?method=track.getInfo&track=#{track.name}&artist=#{track.artist}&api_key=#{ENV['LASTFM_CLIENT']}&format=json"
-    # lastfm_resp = HTTParty.get(URI.escape(lastfm_path)).parsed_response
-    # if !lastfm_resp['error'] && !lastfm_resp['track']['toptags'].nil? && lastfm_resp['track']['toptags']
-    #   puts "Track => #{track.name} by #{track.artist}"
-    #   puts "tags => #{lastfm_resp['track']['toptags']['tag']}"
-    #   apis[:lastfm][:tags] += lastfm_resp['track']['toptags']['tag'].count
-    #   apis[:lastfm][:tracks] += 1
-    # end
+    puts "Calling LastFm"
+    lastfm_path = "http://ws.audioscrobbler.com/2.0/?method=track.getInfo&track=#{track.name}&artist=#{track.artist}&api_key=#{ENV['LASTFM_CLIENT']}&format=json"
+    lastfm_resp = HTTParty.get(URI.escape(lastfm_path)).parsed_response
+    if !lastfm_resp['error'] && !lastfm_resp['track']['toptags'].nil? && lastfm_resp['track']['toptags']
+      puts "Track => #{track.name} by #{track.artist}"
+      puts "tags => #{lastfm_resp['track']['toptags']['tag']}"
+      apis[:lastfm][:tags] += lastfm_resp['track']['toptags']['tag'].count
+      apis[:lastfm][:tracks] += 1
+    end
 
     # puts "Calling Discogs"
     # discogs_path = "https://api.discogs.com/database/search?track=#{track.name}&artist=#{track.artist}"

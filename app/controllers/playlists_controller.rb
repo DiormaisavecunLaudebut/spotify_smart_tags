@@ -5,7 +5,7 @@ class PlaylistsController < ApplicationController
 
   def index
     @playlists = current_user.playlists
-    @user_tags = current_user.tags
+    @user_tags = Tag.all
   end
 
   def show
@@ -17,7 +17,7 @@ class PlaylistsController < ApplicationController
     manage_achievements(@points.to_i, track_tagged_count) if @points
 
     @user_tracks = playlist.user_tracks
-    @user_tags = current_user.tags.map(&:name)
+    @user_tags = Tag.all.map(&:name)
     @used_tags = current_user.tags.sort_by(&:track_count).map(&:name).reverse.first(6)
     @modal_tags = current_user.tags.first(6).map(&:name)
   end
@@ -39,7 +39,7 @@ class PlaylistsController < ApplicationController
     @href = playlist.external_url
     @cover = playlist.cover_url
     @description = playlist.description
-    @user_tags = current_user.tags.map(&:name)
+    @user_tags = Tag.all.map(&:name)
     @used_tags = []
   end
 

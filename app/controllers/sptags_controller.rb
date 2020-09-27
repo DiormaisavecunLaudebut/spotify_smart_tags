@@ -8,7 +8,7 @@ class SptagsController < ApplicationController
     @tags = current_user.user_tags.map { |i| [i.tag.name, i.track_count] }
     @used_tags = @tags.first(6).map(&:first)
     @untagged_tracks_count = current_user.user_tracks.where(is_tag: false).count
-    @user_tags = current_user.user_tags.map { |i| i.tag.name }
+    @user_tags = Tag.all.map(&:name)
   end
 
   def show_tracks

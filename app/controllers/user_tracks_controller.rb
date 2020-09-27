@@ -19,7 +19,7 @@ class UserTracksController < ApplicationController
     @artist = track.artist
     @tags = user_track.tags
     @href = track.external_url
-    @user_tags = current_user.tags.map(&:name)
+    @user_tags = Tag.all.map(&:name)
     @used_tags = user_track.tag_list
   end
 

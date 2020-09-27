@@ -19,7 +19,7 @@ class TagsController < ApplicationController
 
   def bulk_modal
     @user_track_ids = params['user-track-ids']
-    @user_tags = current_user.tags.map(&:name)
+    @user_tags = Tag.all.map(&:name)
     @playlist_id = params['playlist-id']
     @used_tags = current_user.tags.sort_by(&:track_count).last(6).map(&:name)
   end
@@ -67,7 +67,7 @@ class TagsController < ApplicationController
     user_track = track.user_tracks.where(track: track, user: current_user).take
 
     @suggestions = tags.nil? ? "" : tags.reject { |i| user_track.tag_list.include?(i.downcase) }.sample(4).join('$$')
-    @user_tags = current_user.tags.map(&:name).reject { |i| user_track.tag_list.include?(i) }.join('$$')
+    @user_tags = Tag.all.map(&:name).reject { |i| user_track.tag_list.include?(i) }.join('$$')
     @used_tags = user_track.tag_list.join('$$')
 
     respond_to do |format|
