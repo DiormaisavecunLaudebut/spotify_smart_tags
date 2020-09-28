@@ -16,7 +16,7 @@ class TracksController < ApplicationController
   end
 
   def search_tracks
-    key = "%#{params['query'].downcase}%"
+    key = "%#{params['query'].strip.downcase}%"
     columns = %w[name artist]
 
     @tracks = current_user.tracks.where(

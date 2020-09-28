@@ -16,16 +16,16 @@ function insertAfter(newNode, existingNode) {
 
 
 const toggleBody = () => {
-  console.log(btnFilter)
   if (playlistSection.classList.value.includes('d-none')) {
+    setTimeout(function blk() {
       insertAfter(btnFilter, searchBar)
       input.value = ""
       playlistSection.classList.remove('d-none')
       searchSection.classList.add('d-none')
       btnCancel.classList.add('d-none')
+    })
 
   } else {
-    console.log('else')
       playlistSection.classList.add('d-none')
       searchSection.classList.remove('d-none')
       btnFilter.remove()
