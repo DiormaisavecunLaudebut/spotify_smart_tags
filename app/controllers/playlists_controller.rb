@@ -12,11 +12,11 @@ class PlaylistsController < ApplicationController
     @points = params['points']
     track_tagged_count = @points.to_i / 10
     @id = params['id']
-    playlist = Playlist.find(@id)
+    @playlist = Playlist.find(@id)
 
     manage_achievements(@points.to_i, track_tagged_count) if @points
 
-    @user_tracks = playlist.user_tracks
+    @user_tracks = @playlist.user_tracks
     @user_tags = Tag.all.map(&:name)
     @used_tags = current_user.tags.sort_by(&:track_count).map(&:name).reverse.first(6)
     @modal_tags = current_user.tags.first(6).map(&:name)

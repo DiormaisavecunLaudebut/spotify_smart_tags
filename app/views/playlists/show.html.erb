@@ -1,3 +1,11 @@
+<div class="playlist-modal-details pt-5 image-container" style="background: linear-gradient(gray -40%, #141414);">
+  <img class="playlist-modal-cover" src=" <%= @playlist.cover_url %> ">
+  <h1 class="big-title text-white playlist-modal-name" style="margin-top:20px"> <%= @playlist.name %> </h1>
+  <p class="playlist-modal-description d-none text-center inactive-color mx-3"></p>
+
+  <div style="max-width: 90%" class="badge-container mb-0"></div>
+</div>
+
 <% @user_tracks.each do |user_track| %>
   <% track = user_track.track %>
 

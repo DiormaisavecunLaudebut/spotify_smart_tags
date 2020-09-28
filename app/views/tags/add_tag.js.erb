@@ -8,17 +8,39 @@ var notification = "<%= @notification %>"
 
 var challengeCompleted = "<%= @challenge_completed %>"
 var tagsContainer = document.querySelector('.tags-container');
+var deleteTagsContainer = document.querySelector('.delete-tags-container')
 var tag = document.getElementById(`tag-${tagName}`)
 var input = document.getElementById('input-autocomplete')
 var dropdownMenu = document.querySelector('.my-dropdown-menu-autocomplete')
+
+function isertDeleteTag() {
+  var form = document.createElement('form')
+  form.setAttribute('action', `/user_tracks/${userTrackId}/remove-tag`)
+  form.setAttribute('data-remote', 'true')
+  form.setAttribute('accept-charset', 'UTF-8')
+  form.setAttribute('method', 'post')
+
+  var submitInput = document.createElement('input')
+  submitInput.setAttribute('type', 'submit')
+  submitInput.setAttribute('name', 'commit')
+  submitInput.setAttribute('data-disabled-with', tagName)
+  submitInput.setAttribute('value', tagName)
+  submitInput.className = 'mtag'
+
+
+  form.appendChild(submitInput)
+
+  deleteTagsContainer.appendChild(form)
+}
 
 function insertTag() {
   input.dataset.usedTags += `$$${tagName}`
 
   if (dropdownMenu.children.length > 0) { closeDropdownMenu() }
 
-  tagsContainer.insertAdjacentHTML('beforeend', `<div class="mtag-small tag-primary mr-1 mb-1">${tagName}</div>`)
+  tagsContainer.insertAdjacentHTML('beforeend', `<div id="tag-${tagName}" class="mtag-small tag-primary mr-1 mb-1">${tagName}</div>`)
 
+  isertDeleteTag()
   tag.remove();
 }
 

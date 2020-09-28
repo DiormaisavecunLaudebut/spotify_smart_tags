@@ -82,6 +82,7 @@ global.today = today
 global.closeDropdownMenu = closeDropdownMenu
 global.toggleModal = toggleModal
 
+
 // Internal imports, e.g:
 // import { initSelect2 } from '../components/init_select2';
 
