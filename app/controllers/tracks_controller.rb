@@ -16,9 +16,7 @@ class TracksController < ApplicationController
   end
 
   def search_tracks
-    query = params['query']
-
-    key = "%#{query.downcase}%"
+    key = "%#{params['query'].downcase}%"
     columns = %w[name artist]
 
     @tracks = current_user.tracks.where(
@@ -26,7 +24,7 @@ class TracksController < ApplicationController
         .map { |c| "lower(#{c}) like :search" }
         .join(' OR '),
       search: key
-    ).map { |i| [i.id, i.name, i.artist, i.cover_url].join('**') }.join('$$')
+    ).first(20).map { |i| [i.user_tracks.where(user: current_user).take.id, i.name, i.artist, i.cover_url].join('**') }.join('$$')
 
     respond_to do |format|
       format.html { redirect_to playlists_path }

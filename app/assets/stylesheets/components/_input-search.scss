@@ -33,3 +33,24 @@
   -webkit-transform: translate(-50%,-50%);
   transform: translate(-50%,-50%);
 }
+
+.small-row-container {
+  margin: 10px 0px;
+  display: flex;
+  padding: 0px 16px;
+  position: relative;
+}
+
+.small-row-title {
+  font-size: 14px;
+}
+
+.small-row-subtitle {
+  font-size: 12px;
+}
+
+.small-row-cover {
+  height: 44px;
+  width: 44px;
+  background-size: cover;
+}

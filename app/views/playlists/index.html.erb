@@ -19,6 +19,7 @@
   <div class="ml-3 mr-3 btn-filter text-white d-flex justify-content-center align-items-center" onclick='toggleModal("sort-tag-modal")'>
     Filters
   </div>
+  <p id="cancel-btn" class="text-white d-none ml-3 mr-3" style="padding: 5px 8px;min-width: 70px;">cancel</p>
 </div>
 
 <section id="my-playlists" class="">
@@ -38,9 +39,10 @@
 </section>
 
 <section id="my-search" class="d-none">
+  <div id="small-row-container"></div>
   <div class="search-empty-state">
     <i class="fab fa-itunes-note mb-3"></i>
-    <h1 style="width: 60vw" class="small-title inactive-color text-center">Search tracks by name or artist</h1>
+    <h1 style="width: 60vw" id="emptystate-description" class="small-title inactive-color text-center">Search tracks by name or artist</h1>
   </div>
 </section>
 

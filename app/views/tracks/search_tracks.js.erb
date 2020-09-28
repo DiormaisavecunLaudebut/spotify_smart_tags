@@ -1,0 +1,38 @@
+var searchInput = document.getElementById('input-search')
+var smallRowContainer = document.getElementById('small-row-container')
+var emptyStateDescription = document.getElementById('emptystate-description')
+var tracks = "<%= @tracks %>".split('$$').map(e => e.split('**'))
+var emptyState = document.querySelector('.search-empty-state')
+
+console.log(tracks)
+
+function buildSmallRowHTML(track) {
+  var trackId = track[0]
+  var trackName = track[1]
+  var trackArtist = track[2]
+  var trackCover = track[3]
+
+  return `<div class="small-row-container">
+    <a class="d-flex flex-grow-1" href="/user_tracks/${trackId}">
+      <img src="${trackCover}" class="small-row-cover">
+      <div class="small-row-details ml-2">
+        <span class="small-row-title line-clamp active-color">${trackName}</span>
+        <span class="small-row-subtitle inactive-color">${trackArtist}</span>
+      </div>
+    </a>
+  </div>`
+}
+
+function insertSearchResult() {
+  Array.from(smallRowContainer.children).forEach(e => e.remove())
+  if (tracks[0][0] == "" ) {
+    emptyState.classList.remove('d-none')
+    emptyStateDescription.innerText = "No results found. \nCheck the spelling or try different keywords."
+  } else {
+    emptyState.classList.remove('add')
+    var tracksHTML = tracks.map(track => buildSmallRowHTML(track)).join('')
+    smallRowContainer.insertAdjacentHTML('afterbegin', tracksHTML)
+  }
+}
+
+if (searchInput.value != "") insertSearchResult()
