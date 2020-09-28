@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   root to: 'pages#home'
   get 'lior', to: 'pages#lior', as: :lior
+  get 'search-tracks', to: 'tracks#search_tracks', as: :search_tracks
   get 'create-playlist-modal', to: 'pages#create_playlist_modal', as: :create_modal
   get 'account', to: 'pages#account', as: :account
   get 'auth/spotify/callback', to: 'spotify#gather_user_data_from_spotify'

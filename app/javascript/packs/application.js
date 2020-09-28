@@ -49,6 +49,7 @@ import { listenRemoveTagClick } from '../components/delete-tags'
 import { listenAddTagClick } from '../components/add-tags'
 import { displayAchievementNotificationPostForm } from '../components/achievement-no-ajax'
 import { toggleModal } from '../components/global-functions-open-modal'
+import { listenInputSearchTrack } from '../components/search-tracks'
 
 openTagTracks()
 managePlaylistCreationOptions()
@@ -65,6 +66,7 @@ listenRemoveTagClick()
 listenAddTagClick()
 listenCoverClick()
 displayAchievementNotificationPostForm()
+listenInputSearchTrack()
 
 global.trackCard = trackCard;
 global.emptyStateHTML = emptyStateHTML

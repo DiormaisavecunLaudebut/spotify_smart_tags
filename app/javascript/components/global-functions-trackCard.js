@@ -9,7 +9,8 @@ function pluralise(string, count) {
 }
 
 function trackCard(track) {
-  const name            =     track[0],
+  const
+        name            =     track[0],
         artist          =     track[1],
         cover_url       =     track[2],
         external_url    =     track[3],

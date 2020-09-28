@@ -14,4 +14,23 @@ class TracksController < ApplicationController
       format.js
     end
   end
+
+  def search_tracks
+    query = params['query']
+
+    key = "%#{query.downcase}%"
+    columns = %w[name artist]
+
+    @tracks = current_user.tracks.where(
+      columns
+        .map { |c| "lower(#{c}) like :search" }
+        .join(' OR '),
+      search: key
+    ).map { |i| [i.id, i.name, i.artist, i.cover_url].join('**') }.join('$$')
+
+    respond_to do |format|
+      format.html { redirect_to playlists_path }
+      format.js
+    end
+  end
 end

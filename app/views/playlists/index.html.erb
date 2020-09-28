@@ -1,4 +1,27 @@
-<section id="my-playlists">
+<div style="margin-left: 18px" class="d-flex align-items-center mt-5">
+  <div class='msearch d-flex align-items-center'>
+    <div class="my-dropdown-menu-autocomplete d-none"></div>
+    <i class="fas fa-search"></i>
+
+
+    <%= form_with(url: '/search-tracks', method: 'get', local: false, id: 'search-form') do %>
+        <input
+    id="input-search"
+    autocomplete="off"
+    type="textarea"
+    name="query"
+    placeholder="Find tracks">
+
+    <%= submit_tag '', class: 'd-none', id: 'hidden-submit' %>
+    <% end %>
+  </div>
+
+  <div class="ml-3 mr-3 btn-filter text-white d-flex justify-content-center align-items-center" onclick='toggleModal("sort-tag-modal")'>
+    Filters
+  </div>
+</div>
+
+<section id="my-playlists" class="">
 
   <% @playlists.each do |playlist| %>
     <%= render 'shared/playlist-row',
@@ -14,6 +37,11 @@
 
 </section>
 
+<section id="my-search" class="d-none">
+  <div class="search-empty-state">
+    <i class="fab fa-itunes-note mb-3"></i>
+    <h1 style="width: 60vw" class="small-title inactive-color text-center">Search tracks by name or artist</h1>
+  </div>
+</section>
 
-<%= render 'shared/playlist-modal' %>
-<div data-list-tags="<%= @user_tags %>" id="hidden-list-tag" class="d-none"></div>
+<!-- <div data-list-tags="<%= @user_tags %>" id="hidden-list-tag" class="d-none"></div> -->
