@@ -1,7 +1,7 @@
 import { updateDots } from '../components/track-dropdown'
 import { unselectTrack } from '../components/select-track'
 
-const cardHeaders = Array.from(document.querySelectorAll('.card-header'));
+let cardHeaders = Array.from(document.querySelectorAll('.card-header'));
 const spinner = `
 <div class="spinner-container">
   <p class="active-color mt-3">Loading tracks...</p>

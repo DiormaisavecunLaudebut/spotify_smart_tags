@@ -2,17 +2,17 @@
   <div class="mb-2 d-flex justify-content-between align-items-center">
     <p class="inactive-color">Sort by</p>
   </div>
-  <%= form_with(url: '/sort-tag-preference', method: 'post', class: "py-1 d-flex justify-content-between align-items-center", local: false) do %>
-      <%= submit_tag 'Custom', class: 'text-white bg-none', id: "custom-pref" %>
+  <%= form_with(url: '/sort-tag-preference', method: 'post', class: "py-2 d-flex justify-content-between align-items-center", local: false) do %>
+      <%= submit_tag 'Custom', class: 'text-white bg-none text-left flex-grow-1', id: "custom-pref" %>
       <i class="fas fa-check check-sort <%= 'd-none' unless current_user.tag_sort == "custom" %> "></i>
   <% end %>
-  <%= form_with(url: '/sort-tag-preference', method: 'post', class: "py-1 d-flex justify-content-between align-items-center", local: false) do %>
-      <%= submit_tag 'Name', class: 'text-white bg-none', id: "name-pref" %>
+  <%= form_with(url: '/sort-tag-preference', method: 'post', class: "py-2 d-flex justify-content-between align-items-center", local: false) do %>
+      <%= submit_tag 'Name', class: 'text-white bg-none text-left flex-grow-1', id: "name-pref" %>
       <i class="fas fa-check check-sort <%= 'd-none' unless current_user.tag_sort == "name" %> "></i>
   <% end %>
-  <%= form_with(url: '/sort-tag-preference', method: 'post', class: "py-1 d-flex justify-content-between align-items-center", local: false) do %>
-      <%= submit_tag 'Popularity', class: 'text-white bg-none', id: "popularity-pref" %>
+  <%= form_with(url: '/sort-tag-preference', method: 'post', class: "py-2 d-flex justify-content-between align-items-center", local: false) do %>
+      <%= submit_tag 'Popularity', class: 'text-white bg-none text-left flex-grow-1', id: "popularity-pref" %>
       <i class="fas fa-check check-sort <%= 'd-none' unless current_user.tag_sort == "popularity" %> "></i>
   <% end %>
-  <p onclick='toggleModal("sort-tag-modal")' class="inactive-color text-center">CANCEL</p>
+  <p onclick='toggleModal("sort-tag-modal")' class="py-2 inactive-color text-center">CANCEL</p>
 </div>

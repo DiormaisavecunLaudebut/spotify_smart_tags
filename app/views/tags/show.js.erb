@@ -22,6 +22,7 @@ function cleanZone() {
   const cardHeader = cardBody.closest('.card').querySelector('a')
   const chevron = cardBody.closest('.card').querySelector('.fa-chevron-down')
 
+  // if (cardBody.firstElementChild) cardBody.firstElementChild.remove()
   cardBody.firstElementChild.remove();
   cardBody.classList.remove('card-body-flex');
   chevron.style.transform = "rotate(180deg)"

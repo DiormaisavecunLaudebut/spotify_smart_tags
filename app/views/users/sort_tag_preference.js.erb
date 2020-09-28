@@ -12,20 +12,20 @@ function togglePreferences(pref) {
 }
 
 function changeCardsOrder(pref) {
-  var clonedCards = cards.slice(1, cards.length).map(e => e.cloneNode(true))
-  var sortedCards = ""
+  cards = cards.slice(1, cards.length)
+  var sortedCards = undefined
 
   if (pref == 'name') {
-    sortedCards = clonedCards.sort((a, b) => a.dataset.tagName.localeCompare(b.dataset.tagName))
+    sortedCards = cards.sort((a, b) => a.dataset.tagName.localeCompare(b.dataset.tagName))
 
   } else if (pref == 'popularity') {
-    sortedCards = clonedCards.sort((a, b) => b.dataset.trackCount - a.dataset.trackCount)
+    sortedCards = cards.sort((a, b) => b.dataset.trackCount - a.dataset.trackCount)
 
   } else if (pref == 'custom') {
-    sortedCards = clonedCards
+    sortedCards = cards
   }
 
-  cards.slice(1, cards.length).forEach(e => e.remove())
+  cards.forEach(e => e.remove())
 
   sortedCards.forEach(e => accordion.appendChild(e))
 }
@@ -34,4 +34,4 @@ function changeCardsOrder(pref) {
 
 changeCardsOrder(preference)
 
-setTimeout(function close() { modal.classList.add('d-none')}, 400)
+setTimeout(function close() { toggleModal('sort-tag-modal') }, 400)
