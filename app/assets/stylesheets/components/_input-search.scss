@@ -1,0 +1,17 @@
+
+#input-search {
+  margin-left: 8px;
+  height: inherit;
+  flex-grow: 1;
+  border-radius: 40px;
+  background: none;
+  border: none !important;
+  color: $mgray;
+}
+
+.btn-filter {
+  background: rgba(255,255,255,0.3);
+  padding: 5px 8px;
+  min-width: 70px;
+  border-radius: 4px;
+}

@@ -8,4 +8,16 @@ class UsersController < ApplicationController
       format.js
     end
   end
+
+  def sort_tag_preference
+    @old_preference = current_user.tag_sort
+    @preference = params['commit'].downcase
+
+    current_user.update!(tag_sort: @preference)
+
+    respond_to do |format|
+      format.html { redirect_to root_path }
+      format.js
+    end
+  end
 end

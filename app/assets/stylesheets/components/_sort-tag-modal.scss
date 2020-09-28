@@ -1,0 +1,15 @@
+#sort-tag-modal {
+  background: #323232;
+  padding: 8px 18px;
+  z-index: 1000;
+  border-radius: 16px 16px 0 0;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.check-sort {
+  font-size: 24px;
+  color: $mprimary;
+}

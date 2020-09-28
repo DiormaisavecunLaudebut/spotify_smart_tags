@@ -3,7 +3,7 @@
 <div class="row-container" data-user-track-id="<%= user_track_id if tag_list %>">
 
   <img src=" <%= cover %> " class="row-cover"></img>
-  <div class="track-select-background" style="left: 16px;"><i class="fas fa-check"></i></div>
+  <div class="track-select-background" style="left: 16px;"><i class="fas fa-check check-track"></i></div>
   <%= link_to user_track_show_tags_path(user_track_id), class: "link-row", remote: true do %>
 
     <div class="row-details">

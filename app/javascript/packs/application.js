@@ -48,6 +48,7 @@ import { sayHello } from '../components/hello'
 import { listenRemoveTagClick } from '../components/delete-tags'
 import { listenAddTagClick } from '../components/add-tags'
 import { displayAchievementNotificationPostForm } from '../components/achievement-no-ajax'
+import { toggleModal } from '../components/global-functions-open-modal'
 
 openTagTracks()
 managePlaylistCreationOptions()
@@ -79,6 +80,7 @@ global.styleTag = styleTag
 global.alignFixedBtn = alignFixedBtn
 global.today = today
 global.closeDropdownMenu = closeDropdownMenu
+global.toggleModal = toggleModal
 
 // Internal imports, e.g:
 // import { initSelect2 } from '../components/init_select2';

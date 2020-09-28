@@ -1,0 +1,37 @@
+var modal = document.getElementById('sort-tag-modal')
+var preference = "<%= @preference %>"
+var oldPreference = "<%= @old_preference %>"
+var cards = Array.from(document.querySelectorAll('.card'))
+var accordion = document.getElementById('accordionExample')
+
+function togglePreferences(pref) {
+  var input = document.getElementById(`${pref}-pref`)
+  var check = input.nextElementSibling
+
+  check.classList.toggle('d-none')
+}
+
+function changeCardsOrder(pref) {
+  var clonedCards = cards.slice(1, cards.length).map(e => e.cloneNode(true))
+  var sortedCards = ""
+
+  if (pref == 'name') {
+    sortedCards = clonedCards.sort((a, b) => a.dataset.tagName.localeCompare(b.dataset.tagName))
+
+  } else if (pref == 'popularity') {
+    sortedCards = clonedCards.sort((a, b) => b.dataset.trackCount - a.dataset.trackCount)
+
+  } else if (pref == 'custom') {
+    sortedCards = clonedCards
+  }
+
+  cards.slice(1, cards.length).forEach(e => e.remove())
+
+  sortedCards.forEach(e => accordion.appendChild(e))
+}
+
+[preference, oldPreference].forEach(pref => togglePreferences(pref))
+
+changeCardsOrder(preference)
+
+setTimeout(function close() { modal.classList.add('d-none')}, 400)

@@ -3,6 +3,25 @@
   <span class="big-title text-mprimary"> let's tag them! </span>
 </h1>
 
+<div style="margin-left: 18px" class="d-flex align-items-center">
+  <div class='msearch d-flex align-items-center'>
+    <div class="my-dropdown-menu-autocomplete d-none"></div>
+    <i class="fas fa-search"></i>
+
+    <input
+    disabled
+    id="input-search"
+    autocomplete="off"
+    type="textarea"
+    name="tags"
+    placeholder="Find tags (wait v2)">
+  </div>
+
+  <div class="ml-3 mr-3 btn-filter text-white d-flex justify-content-center align-items-center" onclick='toggleModal("sort-tag-modal")'>
+    Filters
+  </div>
+</div>
+
 <div class="accordion" id="accordionExample">
 
   <%= render 'shared/collapse',
@@ -40,3 +59,5 @@
   id="manage_achievements"
   >
 </div>
+
+<%= render 'shared/sort-tag-modal' %>

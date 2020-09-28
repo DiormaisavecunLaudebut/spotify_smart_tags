@@ -6,6 +6,11 @@ class SptagsController < ApplicationController
     manage_achievements(@points.to_i, track_tagged_count) if @points
 
     @tags = current_user.user_tags.map { |i| [i.tag.name, i.track_count] }
+    if current_user.tag_sort == 'name'
+      @tags = @tags.sort_by(&:first)
+    elsif current_user.tag_sort == 'popularity'
+      @tags = @tags.sort_by(&:last).reverse
+    end
     @used_tags = @tags.first(6).map(&:first)
     @untagged_tracks_count = current_user.user_tracks.where(is_tag: false).count
     @user_tags = Tag.all.map(&:name)

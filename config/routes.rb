@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   mount ActionCable.server => "/cable"
 
   devise_for :users, controllers: { registrations: "registrations" }
+  post 'sort-tag-preference', to: 'users#sort_tag_preference'
+
 
   post 'filter-all', to: 'users#filter_all_option', as: :filter_all
 

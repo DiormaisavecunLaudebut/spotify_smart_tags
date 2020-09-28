@@ -26,6 +26,8 @@
 @import "open-playlist-spotify";
 @import "trackland-playlist";
 @import "playlist-modal";
+@import "input-search";
+@import "sort-tag-modal";
 
 html, body {
   background: $mydark;
@@ -55,6 +57,11 @@ label {
 p {
   color: white;
   margin-bottom: 0;
+}
+
+.bg-none {
+  background: none !important;
+  border: none !important;
 }
 
 a:hover {

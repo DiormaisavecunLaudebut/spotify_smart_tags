@@ -26,10 +26,7 @@ class Playlist < ApplicationRecord
     path = "https://api.spotify.com/v1/playlists/#{spotify_id}/followers"
     token = user.token
 
-    resp = SpotifyApiCall.delete(path, token)
-
-    # puts resp
-    # puts "pablior #{resp.class}"
+    SpotifyApiCall.delete(path, token)
 
     TracklandPlaylist.where(playlist: self, user: user).take.destroy
     destroy
