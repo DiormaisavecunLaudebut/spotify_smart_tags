@@ -12,6 +12,7 @@ var deleteTagsContainer = document.querySelector('.delete-tags-container')
 var tag = document.getElementById(`tag-${tagName}`)
 var input = document.getElementById('input-autocomplete')
 var dropdownMenu = document.querySelector('.my-dropdown-menu-autocomplete')
+var dropdownItem = tag.closest('.my-dropdown-item-autocomplete')
 
 function isertDeleteTag() {
   var form = document.createElement('form')
@@ -36,12 +37,16 @@ function isertDeleteTag() {
 function insertTag() {
   input.dataset.usedTags += `$$${tagName}`
 
-  if (dropdownMenu.children.length > 0) { closeDropdownMenu() }
-
   tagsContainer.insertAdjacentHTML('beforeend', `<div id="tag-${tagName}" class="mtag-small tag-primary mr-1 mb-1">${tagName}</div>`)
 
   isertDeleteTag()
-  tag.remove();
+  dropdownItem.remove()
+
+  if (dropdownMenu.children.length == 0) {
+    closeDropdownMenu()
+  } else {
+    input.focus()
+  }
 }
 
 displayAchievementNotification(status, statusChanged, challenge, points)

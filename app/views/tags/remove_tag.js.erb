@@ -1,8 +1,11 @@
 var tagId = "<%= @id %>"
 var tagName = "<%= @tag %>"
 
+var input = document.getElementById('input-autocomplete')
 var tag = document.getElementById(`tag-${tagName}`)
 var form = document.querySelector(`input[value='${tagName}']`).closest('form')
+
+input.dataset.usedTags = input.dataset.usedTags.replace(`$$${tagName}`, '')
 
 form.remove();
 tag.remove();
