@@ -8,7 +8,6 @@ const searchEmptyState = document.querySelector('.search-empty-state')
 const emptyStateDescription = document.getElementById('emptystate-description')
 const btnFilter = document.querySelector('.btn-filter')
 const btnCancel = document.getElementById('cancel-btn')
-const btnFilterClone = btnFilter.cloneNode(true)
 
 function insertAfter(newNode, existingNode) {
     existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
