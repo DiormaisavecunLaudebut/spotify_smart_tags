@@ -17,6 +17,9 @@ function insertAfter(newNode, existingNode) {
 const toggleBody = () => {
   if (playlistSection.classList.value.includes('d-none')) {
     setTimeout(function blk() {
+      searchBar.style.border = '1px solid #8D8D8D'
+      input.style.color = '#8D8D8D'
+      searchBar.querySelector('.fa-search').style.color = "#8D8D8D"
       insertAfter(btnFilter, searchBar)
       input.value = ""
       playlistSection.classList.remove('d-none')
@@ -25,6 +28,9 @@ const toggleBody = () => {
     })
 
   } else {
+      searchBar.style.border = '1px solid white'
+      input.style.color = 'white'
+      searchBar.querySelector('.fa-search').style.color = "white"
       playlistSection.classList.add('d-none')
       searchSection.classList.remove('d-none')
       btnFilter.remove()
