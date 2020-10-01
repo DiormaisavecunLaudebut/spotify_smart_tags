@@ -7,7 +7,7 @@ class UserTag < ApplicationRecord
   end
 
   def self.select_user_scope(user)
-    if user.tag_sort
+    if user.filter_all
       Tag.all
     else
       current_user.tags

@@ -10,7 +10,7 @@ class Tag < ApplicationRecord
   end
 
   def self.select_user_scope(user)
-    if user.tag_sort
+    if user.filter_all
       Tag.all.sort_by(&:track_count).reverse
     else
       user.user_tags.sort_by(&:track_count).reverse.map(&:tag)
