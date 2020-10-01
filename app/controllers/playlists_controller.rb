@@ -1,7 +1,6 @@
 class PlaylistsController < ApplicationController
   skip_before_action :authenticate_user!
   skip_before_action :verify_authenticity_token, only: :add_tag
-  before_action :refresh_user_token!, only: :create_spotify_playlist
 
   def index
     @user_tags = Tag.all
