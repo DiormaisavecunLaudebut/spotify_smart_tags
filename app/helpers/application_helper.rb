@@ -89,8 +89,8 @@ module ApplicationHelper
 
   def no_token_refresh_needed(user)
     check1 = user.nil?
-    check2 = current_user&.spotify_token.nil?
-    check3 = current_user&.valid_token? == true
+    check2 = user&.spotify_token.nil?
+    check3 = user&.valid_token? == true
 
     check1 || check2 || check3
   end
