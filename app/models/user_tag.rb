@@ -10,7 +10,7 @@ class UserTag < ApplicationRecord
     if user.filter_all
       Tag.all
     else
-      current_user.tags
+      user.tags
     end
   end
 
