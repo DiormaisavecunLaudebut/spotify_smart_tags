@@ -42,6 +42,7 @@
       </div>
     </section>
   <% end %>
+
 </div>
 
 <%= form_with(url: '/create-playlist-modal', method: 'get', local: true) do %>
@@ -51,4 +52,5 @@
 <% end %>
 
 <%= render 'shared/create-playlist-modal' %>
+
 <div id="user-max-filters" data-user-max-filters="<%= @max_filters %>"></div>

@@ -1,6 +1,11 @@
 <% ratio = actual.fdiv(max) * 100 %>
 
-<div class="row-container" data-playlist-id="<%= id %>">
+<div
+class="row-container"
+data-playlist-tags="<%= actual %>"
+data-playlist-id="<%= id %>"
+data-playlist-name="<%= title %>"
+data-playlist-tracks="<%= max %>">
 
   <%= link_to playlist_path(id), class: 'link-row' do %>
 

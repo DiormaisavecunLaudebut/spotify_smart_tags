@@ -28,14 +28,19 @@
   tag_name: "Untagged tracks",
   count: @untagged_tracks_count,
   id: "tasoeur",
-  path: show_untagged_tracks_path %>
+  path: show_untagged_tracks_path,
+  date: -1,
+  tag_id: -1
+   %>
 
   <% @tags.each_with_index do |tag, index| %>
     <%= render'shared/collapse',
     tag_name:     tag[0],
-    count:        tag[1],
+    count:        tag[3],
     id:           tag[0],
-    path:         tag_path(tag) %>
+    date:         tag[1],
+    tag_id:       tag[2],
+    path:         tag_path(tag[0]) %>
   <% end %>
 
 </div>

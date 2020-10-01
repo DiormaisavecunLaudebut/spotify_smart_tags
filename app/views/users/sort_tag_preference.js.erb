@@ -21,8 +21,11 @@ function changeCardsOrder(pref) {
   } else if (pref == 'popularity') {
     sortedCards = cards.sort((a, b) => b.dataset.trackCount - a.dataset.trackCount)
 
-  } else if (pref == 'custom') {
+  } else if (pref == 'date') {
+    // pablior to sort by date to finish
     sortedCards = cards
+  } else if (pref == 'custom') {
+    sortedCards = cards.sort((a, b) => a.dataset.tagId - b.dataset.tagId)
   }
 
   cards.forEach(e => e.remove())

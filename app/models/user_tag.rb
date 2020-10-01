@@ -6,6 +6,14 @@ class UserTag < ApplicationRecord
     UserTag.where(user: user, tag: tag).take || UserTag.create(user: user, tag: tag)
   end
 
+  def self.select_user_scope(user)
+    if user.tag_sort
+      Tag.all
+    else
+      current_user.tags
+    end
+  end
+
   def decrement
     update!(track_count: track_count - 1)
   end

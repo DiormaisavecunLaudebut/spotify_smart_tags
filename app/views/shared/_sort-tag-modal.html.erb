@@ -14,5 +14,9 @@
       <%= submit_tag 'Popularity', class: 'text-white bg-none text-left flex-grow-1', id: "popularity-pref" %>
       <i class="fas fa-check check-sort <%= 'd-none' unless current_user.tag_sort == "popularity" %> "></i>
   <% end %>
+  <%= form_with(url: '/sort-tag-preference', method: 'post', class: "py-2 d-flex justify-content-between align-items-center", local: false) do %>
+      <%= submit_tag 'Date', class: 'text-white bg-none text-left flex-grow-1', id: "date-pref" %>
+      <i class="fas fa-check check-sort <%= 'd-none' unless current_user.tag_sort == "date" %> "></i>
+  <% end %>
   <p onclick='toggleModal("sort-tag-modal")' class="py-2 inactive-color text-center">CANCEL</p>
 </div>

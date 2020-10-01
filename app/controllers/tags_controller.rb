@@ -25,20 +25,14 @@ class TagsController < ApplicationController
   end
 
   def show
-    tags = {}
-    @tag_name = params['id'].match(/(.*)\//)[1]
+    @tag_name = params['id']
     tag = Tag.where(name: @tag_name)
 
-    user_tracks_object = UserTrackTag.where(tag: tag).map(&:user_track).select {|i| i.user == current_user }
+    user_tracks_object = UserTrackTag.where(tag: tag).map(&:user_track).select { |i| i.user == current_user }
 
     @tracks = user_tracks_object.map { |i| helpers.serialize_track_info(i) }.join('$$')
 
-    user_tracks_object.each do |user_track|
-      user_track.tag_list.each do |utag|
-        tags[utag].nil? ? tags[utag] = 1 : tags[utag] += 1
-      end
-    end
-
+    tags = helpers.user_tracks_by_popularity(user_tracks_object)
     @subtags = tags.to_a.sort_by(&:last).reverse[1..-1].map { |i| i.join('**') }.join('$$')
 
     respond_to do |format|

@@ -4,8 +4,6 @@ var emptyStateDescription = document.getElementById('emptystate-description')
 var tracks = "<%= @tracks %>".split('$$').map(e => e.split('**'))
 var emptyState = document.querySelector('.search-empty-state')
 
-console.log(tracks)
-
 function buildSmallRowHTML(track) {
   var trackId = track[0]
   var trackName = track[1]

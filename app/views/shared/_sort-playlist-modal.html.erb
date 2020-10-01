@@ -1,0 +1,22 @@
+<div id="sort-playlist-modal" class="d-none">
+  <div class="mb-2 d-flex justify-content-between align-items-center">
+    <p class="inactive-color">Sort by</p>
+  </div>
+  <%= form_with(url: '/sort-playlist-preference', method: 'post', class: "py-2 d-flex justify-content-between align-items-center", local: false) do %>
+      <%= submit_tag 'Custom', class: 'text-white bg-none text-left flex-grow-1', id: "custom-pref" %>
+      <i class="fas fa-check check-sort <%= 'd-none' unless current_user.playlist_sort == "custom" %> "></i>
+  <% end %>
+  <%= form_with(url: '/sort-playlist-preference', method: 'post', class: "py-2 d-flex justify-content-between align-items-center", local: false) do %>
+      <%= submit_tag 'Name', class: 'text-white bg-none text-left flex-grow-1', id: "name-pref" %>
+      <i class="fas fa-check check-sort <%= 'd-none' unless current_user.playlist_sort == "name" %> "></i>
+  <% end %>
+  <%= form_with(url: '/sort-playlist-preference', method: 'post', class: "py-2 d-flex justify-content-between align-items-center", local: false) do %>
+      <%= submit_tag 'Tracks', class: 'text-white bg-none text-left flex-grow-1', id: "tracks-pref" %>
+      <i class="fas fa-check check-sort <%= 'd-none' unless current_user.playlist_sort == "tracks" %> "></i>
+  <% end %>
+  <%= form_with(url: '/sort-playlist-preference', method: 'post', class: "py-2 d-flex justify-content-between align-items-center", local: false) do %>
+      <%= submit_tag 'Tags', class: 'text-white bg-none text-left flex-grow-1', id: "tags-pref" %>
+      <i class="fas fa-check check-sort <%= 'd-none' unless current_user.playlist_sort == "tags" %> "></i>
+  <% end %>
+  <p onclick='toggleModal("sort-playlist-modal")' class="py-2 inactive-color text-center">CANCEL</p>
+</div>

@@ -10,6 +10,15 @@ module ApiCallsHelper
     }
   end
 
+  def create_spotify_token(user, resp)
+    SpotifyToken.create(
+      user: user,
+      expires_at: Time.now + resp['expires_in'],
+      refresh_token: resp['refresh_token'],
+      code: resp['access_token']
+    )
+  end
+
   def refresh_token_body(refresh_token)
     {
       grant_type: 'refresh_token',

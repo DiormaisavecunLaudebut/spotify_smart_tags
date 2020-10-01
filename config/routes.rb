@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { registrations: "registrations" }
   post 'sort-tag-preference', to: 'users#sort_tag_preference'
+  post 'sort-playlist-preference', to: 'users#sort_playlist_preference'
 
 
   post 'filter-all', to: 'users#filter_all_option', as: :filter_all
@@ -21,7 +22,7 @@ Rails.application.routes.draw do
   get 'account', to: 'pages#account', as: :account
   get 'auth/spotify/callback', to: 'spotify#gather_user_data_from_spotify'
   post 'user/gather-data', to: 'spotify#gather_user_data_from_spotify', as: :fetch_spotify_data
-  post 'create/playlist', to: 'playlists#create_spotify_playlist', as: :create_spotify_playlist
+  post 'create/playlist', to: 'spotify#create_spotify_playlist', as: :create_spotify_playlist
   get 'tag/index', to: 'tags#index', as: :tag_index
   get 'bulk-modal', to: 'tags#bulk_modal', as: :bulk_modal
   get 'filter-user-tracks', to: 'user_tracks#filter', as: :filter

@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :refresh_data!
-  before_action :refresh_user_token!
+  # before_action :refresh_user_token!
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :new_daily_challenge
   around_action :switch_locale

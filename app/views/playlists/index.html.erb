@@ -16,7 +16,7 @@
     <% end %>
   </div>
 
-  <div class="ml-3 mr-3 btn-filter text-white d-flex justify-content-center align-items-center" onclick='toggleModal("sort-tag-modal")'>
+  <div class="ml-3 mr-3 btn-filter text-white d-flex justify-content-center align-items-center" onclick='toggleModal("sort-playlist-modal")'>
     Filters
   </div>
   <p id="cancel-btn" class="text-white d-none ml-3 mr-3" style="padding: 5px 8px;min-width: 70px;">cancel</p>
@@ -46,4 +46,4 @@
   </div>
 </section>
 
-<!-- <div data-list-tags="<%= @user_tags %>" id="hidden-list-tag" class="d-none"></div> -->
+<%= render 'shared/sort-playlist-modal' %>

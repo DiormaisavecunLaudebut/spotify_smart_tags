@@ -9,15 +9,6 @@ module ApplicationHelper
     end
   end
 
-  def create_spotify_token(user, resp)
-    SpotifyToken.create(
-      user: user,
-      expires_at: Time.now + resp['expires_in'],
-      refresh_token: resp['refresh_token'],
-      code: resp['access_token']
-    )
-  end
-
   def encouragement
     ['All good!',
      'You rock',
@@ -25,9 +16,20 @@ module ApplicationHelper
      "Don't change",
      'Good boy!',
      "You're the best",
-     "France love you"
+     "France love you"]
+      .sample
+  end
 
-   ].sample
+  def user_tracks_by_popularity(user_tracks)
+    tags = {}
+
+    user_tracks.each do |user_track|
+      user_track.tag_list.each do |tag|
+        tags[tag].nil? ? tags[tag] = 1 : tags[tag] += 1
+      end
+    end
+
+    return tags
   end
 
   def standardize_tags(tags)

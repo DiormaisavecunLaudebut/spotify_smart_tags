@@ -32,8 +32,22 @@ class Playlist < ApplicationRecord
     destroy
   end
 
+  def self.sort_by_user_preference(user)
+    preference = user.playlist_sort
+    case preference
+    when 'tags' then user.playlists.sort_by { |i| i.user_tracks.select(&:is_tag).count }.reverse
+    when 'tracks' then user.playlists.sort_by(&:track_count).reverse
+    when 'name' then user.playlists.sort_by { |i| ApplicationController.helpers.clean_emoji(i.name)}
+    when 'custom' then user.playlists
+    end
+  end
+
   def increment
-    update(track_count: self.track_count += 1)
+    update!(track_count: self.track_count += 1)
+  end
+
+  def decrement
+    update!(track_count: self.track_count -= 1)
   end
 
   def self.find_or_create(sp, user)
