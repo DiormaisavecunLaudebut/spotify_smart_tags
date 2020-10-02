@@ -1,0 +1,35 @@
+<%= form_with(url: '/spotify_update_preference', method: 'post', local: false, class: 'd-flex m20 mb-3') do %>
+  <div class="d-flex align-items-center" style="position: relative;">
+    <%= hidden_field_tag(:users, nil, name: "update_preference", value: "liked_songs") %>
+    <%= submit_tag("", class: "account-option #{'opacity0' if current_user.spotify_update_liked_songs}", id: 'liked_songs') %>
+      <i class="fas fa-check check-track option-checked <%= 'font0' unless current_user.spotify_update_liked_songs %> "></i>
+    <p class="active-color ml-2">Liked songs</p>
+  </div>
+<% end %>
+
+<%= form_with(url: '/spotify_update_preference', method: 'post', local: false, class: 'd-flex m20 mb-3') do %>
+  <div class="d-flex align-items-center" style="position: relative;">
+    <%= hidden_field_tag(:users, nil, name: "update_preference", value: "my_playlists") %>
+    <%= submit_tag("", class: "account-option #{'opacity0' if current_user.spotify_update_my_playlists}", id: 'my_playlists') %>
+      <i class="fas fa-check check-track option-checked <%= 'font0' unless current_user.spotify_update_my_playlists %> "></i>
+    <p class="active-color ml-2">Playlists I own</p>
+  </div>
+<% end %>
+
+<%= form_with(url: '/spotify_update_preference', method: 'post', local: false, class: 'd-flex m20 mb-3') do %>
+  <div class="d-flex align-items-center" style="position: relative;">
+    <%= hidden_field_tag(:users, nil, name: "update_preference", value: "follow_playlists") %>
+    <%= submit_tag("", class: "account-option #{'opacity0' if current_user.spotify_update_follow_playlists}", id: 'follow_playlists') %>
+      <i class="fas fa-check check-track option-checked <%= 'font0' unless current_user.spotify_update_follow_playlists %> "></i>
+    <p class="active-color ml-2">Playlists I follow</p>
+  </div>
+<% end %>
+
+<%= form_with(url: '/spotify_update_preference', method: 'post', local: false, class: 'd-flex m20 mb-3') do %>
+  <div class="d-flex align-items-center" style="position: relative;">
+    <%= hidden_field_tag(:users, nil, name: "update_preference", value: "albums") %>
+    <%= submit_tag("", class: "account-option #{'opacity0' if current_user.spotify_update_albums}", id: 'albums') %>
+      <i class="fas fa-check check-track option-checked <%= 'font0' unless current_user.spotify_update_albums %> "></i>
+    <p class="active-color ml-2">Albums in my collection</p>
+  </div>
+<% end %>

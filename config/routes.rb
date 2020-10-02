@@ -18,11 +18,13 @@ Rails.application.routes.draw do
   root to: 'pages#home'
   get 'export-csv', to: 'users#users_export', as: :export_csv
   get 'lior', to: 'pages#lior', as: :lior
+  get 'albums', to: 'playlists#albums', as: :albums
   get 'search-tracks', to: 'tracks#search_tracks', as: :search_tracks
   get 'create-playlist-modal', to: 'pages#create_playlist_modal', as: :create_modal
   get 'account', to: 'pages#account', as: :account
   get 'auth/spotify/callback', to: 'spotify#gather_user_data_from_spotify'
   post 'user/gather-data', to: 'spotify#gather_user_data_from_spotify', as: :fetch_spotify_data
+  post 'spotify_update_preference', to: 'users#spotify_update_preference', as: :spotify_update_preference
   post 'create/playlist', to: 'spotify#create_spotify_playlist', as: :create_spotify_playlist
   get 'tag/index', to: 'tags#index', as: :tag_index
   get 'bulk-modal', to: 'tags#bulk_modal', as: :bulk_modal

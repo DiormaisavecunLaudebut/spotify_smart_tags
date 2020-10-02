@@ -8,8 +8,9 @@ class Track < ApplicationRecord
   #   Track.where(spotify_id: spotify_id, user: user).take
   # end
 
-  def self.create_track(tr)
-    cover_url = ApplicationController.helpers.set_cover_url(tr['album']['images'])
+  def self.create_track(tr, cover = nil)
+    images = cover || tr['album']['images']
+    cover_url = ApplicationController.helpers.set_cover_url(images)
 
     Track.create(
       name: tr['name'],
@@ -22,8 +23,8 @@ class Track < ApplicationRecord
     )
   end
 
-  def self.find_or_create(tr)
-    Track.where(spotify_id: tr['track']['id']).take || Track.create_track(tr['track'])
+  def self.find_or_create(tr, cover = nil)
+    Track.where(spotify_id: tr['id']).take || Track.create_track(tr, cover)
   end
 
   def tag_list

@@ -1,7 +1,9 @@
 <div class="container mt-2">
 
   <h1 class="big-title text-white mb-3 text-center mt-5" style="font-size: 40px;"><span class="text-mprimary">Track</span>land</h1>
-  <h3 class="small-title text-white">Click on the button below to retrieve the tracks you have on Spotify</h3>
+  <h3 class=" mb-4 small-title inactive-color">Select your preferences and click on the button below to retrieve the tracks you have on Spotify</h3>
+
+  <%= render 'shared/spotify-update-preferences' %>
 
   <div class="d-flex flex-column justify-content-center align-items-center" id="hello-container">
       <% if current_user && current_user.valid_token? %>

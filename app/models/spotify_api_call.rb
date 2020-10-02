@@ -13,6 +13,38 @@ class SpotifyApiCall < ApplicationRecord
     ).parsed_response
   end
 
+  def self.get_playlists(token, offset = 0)
+    path = 'https://api.spotify.com/v1/me/playlists'
+    limit = 50
+    options = { limit: limit, offset: offset }
+
+    SpotifyApiCall.get(path, token, options)
+  end
+
+  def self.get_albums(token, offset = 0)
+    path = 'https://api.spotify.com/v1/me/albums'
+    limit = 50
+    options = { limit: limit, offset: offset }
+
+    SpotifyApiCall.get(path, token, options)
+  end
+
+  def self.get_liked_songs(token, offset = 0)
+    path = 'https://api.spotify.com/v1/me/tracks'
+    limit = 50
+    options = { limit: limit, offset: offset }
+
+    SpotifyApiCall.get(path, token, options)
+  end
+
+  def self.get_playlist_tracks(token, playlist_id, offset = 0)
+    path = "https://api.spotify.com/v1/playlists/#{playlist_id}/tracks"
+    limit = 100
+    options = { limit: limit, offset: offset }
+
+    SpotifyApiCall.get(path, token, options)
+  end
+
   def self.post(path, token, body, content_type = false, encoded_clients = nil)
     call = SpotifyApiCall.create(path: path)
 
