@@ -68,9 +68,11 @@ class User < ApplicationRecord
 
   def fetch_spotify_data
     DataUpdate.create(user: self, source: 'spotify')
+
     update_user_data
-    update_user_library
-    update_user_playlists_and_tracks
+    update_playlist_and_tracks if spotify_update_follow_playlists || spotify_update_my_playlists
+    update_user_albums if spotify_update_albums
+    update_user_liked_songs if spotify_update_liked_songs
   end
 
   def add_fetched_data(sp_data)
@@ -108,87 +110,151 @@ class User < ApplicationRecord
     add_fetched_data(resp)
   end
 
-  def update_user_playlists_and_tracks(offset = 0, my_playlists = playlists.map(&:id))
-    path = 'https://api.spotify.com/v1/me/playlists'
-    limit = 50
-    options = { limit: limit, offset: offset }
+  # ---------------------------------------- ALBUMS ---------------------------------------------------
 
-    resp = SpotifyApiCall.get(path, token, options)
+  def update_user_albums
+    my_albums = all_albums
 
-    playlists = resp['items'].select { |i| i['owner']['id'] == spotify_client }
+    delete_album_difference(my_albums)
+    update_or_create_albums(my_albums)
+  end
 
+  def update_or_create_albums(my_albums)
+    my_albums.each do |sp|
+      playlist = Playlist.find_or_create_album(sp['album'], self)
+
+      create_album_tracks(playlist, sp['album'])
+    end
+  end
+
+  def all_albums(offset = 0, my_albums = [])
+    resp = SpotifyApiCall.get_albums(token, offset)
+
+    resp['items'].each { |i| my_albums << i }
+
+    offset = ApplicationController.helpers.new_offset(offset, 50, resp['total'])
+    all_albums(offset, my_albums) if offset
+
+    my_albums
+  end
+
+  def delete_album_difference(my_albums)
+    album_ids = Playlist.where(playlist_type: 'album', user: self).map(&:id)
+
+    my_albums.each { |alb| album_ids.delete(alb['album']['id']) }
+
+    delete_remaining_playlists(album_ids)
+  end
+
+  #------------------------------ PLAYLISTS ----------------------------------------------
+
+  def update_playlist_and_tracks
+    my_playlists = all_playlists
+
+    delete_playlist_difference(my_playlists)
+    update_or_create_playlists(my_playlists)
+  end
+
+  def all_playlists(offset = 0, all_playlists = [])
+    resp = SpotifyApiCall.get_playlists(token, offset)
+
+    playlists = select_playlist_according_to_user_preferences(resp)
+    playlists.each { |i| all_playlists << i }
+
+    offset = ApplicationController.helpers.new_offset(offset, 50, resp['total'])
+    all_playlists(offset, all_playlists) if offset
+
+    all_playlists
+  end
+
+  def delete_playlist_difference(my_playlists)
+    playlist_ids = playlists.where(playlist_type: 'playlist').map(&:id)
+
+    my_playlists.each { |sp| playlist_ids.delete(sp['id']) }
+
+    delete_remaining_playlists(playlist_ids)
+  end
+
+  def update_or_create_playlists(playlists)
     playlists.each do |sp|
-      playlist = Playlist.where(spotify_id: sp['id'], user: self).take
-      if playlist
-        my_playlists.delete(playlist.id)
-      else
-        playlist = Playlist.create_playlist(sp, self)
-      end
+      playlist = Playlist.find_or_create(sp, self)
       fetch_playlist_tracks(playlist) if playlist.track_count != sp['tracks']['total']
     end
-
-    offset = ApplicationController.helpers.new_offset(offset, limit, resp['total'])
-    offset ? update_user_playlists_and_tracks(offset, my_playlists) : delete_remaining_playlists(my_playlists)
   end
 
-  def update_user_library(offset = 0, user_playlist_track_ids = [])
-    playlist = Playlist.where(user: self, name: "Liked songs").take
-    playlist = Playlist.create(user: self, name: "Liked songs", track_count: 0) if playlist.nil?
-
-    path = 'https://api.spotify.com/v1/me/tracks'
-    limit = 50
-    options = { limit: limit, offset: offset }
-
-    user_playlist_track_ids = playlist.user_playlist_tracks.map(&:id) if user_playlist_track_ids.empty?
-
-    resp = SpotifyApiCall.get(path, token, options)
-    tracks = resp['items']
-
-    tracks.each do |tr|
-      track = Track.find_or_create(tr)
-      user_track = UserTrack.find_or_create(self, track)
-      user_playlist_track = UserPlaylistTrack.where(playlist: playlist, user_track: user_track).take
-
-      if user_playlist_track.nil?
-        UserPlaylistTrack.create(user_track: user_track, playlist: playlist)
-      else
-        user_playlist_track_ids.delete(user_playlist_track.id)
-      end
+  def delete_remaining_playlists(playlists)
+    playlists.map { |i| Playlist.find(i) }.each do |playlist|
+      playlist.user_playlist_tracks.each(&:destroy)
+      playlist.destroy
     end
-
-    offset = ApplicationController.helpers.new_offset(offset, limit, resp['total'])
-    update_user_library(offset, user_playlist_track_ids) if offset
-
-    delete_remaining_user_playlist_tracks(user_playlist_track_ids)
   end
 
-  def fetch_playlist_tracks(playlist, offset = 0, user_playlist_track_ids = [])
-    path = "https://api.spotify.com/v1/playlists/#{playlist.spotify_id}/tracks"
-    limit = 100
-    options = { limit: limit, offset: offset }
+  # ---------------------------------- TRACKS -----------------------------------------
 
-    user_playlist_track_ids = playlist.user_playlist_tracks.map(&:id) if user_playlist_track_ids.empty?
+  def fetch_playlist_tracks(playlist)
+    my_tracks = all_tracks(playlist.spotify_id)
+    delete_track_difference(playlist, my_tracks)
+    create_tracks(playlist, my_tracks)
+  end
 
-    resp = SpotifyApiCall.get(path, token, options)
-    tracks = resp['items']
+  def all_tracks(playlist_id, all_tracks = [], offset = 0)
+    resp = SpotifyApiCall.get_playlist_tracks(token, playlist_id, offset)
 
-    tracks.each do |tr|
-      track = Track.find_or_create(tr)
+    resp['items'].each { |i| all_tracks << i }
+
+    offset = ApplicationController.helpers.new_offset(offset, 100, resp['total'])
+    all_tracks(playlist_id, all_tracks, offset) if offset
+
+    all_tracks
+  end
+
+  def delete_track_difference(playlist, my_tracks)
+    ids = playlist.user_playlist_tracks.map(&:id)
+
+    my_tracks.each { |tr| ids.delete(tr['id']) }
+
+    delete_remaining_user_playlist_tracks(ids)
+  end
+
+  def create_tracks(playlist, my_tracks)
+    my_tracks.each do |tr|
+      track = Track.find_or_create(tr['track'])
       user_track = UserTrack.find_or_create(self, track)
-      user_playlist_track = UserPlaylistTrack.where(playlist: playlist, user_track: user_track).take
-
-      if user_playlist_track.nil?
-        UserPlaylistTrack.create(user_track: user_track, playlist: playlist)
-      else
-        user_playlist_track_ids.delete(user_playlist_track.id)
-      end
+      UserPlaylistTrack.find_or_create(playlist, user_track)
     end
-
-    offset = ApplicationController.helpers.new_offset(offset, limit, resp['total'])
-    fetch_playlist_tracks(playlist, offset, user_playlist_track_ids) if offset
-
-    delete_remaining_user_playlist_tracks(user_playlist_track_ids)
   end
+
+  def create_album_tracks(playlist, my_tracks)
+    cover = my_tracks['images']
+    my_tracks['tracks']['items'].each do |tr|
+      track = Track.find_or_create(tr, cover)
+      user_track = UserTrack.find_or_create(self, track)
+      UserPlaylistTrack.find_or_create(playlist, user_track)
+    end
+  end
+
+  # -------------------------------- LIKED SONGS -----------------------------------------
+
+  def all_liked_tracks(all_tracks = [], offset = 0)
+    resp = SpotifyApiCall.get_liked_songs(token, offset)
+
+    resp['items'].each { |i| all_tracks << i }
+
+    offset = ApplicationController.helpers.new_offset(offset, 50, resp['total'])
+    all_liked_tracks(all_tracks, offset) if offset
+
+    all_tracks
+  end
+
+  def update_user_liked_songs
+    playlist = Playlist.find_or_create_likes(self)
+
+    my_tracks = all_liked_tracks
+    delete_track_difference(playlist, my_tracks)
+    create_tracks(playlist, my_tracks)
+  end
+
+  # --------------------------------------------------------------------------------------
 
   def fetch_spotify_tracks_metadata(tracks)
     ids = tracks.map(&:spotify_id)
@@ -246,25 +312,8 @@ class User < ApplicationRecord
     user_playlist_track_ids.each { |id| UserPlaylistTrack.find(id).destroy }
   end
 
-  def delete_remaining_playlists(playlists)
-    playlists.map { |i| Playlist.find(i) }.each do |playlist|
-      playlist.destroy
-      playlist.user_playlist_tracks.each(&:destroy)
-    end
-  end
-
   def self.to_csv
-    headers = %w[
-      username
-      email
-      filter_all
-      user_track_count
-      user_track_tagged_count
-      user_tag_count
-      playlist_count
-      user_playlist_track_count
-      trackland_playlist_count
-    ]
+    headers = %w[username email filter_all user_track_count user_track_tagged_count user_tag_count playlist_count user_playlist_track_count trackland_playlist_count]
 
     CSV.generate(headers: true) do |csv|
       csv << headers
@@ -280,18 +329,18 @@ class User < ApplicationRecord
         user_playlist_track_count = user.playlists.map { |i| i.user_playlist_tracks.count }.reduce(&:+)
         trackland_playlist_count = user.trackland_playlists.count
 
-        csv << [
-          username,
-          email,
-          filter_all,
-          user_track_count,
-          user_track_tagged_count,
-          user_tag_count,
-          playlist_count,
-          user_playlist_track_count,
-          trackland_playlist_count
-        ]
+        csv << [username, email, filter_all, user_track_count, user_track_tagged_count, user_tag_count, playlist_count, user_playlist_track_count, trackland_playlist_count]
       end
+    end
+  end
+
+  def select_playlist_according_to_user_preferences(resp)
+    if spotify_update_follow_playlists && spotify_update_my_playlists
+      resp['items']
+    elsif spotify_update_follow_playlists && !spotify_update_my_playlists
+      resp['items'].reject { |i| i['owner']['id'] == spotify_client }
+    elsif !spotify_update_follow_playlists && spotify_update_my_playlists
+      resp['items'].select { |i| i['owner']['id'] == spotify_client }
     end
   end
 end

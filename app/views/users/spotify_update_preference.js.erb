@@ -1,0 +1,10 @@
+var preference = "<%= @preference %>"
+var checkBox = document.getElementById(preference)
+var iconCheck = checkBox.nextElementSibling
+
+function styleCheckbox() {
+  iconCheck.classList.toggle('font0')
+  checkBox.classList.toggle('opacity0')
+}
+
+styleCheckbox();

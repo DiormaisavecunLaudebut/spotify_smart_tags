@@ -3,8 +3,15 @@ class PlaylistsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :add_tag
 
   def index
+    playlists = current_user.playlists.where(playlist_type: 'playlist')
     @user_tags = Tag.all
-    @playlists = Playlist.sort_by_user_preference(current_user)
+    @playlists = Playlist.sort_by_user_preference(current_user, playlists)
+  end
+
+  def albums
+    playlists = current_user.playlists.where(playlist_type: 'album')
+    @user_tags = Tag.all
+    @playlists = Playlist.sort_by_user_preference(current_user, playlists)
   end
 
   def show

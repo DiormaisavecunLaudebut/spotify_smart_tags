@@ -56,29 +56,9 @@
     </div>
   <% end %>
 
-  <%= form_with(url: '', method: 'post', local: false, class: 'd-flex m20 mb-3 option-row', id: 2) do %>
-    <div class="d-flex align-items-center" style="position: relative;">
-      <div class="account-option"></div>
-        <i class="fas fa-check check-track option-checked font0 "></i>
-      <p class="active-color ml-2">Daily Recommendation</p>
-    </div>
-  <% end %>
+  <%= render 'shared/spotify-update-preferences' %>
 
-  <%= form_with(url: '', method: 'post', local: false, class: 'd-flex m20 mb-3 option-row', id: 3) do %>
-    <div class="d-flex align-items-center" style="position: relative;">
-      <div class="account-option"></div>
-        <i class="fas fa-check check-track option-checked font0 "></i>
-      <p class="active-color ml-2">Prevent me from listening shitty stuff</p>
-    </div>
-  <% end %>
-
-  <%= form_with(url: '', method: 'post', local: false, class: 'd-flex mbt m20 pb-4 option-row', id: 4) do %>
-    <div class="d-flex align-items-center" style="position: relative;">
-      <div class="account-option"></div>
-        <i class="fas fa-check check-track option-checked font0 "></i>
-      <p class="active-color ml-2">Post on Instagram each time I earn points</p>
-    </div>
-  <% end %>
+  <div class="mbt" style="margin: 0 20px"></div>
 
 
 <%= link_to destroy_user_session_path, method: :delete do %>
