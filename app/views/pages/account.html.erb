@@ -1,3 +1,7 @@
+<% if current_user.admin %>
+  <%= link_to "Export CSV", export_csv_path(format: :csv) %>
+<% end %>
+
 <% permissions = current_user.get_permissions %>
 <% max_points =  permissions[:max_points] %>
 <% ratio = current_user.points.fdiv(max_points) * 100 %>

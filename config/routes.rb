@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   post 'filter-all', to: 'users#filter_all_option', as: :filter_all
 
   root to: 'pages#home'
+  get 'export-csv', to: 'users#users_export', as: :export_csv
   get 'lior', to: 'pages#lior', as: :lior
   get 'search-tracks', to: 'tracks#search_tracks', as: :search_tracks
   get 'create-playlist-modal', to: 'pages#create_playlist_modal', as: :create_modal
