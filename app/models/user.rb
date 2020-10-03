@@ -1,17 +1,17 @@
 class User < ApplicationRecord
-  has_one :spotify_token
+  has_one :spotify_token, dependent: :destroy
   has_many :playlists, dependent: :destroy
-  has_many :data_updates
-  has_many :trackland_playlists
-  has_many :spotify_api_calls
-  has_many :daily_challenges
+  has_many :data_updates, dependent: :destroy
+  has_many :trackland_playlists, dependent: :destroy
+  has_many :spotify_api_calls, dependent: :destroy
+  has_many :daily_challenges, dependent: :destroy
 
-  has_many :user_tracks
+  has_many :user_tracks, dependent: :destroy
   has_many :tracks, through: :user_tracks
   has_many :user_track_tags, through: :user_tracks
 
-  has_many :user_tags
-  has_many :tags, through: :user_tags
+  has_many :user_tags, dependent: :destroy
+  has_many :tags, through: :user_tags, dependent: :destroy
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable
