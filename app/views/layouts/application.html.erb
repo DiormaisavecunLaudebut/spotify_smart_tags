@@ -19,9 +19,8 @@
       <%= render 'shared/connectors' %>
     <% elsif !current_user&.data_updates&.empty? %>
       <%= render 'shared/navbar' if current_user %>
+      <%= yield %>
     <% end %>
-
-    <%= yield %>
 
     <div style="height: 48px; width: 100%"></div>
     <div id="dark-background" class="d-none"></div>

@@ -1,5 +1,5 @@
 <div class='container mt-3'>
-  <% if @user_tags.empty? && current_user.filter_all == false %>
+  <% if !current_user.connectors.empty? && @user_tags.empty? && current_user.filter_all == false %>
     <%= render 'shared/home-empty-state' %>
 
   <% else %>
