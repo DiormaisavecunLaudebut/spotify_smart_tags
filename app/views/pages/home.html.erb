@@ -33,11 +33,13 @@
       <div class="trackland-playlists d-flex">
         <% @trackland_playlists.each do |playlist| %>
 
+        <%= link_to playlist&.playlist&.external_url, target: "_blank" do %>
         <div class="trackland-playlists-details">
           <img class="tpl_cover"src=" <%= playlist.cover_url %> " alt="">
           <p style="font-size: 14px;" class="line-clamp text-white mt-1"> <%= playlist.name %></p>
           <p style="font-size: 14px;" class="line-clamp inactive-color"> Created <%= days_ago(playlist) %> days ago</p>
         </div>
+        <% end %>
         <% end %>
       </div>
     </section>

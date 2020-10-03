@@ -1,7 +1,7 @@
 class Playlist < ApplicationRecord
   has_many :user_playlist_tracks
   has_many :user_tracks, through: :user_playlist_tracks, dependent: :destroy
-  has_one :trackland_playlist
+  has_one :trackland_playlist, dependent: :destroy
   belongs_to :user
 
   def update_track_count(total)

@@ -13,6 +13,10 @@
   <% end %>
 </div>
 
+<% if @playlists.count == 0 %>
+  <%= render 'shared/albums-empty-state' %>
+<% end %>
+
 <div style="margin-left: 18px" class="d-flex align-items-center mt-2">
   <div class='msearch d-flex align-items-center'>
     <div class="my-dropdown-menu-autocomplete d-none"></div>

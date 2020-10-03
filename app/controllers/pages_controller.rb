@@ -9,7 +9,7 @@ class PagesController < ApplicationController
     @user_tags = UserTag.select_user_scope(current_user).map(&:name)
     @used_tags = @tags
 
-    @trackland_playlists = current_user.trackland_playlists
+    @trackland_playlists = current_user.trackland_playlists.sort_by(&:created_at).reverse
   end
 
   def create_playlist_modal
