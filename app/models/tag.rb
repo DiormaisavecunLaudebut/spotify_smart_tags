@@ -22,7 +22,7 @@ class Tag < ApplicationRecord
     user_tags = user.user_tags
 
     case preference
-    when 'name'       then return user_tags.sort_by(&:name)
+    when 'name'       then return user.tags.sort_by(&:name).map(&:user_tags).flatten.uniq
     when 'popularity' then return user_tags.sort_by(&:track_count).reverse
     when 'date'       then return user_tags.sort_by(&:created_at).reverse
     when 'custom'     then return user_tags.sort_by(&:id)
