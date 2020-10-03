@@ -6,6 +6,11 @@
   <%= link_to albums_path do %>
     <h1 class="small-title mr-3 text-white">Albums</h1>
   <% end %>
+  <% if @likes %>
+    <%= link_to playlist_path(@likes) do %>
+      <h1 class="small-title mr-3 inactive-color">Likes</h1>
+    <% end %>
+  <% end %>
 </div>
 
 <div style="margin-left: 18px" class="d-flex align-items-center mt-2">

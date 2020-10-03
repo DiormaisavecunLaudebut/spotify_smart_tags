@@ -4,12 +4,14 @@ class PlaylistsController < ApplicationController
 
   def index
     playlists = current_user.playlists.where(playlist_type: 'playlist')
+    @likes = current_user.playlists.where(name: "Liked songs").take
     @user_tags = Tag.all
     @playlists = Playlist.sort_by_user_preference(current_user, playlists)
   end
 
   def albums
     playlists = current_user.playlists.where(playlist_type: 'album')
+    @likes = current_user.playlists.where(name: "Liked songs").take
     @user_tags = Tag.all
     @playlists = Playlist.sort_by_user_preference(current_user, playlists)
   end
