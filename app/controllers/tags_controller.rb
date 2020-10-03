@@ -26,7 +26,7 @@ class TagsController < ApplicationController
 
   def show
     @tag_name = params['id']
-    tag = Tag.where(name: @tag_name)
+    tag = Tag.where(name: @tag_name).take
 
     user_tracks_object = UserTrackTag.where(tag: tag).map(&:user_track).select { |i| i.user == current_user }
 
