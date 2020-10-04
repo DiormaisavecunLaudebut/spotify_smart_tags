@@ -15,12 +15,14 @@
   </head>
 
   <body>
+    <div class="desktop-container">
     <% if current_user&.connectors&.empty? %>
       <%= render 'shared/connectors' %>
     <% elsif !current_user&.data_updates&.empty? %>
       <%= render 'shared/navbar' if current_user %>
       <%= yield %>
     <% end %>
+    </div>
 
     <div style="height: 48px; width: 100%"></div>
     <div id="dark-background" class="d-none"></div>

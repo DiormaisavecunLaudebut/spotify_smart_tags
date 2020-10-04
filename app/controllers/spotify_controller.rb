@@ -11,8 +11,6 @@ class SpotifyController < ApplicationController
 
     resp = HTTParty.post(path, body: helpers.token_body(code))
 
-    puts resp
-
     if current_user.spotify_token.nil?
       SpotifyToken.create_token(current_user, resp)
       current_user.connectors << 'Spotify'

@@ -34,6 +34,17 @@ html, body {
   background: $mydark;
 }
 
+@media (min-width:641px) {
+  .desktop-container {
+    margin: 0 30vw;
+    margin-top: 15px;
+    box-shadow: 1px 0px 5px rgb(110, 110, 110);
+    max-width: 350px;
+    height: 82vh;
+    overflow: scroll;
+  }
+}
+
 .btn-link:hover {
   color: white;
   text-decoration: none;
