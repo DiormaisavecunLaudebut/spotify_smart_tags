@@ -2,7 +2,7 @@ class UserTrack < ApplicationRecord
   belongs_to :user
   belongs_to :track
 
-  has_many :user_track_tags
+  has_many :user_track_tags, dependent: :destroy
   has_many :tags, through: :user_track_tags
 
   has_many :user_playlist_tracks
